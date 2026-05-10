@@ -1,240 +1,70 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Trade Distribution — TradeX Academy</title>
-<link rel="stylesheet" href="../css/styles.css">
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-</head>
+<link rel="stylesheet" href="../css/styles.css"></head>
 <body>
-<script src="../js/main.js"></script>
-<script>buildNav('module4');</script>
+<script src="../js/main.js"></script><script>buildNav('module4');</script>
+<div class="pg-top"><div class="wrap"><p class="crumb"><a href="../index.html">Home</a> › Module 4</p>
+  <h1>Trade Distribution</h1>
+  <p>A histogram showing your most common win/loss amounts — revealing patterns that aggregate metrics hide.</p>
+</div></div>
 
-<div class="page-wrap">
-  <div class="page-hero">
-    <div class="container">
-      <div class="breadcrumb"><a href="../index.html">Home</a> › Module 4 › Trade Distribution</div>
-      <span class="badge badge-gold">Module 4 · Lesson 3</span>
-      <h1>Trade Distribution</h1>
-      <p>A histogram showing your most common win/loss amounts — revealing patterns in your trading that aggregate metrics hide.</p>
+<div class="section"><div class="wrap">
+  <div class="box" style="margin-bottom:16px">
+    <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:10px">
+      <strong>P&amp;L Distribution Histogram</strong>
+      <div style="font-size:.75rem"><span class="up">■ Wins</span> &nbsp;<span class="down">■ Losses</span> &nbsp;<span style="color:#f59e0b">| Mean</span></div>
+    </div>
+    <canvas id="hist" height="240" style="width:100%;background:#0d1525;border-radius:8px"></canvas>
+  </div>
+
+  <div class="cols-4" style="gap:10px;margin-bottom:16px">
+    <div class="box" style="text-align:center"><div style="font-size:.7rem;color:#3d4f66">Total Trades</div><div style="font-size:1.6rem;font-weight:bold">120</div></div>
+    <div class="box" style="text-align:center"><div style="font-size:.7rem;color:#3d4f66">Avg Win</div><div style="font-size:1.6rem;font-weight:bold" class="up">$842</div></div>
+    <div class="box" style="text-align:center"><div style="font-size:.7rem;color:#3d4f66">Avg Loss</div><div style="font-size:1.6rem;font-weight:bold" class="down">-$421</div></div>
+    <div class="box" style="text-align:center"><div style="font-size:.7rem;color:#3d4f66">Win/Loss Ratio</div><div style="font-size:1.6rem;font-weight:bold" style="color:#f59e0b">2.0:1</div></div>
+  </div>
+
+  <div class="cols-2" style="gap:16px;margin-bottom:16px">
+    <div>
+      <h2>Reading the Histogram</h2>
+      <ul style="margin-top:10px">
+        <li><strong>Left Tail</strong> — Big losers. A long left tail = risk management problem.</li>
+        <li><strong>Right Tail</strong> — Big winners. Long right tail = great for expectancy.</li>
+        <li><strong>Spike at -1R</strong> — Ideally your losses cluster near -1R (stops honored).</li>
+      </ul>
+    </div>
+    <div>
+      <div class="note green"><strong>Healthy Distribution:</strong><br>✓ Right tail extends further than left<br>✓ Most losses cluster near -1R<br>✓ Significant portion of wins are 2R+</div>
+      <div class="note red" style="margin-top:8px"><strong>Warning Signs:</strong><br>✗ Left tail extends far (letting losers run)<br>✗ All wins are tiny (1:1 or less R:R)</div>
     </div>
   </div>
 
-  <div class="section">
-    <div class="container">
-
-      <!-- MAIN HISTOGRAM -->
-      <div class="chart-box" style="margin-bottom:32px">
-        <div class="chart-box-header">
-          <span class="chart-box-title">P&L Distribution Histogram — All Trades</span>
-          <div class="chart-controls">
-            <button class="chart-btn active" onclick="showDist('all')">All</button>
-            <button class="chart-btn" onclick="showDist('wins')">Wins Only</button>
-            <button class="chart-btn" onclick="showDist('losses')">Losses Only</button>
-          </div>
-        </div>
-        <canvas id="distChart" height="300"></canvas>
-        <div style="display:flex;justify-content:center;gap:24px;flex-wrap:wrap;margin-top:12px;font-size:0.78rem">
-          <span style="color:var(--green)">■ Winning trades</span>
-          <span style="color:var(--red)">■ Losing trades</span>
-          <span style="color:var(--gold)">| Mean P&L</span>
-        </div>
-      </div>
-
-      <!-- STATS ROW -->
-      <div class="grid grid-4" style="gap:14px;margin-bottom:32px">
-        <div class="card" style="text-align:center">
-          <div style="font-size:0.7rem;color:var(--text-muted)">Total Trades</div>
-          <div style="font-size:1.8rem;font-weight:800">120</div>
-        </div>
-        <div class="card" style="text-align:center">
-          <div style="font-size:0.7rem;color:var(--text-muted)">Avg Win</div>
-          <div style="font-size:1.8rem;font-weight:800;color:var(--green)">$842</div>
-        </div>
-        <div class="card" style="text-align:center">
-          <div style="font-size:0.7rem;color:var(--text-muted)">Avg Loss</div>
-          <div style="font-size:1.8rem;font-weight:800;color:var(--red)">-$421</div>
-        </div>
-        <div class="card" style="text-align:center">
-          <div style="font-size:0.7rem;color:var(--text-muted)">Win/Loss Ratio</div>
-          <div style="font-size:1.8rem;font-weight:800;color:var(--gold)">2.0×</div>
-        </div>
-      </div>
-
-      <div class="grid grid-2" style="gap:28px;margin-bottom:40px">
-
-        <!-- WHAT TO LOOK FOR -->
-        <div>
-          <h2 class="section-title">What Your Histogram Reveals</h2>
-          <p style="color:var(--text-secondary);margin-bottom:16px">A histogram of your trade P&L is like an X-ray of your trading psychology and system quality. Here's what the different shapes mean:</p>
-          <div style="display:flex;flex-direction:column;gap:10px">
-            <div class="card card-sm" style="border-color:rgba(0,212,170,0.2)">
-              <strong style="color:var(--green)">Healthy: Wins skewed right, losses tight left</strong>
-              <p style="font-size:0.82rem;color:var(--text-secondary);margin-top:4px">Your winning trades extend far to the right (big wins) while your losing trades cluster tightly to the left of zero (small, controlled losses). This is the pattern of a disciplined trader.</p>
-            </div>
-            <div class="card card-sm" style="border-color:rgba(255,71,87,0.2)">
-              <strong style="color:var(--red)">Warning: Fat left tail (large losses)</strong>
-              <p style="font-size:0.82rem;color:var(--text-secondary);margin-top:4px">Large losses scattered far left of zero indicate you're not respecting stop-losses. You're holding losers too long, hoping they recover. This will eventually destroy an account.</p>
-            </div>
-            <div class="card card-sm" style="border-color:rgba(245,158,11,0.3)">
-              <strong style="color:var(--gold)">Warning: Thin right tail (cutting wins short)</strong>
-              <p style="font-size:0.82rem;color:var(--text-secondary);margin-top:4px">All your wins cluster close to zero — you're taking profits too early. You're letting fear cut your winners short. This is "cutting flowers and watering weeds."</p>
-            </div>
-            <div class="card card-sm">
-              <strong style="color:var(--blue)">Bimodal distribution</strong>
-              <p style="font-size:0.82rem;color:var(--text-secondary);margin-top:4px">Two separate peaks in the histogram often indicate you have two distinct strategies or market regimes in your data. This is worth investigating to understand when each works.</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- STREAKS -->
-        <div>
-          <h2 class="section-title">Win/Loss Streak Analysis</h2>
-          <p style="color:var(--text-secondary);margin-bottom:16px">Understanding how your wins and losses are distributed sequentially — not just in aggregate — helps manage the psychological pressure of trading.</p>
-          <div class="chart-box">
-            <canvas id="streakChart" height="160"></canvas>
-          </div>
-          <div class="callout gold" style="margin-top:14px">
-            <strong>The Gambler's Fallacy:</strong> After 5 losing trades, the next trade is NOT more likely to win. Each trade is independent. Understanding this prevents the dangerous behavior of "doubling down" to recover losses.
-          </div>
-          <div style="margin-top:14px;display:grid;grid-template-columns:1fr 1fr;gap:10px">
-            <div style="background:var(--bg-surface);padding:12px;border-radius:var(--r);text-align:center">
-              <div style="font-size:0.7rem;color:var(--text-muted)">Longest Win Streak</div>
-              <div style="font-size:1.5rem;font-weight:800;color:var(--green)">7</div>
-            </div>
-            <div style="background:var(--bg-surface);padding:12px;border-radius:var(--r);text-align:center">
-              <div style="font-size:0.7rem;color:var(--text-muted)">Longest Loss Streak</div>
-              <div style="font-size:1.5rem;font-weight:800;color:var(--red)">4</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- CUMULATIVE P&L -->
-      <div class="chart-box">
-        <div class="chart-box-header">
-          <span class="chart-box-title">Cumulative P&L — Trade by Trade</span>
-          <span style="font-size:0.78rem;color:var(--text-secondary)">Shows the exact contribution of each individual trade to total performance</span>
-        </div>
-        <canvas id="cumulChart" height="220"></canvas>
-      </div>
-
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:40px;padding-top:24px;border-top:1px solid var(--border)">
-        <a href="risk-reward.html" class="btn btn-outline">← Previous</a>
-        <a href="drawdown-analysis.html" class="btn btn-primary">Next: Drawdown Analysis →</a>
-      </div>
-    </div>
+  <div class="lnav">
+    <a href="risk-reward.html" class="btn btn-outline">← Previous</a>
+    <a href="drawdown-analysis.html" class="btn btn-blue">Next: Drawdown Analysis →</a>
   </div>
-</div>
+</div></div>
 
 <script>
-// Generate 120 trades
-const trades = Array.from({length: 120}, () => {
-  const isWin = Math.random() < 0.58;
-  if (isWin) return +(100 + Math.random() ** 0.7 * 2200).toFixed(0);
-  return -(100 + Math.random() ** 0.8 * 1100).toFixed(0);
-});
-
-function toBins(data, bins = 20) {
-  const min = Math.min(...data), max = Math.max(...data);
-  const size = (max - min) / bins;
-  const counts = Array(bins).fill(0);
-  const labels = [];
-  for (let i = 0; i < bins; i++) {
-    labels.push(((min + size * (i + 0.5)) / 1000).toFixed(1) + 'K');
-    data.forEach(v => { if (v >= min + size * i && v < min + size * (i + 1)) counts[i]++; });
-  }
-  return { labels, counts, min, max, size };
-}
-
-let distChart;
-function showDist(filter) {
-  document.querySelectorAll('[onclick^="showDist"]').forEach(btn => {
-    btn.classList.toggle('active', btn.textContent === {all:'All',wins:'Wins Only',losses:'Losses Only'}[filter]);
-  });
-  const data = filter === 'wins' ? trades.filter(t => t > 0) : filter === 'losses' ? trades.filter(t => t < 0) : trades;
-  const { labels, counts, min, size } = toBins(data, 22);
-  const colors = labels.map((_, i) => {
-    const v = min + size * (i + 0.5);
-    return v >= 0 ? 'rgba(0,212,170,0.7)' : 'rgba(255,71,87,0.7)';
-  });
-  if (distChart) distChart.destroy();
-  const ctx = document.getElementById('distChart').getContext('2d');
-  distChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels,
-      datasets: [{
-        data: counts,
-        backgroundColor: colors,
-        borderColor: colors.map(c => c.replace('0.7', '1')),
-        borderWidth: 1, borderRadius: 3,
-      }]
-    },
-    options: {
-      responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { display: false }, annotation: {
-        annotations: { mean: { type: 'line', xMin: labels.length / 2, xMax: labels.length / 2, borderColor: '#f59e0b', borderWidth: 2 } }
-      }},
-      scales: {
-        x: { title: { display: true, text: 'Trade P&L', color: '#7a8fa8' }, grid: { display: false } },
-        y: { title: { display: true, text: 'Number of Trades', color: '#7a8fa8' }, grid: { color: 'rgba(255,255,255,0.04)' } }
-      }
-    }
-  });
-}
-showDist('all');
-
-// Streak chart (win/loss sequence)
-const streak = trades.slice(0, 40).map(t => t > 0 ? 1 : -1);
-const streakCtx = document.getElementById('streakChart').getContext('2d');
-new Chart(streakCtx, {
-  type: 'bar',
-  data: {
-    labels: streak.map((_, i) => `T${i + 1}`),
-    datasets: [{
-      data: streak,
-      backgroundColor: streak.map(v => v > 0 ? 'rgba(0,212,170,0.7)' : 'rgba(255,71,87,0.7)'),
-      borderRadius: 3,
-    }]
-  },
-  options: {
-    responsive: true, maintainAspectRatio: false,
-    plugins: { legend: { display: false } },
-    scales: {
-      x: { grid: { display: false }, ticks: { maxTicksLimit: 10 } },
-      y: { grid: { display: false }, ticks: { display: false }, min: -1.5, max: 1.5 }
-    }
-  }
-});
-
-// Cumulative P&L
-let cum = 0;
-const cumData = trades.map(t => { cum += t; return cum; });
-const cumCtx = document.getElementById('cumulChart').getContext('2d');
-const cumGrad = cumCtx.createLinearGradient(0, 0, 0, 220);
-cumGrad.addColorStop(0, 'rgba(0,212,170,0.2)');
-cumGrad.addColorStop(1, 'rgba(0,212,170,0)');
-new Chart(cumCtx, {
-  type: 'line',
-  data: {
-    labels: trades.map((_, i) => `#${i + 1}`),
-    datasets: [{
-      data: cumData,
-      borderColor: '#00d4aa', backgroundColor: cumGrad, fill: true,
-      tension: 0.1, borderWidth: 2, pointRadius: 0,
-    }]
-  },
-  options: {
-    responsive: true, maintainAspectRatio: false,
-    plugins: { legend: { display: false } },
-    scales: {
-      x: { grid: { display: false }, ticks: { maxTicksLimit: 10 } },
-      y: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { callback: v => '$' + (v/1000).toFixed(1) + 'K' } }
-    }
-  }
+window.addEventListener('load', () => {
+  const cv=document.getElementById('hist'); cv.width=cv.parentElement.clientWidth;
+  const ctx=cv.getContext('2d'),W=cv.width,H=240,pad={t:16,r:18,b:32,l:46};
+  const cW=W-pad.l-pad.r,cH=H-pad.t-pad.b;
+  const trades=[]; for(let i=0;i<120;i++) trades.push(Math.random()<.53?200+Math.random()*1400:-(150+Math.random()*600));
+  const minV=Math.min(...trades),maxV=Math.max(...trades),buckets=20,bs=(maxV-minV)/buckets;
+  const bins=Array(buckets).fill(0); trades.forEach(v=>bins[Math.min(buckets-1,Math.floor((v-minV)/bs))]++);
+  const maxC=Math.max(...bins),mean=trades.reduce((a,b)=>a+b)/trades.length;
+  const zeroX=pad.l+((0-minV)/(maxV-minV))*cW,meanX=pad.l+((mean-minV)/(maxV-minV))*cW;
+  ctx.clearRect(0,0,W,H);
+  ctx.strokeStyle='rgba(255,255,255,0.04)';ctx.lineWidth=1;
+  for(let i=0;i<=3;i++){const y=pad.t+(cH/3)*i;ctx.beginPath();ctx.moveTo(pad.l,y);ctx.lineTo(W-pad.r,y);ctx.stroke();}
+  if(zeroX>pad.l){ctx.strokeStyle='rgba(255,255,255,.2)';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(zeroX,pad.t);ctx.lineTo(zeroX,pad.t+cH);ctx.stroke();}
+  const bw=(cW/buckets)*.85;
+  bins.forEach((cnt,i)=>{if(!cnt)return;const x=pad.l+i*(cW/buckets),bh=(cnt/maxC)*cH,y=pad.t+cH-bh,bv=minV+i*bs;ctx.fillStyle=bv>=0?'rgba(0,212,170,.7)':'rgba(255,71,87,.7)';ctx.fillRect(x,y,bw,bh);if(i%4===0){ctx.fillStyle='#7a8fa8';ctx.font='9px monospace';ctx.textAlign='center';ctx.fillText('$'+bv.toFixed(0),x+bw/2,H-pad.bottom+14);}});
+  ctx.strokeStyle='#f59e0b';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(meanX,pad.t);ctx.lineTo(meanX,pad.t+cH);ctx.stroke();
+  ctx.fillStyle='#f59e0b';ctx.font='9px sans-serif';ctx.textAlign='left';ctx.fillText('Mean: $'+mean.toFixed(0),meanX+4,pad.t+14);
 });
 </script>
-</body>
-</html>
+</body></html>

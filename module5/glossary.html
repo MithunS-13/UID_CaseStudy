@@ -1,153 +1,98 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Glossary of Terms — TradeX Academy</title>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Glossary — TradeX Academy</title>
 <link rel="stylesheet" href="../css/styles.css">
+<style>.gl{padding:10px 0;border-bottom:1px solid #1e2d45}.gl dt{font-weight:bold;color:#e2e8f0;margin-bottom:2px}.gl dd{color:#7a8fa8;font-size:.875rem}.gl.hidden{display:none}.gletter{font-size:1.1rem;font-weight:bold;color:#3b82f6;padding:8px 0 4px;border-bottom:1px solid #1e2d45;margin:16px 0 8px}</style>
 </head>
 <body>
-<script src="../js/main.js"></script>
-<script>buildNav('module5');</script>
+<script src="../js/main.js"></script><script>buildNav('module5');</script>
+<div class="pg-top"><div class="wrap"><p class="crumb"><a href="../index.html">Home</a> › Module 5</p>
+  <h1>Glossary of Terms</h1>
+  <p>A searchable A-Z reference of all visualization and trading terminology used throughout this course.</p>
+</div></div>
 
-<div class="page-wrap">
-  <div class="page-hero">
-    <div class="container">
-      <div class="breadcrumb"><a href="../index.html">Home</a> › Module 5 › Glossary</div>
-      <span class="badge badge-red">Module 5 · Lesson 1</span>
-      <h1>Glossary of Terms</h1>
-      <p>A searchable A-Z reference of all visualization and trading terminology used throughout this course.</p>
-    </div>
+<div class="section"><div class="wrap">
+  <div style="position:relative;margin-bottom:16px">
+    <input type="text" id="srch" placeholder="🔍 Search terms..." oninput="search(this.value)" style="padding-left:14px;font-size:1rem">
   </div>
-
-  <div class="section">
-    <div class="container">
-      <div style="margin-bottom:28px">
-        <div class="glossary-search">
-          <input type="text" class="form-input" id="searchInput" placeholder="Search terms..." oninput="filterGlossary(this.value)" style="font-size:1rem;padding:14px 14px 14px 40px">
-        </div>
-        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:12px" id="letterNav"></div>
-      </div>
-
-      <div id="glossaryContent"></div>
-
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:40px;padding-top:24px;border-top:1px solid var(--border)">
-        <a href="../module4/drawdown-analysis.html" class="btn btn-outline">← Module 4</a>
-        <a href="backtesting.html" class="btn btn-primary">Next: Backtesting →</a>
-      </div>
-    </div>
+  <div id="gc"></div>
+  <div class="lnav">
+    <a href="../module4/drawdown-analysis.html" class="btn btn-outline">← Module 4</a>
+    <a href="backtesting.html" class="btn btn-blue">Next: Backtesting →</a>
   </div>
-</div>
+</div></div>
 
 <script>
-const TERMS = [
-  { term: 'Alpha', def: 'The excess return of an investment relative to a benchmark (usually the S&P 500). Positive alpha means you outperformed; negative means you underperformed.' },
-  { term: 'Ask Price', def: 'The lowest price a seller is willing to accept for a security. Also called the "offer." When you buy a market order, you pay the ask price.' },
-  { term: 'ATR (Average True Range)', def: 'A volatility indicator measuring the average range between the daily high and low over a set period. Used to set stop-losses and position sizes.' },
-  { term: 'Backtesting', def: 'Testing a trading strategy on historical data to see how it would have performed. Distinct from paper trading, which tests forward in real-time.' },
-  { term: 'Bear Market', def: 'A market in decline of 20% or more from recent highs, typically sustained over at least two months. Associated with negative sentiment and economic slowdown.' },
-  { term: 'Beta', def: 'A measure of how much a stock moves relative to the overall market. Beta of 1.5 means the stock typically moves 1.5× as much as the market.' },
-  { term: 'Bid Price', def: 'The highest price a buyer is willing to pay for a security. When you sell at market, you receive the bid price.' },
-  { term: 'Bid-Ask Spread', def: 'The difference between the ask price and the bid price. This is the implicit cost of executing a market order and is the market maker\'s profit.' },
-  { term: 'Bollinger Bands', def: 'A volatility indicator consisting of a 20-period SMA with upper and lower bands set at 2 standard deviations. Bands widen in volatile markets and contract in calm ones.' },
-  { term: 'Breakout', def: 'When price moves beyond a key support or resistance level with increased volume. Breakouts signal the potential start of a new trend.' },
-  { term: 'Bull Market', def: 'A period of rising prices, typically a 20% or greater gain from recent lows. Associated with positive economic conditions and investor optimism.' },
-  { term: 'Buying Power', def: 'The amount of capital available in a trading account to open new positions. Equals cash plus any available margin.' },
-  { term: 'Calmar Ratio', def: 'Annual return divided by maximum drawdown. A risk-adjusted performance metric that shows how much return you get per unit of drawdown risk.' },
-  { term: 'Candlestick', def: 'A chart element that displays the Open, High, Low, and Close (OHLC) of a security for a specific time period. The body shows Open-to-Close; wicks show High and Low.' },
-  { term: 'Channel', def: 'A price pattern where price moves between two parallel trendlines. Can be ascending, descending, or horizontal.' },
-  { term: 'Close (Price)', def: 'The final traded price of a security during a specific time period. The most significant of the four OHLC prices and used in most technical indicators.' },
-  { term: 'Confluence', def: 'The alignment of multiple technical signals at the same price level or time. A trade with three confirming signals is higher probability than one with a single signal.' },
-  { term: 'Consolidation', def: 'A period where price moves sideways within a range, pausing after a large move. Often precedes the next directional move.' },
-  { term: 'Correlation', def: 'A statistical measure of how closely two assets move together. Ranges from -1 (perfectly opposite) to +1 (perfectly aligned). Zero means no relationship.' },
-  { term: 'Day Trading', def: 'A trading style where all positions are opened and closed within the same trading day. No overnight exposure.' },
-  { term: 'Death Cross', def: 'A bearish signal that occurs when a short-term moving average (e.g., 50-day) crosses below a long-term moving average (e.g., 200-day).' },
-  { term: 'Divergence', def: 'When price makes a new high/low but an indicator (like RSI) fails to confirm it. Divergence often signals an impending reversal.' },
-  { term: 'Drawdown', def: 'The decline from a peak in equity to a subsequent trough. Maximum drawdown is the largest such decline over a given period. A critical risk management metric.' },
-  { term: 'EMA (Exponential Moving Average)', def: 'A moving average that gives more weight to recent prices. More responsive than a Simple Moving Average (SMA) but also generates more false signals.' },
-  { term: 'Equity Curve', def: 'A chart showing the growth or decline of a trading account over time. Plotting your equity curve is the best way to evaluate the health of your strategy.' },
-  { term: 'Fill', def: 'The execution of an order. When your buy or sell order is matched with a counterparty, it has been "filled."' },
-  { term: 'Float', def: 'The number of shares of a company available for public trading. Low-float stocks can be highly volatile as small amounts of buying/selling have an outsized effect.' },
-  { term: 'Gap', def: 'An area on a chart where no trading occurred. Price "jumps" from one level to another. Gaps often occur after earnings announcements or major news.' },
-  { term: 'Golden Cross', def: 'A bullish signal where a short-term moving average crosses above a long-term moving average (e.g., 50 SMA crossing above 200 SMA).' },
-  { term: 'Head and Shoulders', def: 'A bearish reversal pattern consisting of three peaks — left shoulder, head (highest), right shoulder — with a "neckline" support level. Breakdown below the neckline confirms the pattern.' },
-  { term: 'Heikin-Ashi', def: 'Modified candlestick charts that average OHLC values to smooth out price action and make trends clearer. More noise-resistant than standard candlesticks.' },
-  { term: 'High (Price)', def: 'The highest price traded during a specific time period. Forms the tip of the upper wick on a candlestick.' },
-  { term: 'Ichimoku Cloud', def: 'A comprehensive Japanese indicator showing trend direction, momentum, and support/resistance through five lines and a "cloud" (Kumo) area.' },
-  { term: 'Liquidity', def: 'The ease with which a security can be bought or sold without significantly affecting its price. Highly liquid assets (like SPY) have tight bid-ask spreads.' },
-  { term: 'Limit Order', def: 'An order to buy or sell a security at a specific price or better. Guarantees your price but not your fill. You may not get filled if price never reaches your level.' },
-  { term: 'Low (Price)', def: 'The lowest price traded during a specific time period. Forms the tip of the lower wick on a candlestick.' },
-  { term: 'MACD', def: 'Moving Average Convergence Divergence. A trend-following momentum indicator showing the relationship between two exponential moving averages. Used to identify trend direction and momentum shifts.' },
-  { term: 'Margin', def: 'Borrowed money from a broker used to increase buying power. Trading on margin amplifies both gains and losses. Requires careful risk management.' },
-  { term: 'Market Order', def: 'An order to buy or sell immediately at the best available price. Guarantees execution but not price. Subject to slippage in fast-moving or illiquid markets.' },
-  { term: 'Maximum Drawdown', def: 'The largest peak-to-trough decline in a portfolio\'s value. Expressed as a percentage. A key metric for evaluating risk and strategy quality.' },
-  { term: 'Moving Average', def: 'A technical indicator that smooths price data by averaging closing prices over a specified number of periods. Helps identify trend direction by filtering out short-term noise.' },
-  { term: 'OHLC', def: 'Open, High, Low, Close — the four key data points that define a price bar or candlestick for any given time period.' },
-  { term: 'Open (Price)', def: 'The first traded price of a security when a new candle period begins. Forms the top or bottom of a candlestick body.' },
-  { term: 'Open Interest', def: 'The total number of outstanding options or futures contracts that have not been settled. Rising open interest confirms a trend; falling open interest may signal its end.' },
-  { term: 'Paper Trading', def: 'Simulated trading using virtual money. Allows traders to practice strategies and learn market mechanics without risking real capital.' },
-  { term: 'Position Sizing', def: 'The process of determining how many shares or contracts to buy for each trade. Proper position sizing limits risk to a pre-defined percentage of the account.' },
-  { term: 'Price Action', def: 'Trading and analysis based on the raw price movement of a chart, without relying on lagging indicators. Includes patterns, candlestick formations, and support/resistance.' },
-  { term: 'Profit Factor', def: 'Total gross profit divided by total gross losses. A profit factor above 1.0 is required for profitability; above 2.0 is considered excellent.' },
-  { term: 'R-Multiple', def: 'A way of expressing trade results as a ratio of actual gain/loss versus initial risk. A +2R trade means you made twice your initial risk amount.' },
-  { term: 'Resistance', def: 'A price level where selling pressure is sufficient to halt a rally. Previous highs, round numbers, and moving averages commonly act as resistance.' },
-  { term: 'Risk/Reward Ratio', def: 'The ratio of potential loss (risk) to potential gain (reward) on a trade. A 1:2 ratio means risking $1 to make $2. Always define this before entering any trade.' },
-  { term: 'RSI (Relative Strength Index)', def: 'A momentum oscillator ranging from 0-100. Readings above 70 suggest overbought conditions; below 30 suggests oversold. Also used to spot divergences.' },
-  { term: 'Sector Rotation', def: 'The flow of investment capital from one industry sector to another as economic conditions change. A key macro trading concept for identifying where money is moving.' },
-  { term: 'Sharpe Ratio', def: 'A measure of risk-adjusted return: (Return − Risk-Free Rate) / Standard Deviation. Higher is better; above 1.0 is considered good for a trading strategy.' },
-  { term: 'Short Selling', def: 'Borrowing and selling a security with the expectation of buying it back at a lower price for a profit. Profits when price declines. Risk is theoretically unlimited.' },
-  { term: 'Slippage', def: 'The difference between the expected price of a trade and the actual execution price. Common with large orders and in fast-moving or illiquid markets.' },
-  { term: 'SMA (Simple Moving Average)', def: 'The arithmetic average of closing prices over a specified period. Each period receives equal weight. Common periods: 20, 50, 100, 200.' },
-  { term: 'Stop-Loss Order', def: 'A pre-set order to sell a position if it moves against you by a specified amount. Limits maximum loss on any trade. Every trade should have a stop-loss.' },
-  { term: 'Support', def: 'A price level where buying demand is strong enough to halt a decline. Previous lows, moving averages, and psychological round numbers commonly act as support.' },
-  { term: 'Swing Trading', def: 'A trading style holding positions for several days to weeks, aiming to capture "swings" within a larger trend. Between day trading and long-term investing.' },
-  { term: 'Take-Profit Order', def: 'A pre-set order to close a position at a specific profit target. Locks in gains automatically without requiring you to monitor the market constantly.' },
-  { term: 'Technical Analysis', def: 'The study of past price and volume data to forecast future price movements. Based on the premise that all relevant information is reflected in price.' },
-  { term: 'Trend', def: 'The general direction of price movement over time. Can be uptrend (higher highs and higher lows), downtrend (lower highs and lower lows), or sideways.' },
-  { term: 'Trendline', def: 'A straight line drawn on a chart connecting two or more price pivots. Uptrend lines connect swing lows; downtrend lines connect swing highs.' },
-  { term: 'Volatility', def: 'The degree of variation in a security\'s price over time. High volatility means large price swings; low volatility means small, stable movements. Measured by standard deviation or ATR.' },
-  { term: 'Volume', def: 'The number of shares or contracts traded during a given period. Volume confirms or contradicts price moves. High volume breakouts are more reliable than low volume ones.' },
-  { term: 'Volume Profile', def: 'A charting tool showing traded volume at each price level (horizontal histogram). Reveals high-volume nodes (support/resistance) and the Point of Control (most-traded price).' },
-  { term: 'VIX', def: 'The CBOE Volatility Index, often called the "Fear Index." Measures expected 30-day volatility in the S&P 500. High VIX = fear/panic; Low VIX = complacency.' },
-  { term: 'Wedge', def: 'A chart pattern where two converging trendlines move in the same direction. Rising wedges are bearish; falling wedges are bullish.' },
-  { term: 'Win Rate', def: 'The percentage of trades that result in a profit. A high win rate alone doesn\'t indicate profitability — you must also consider the average win vs average loss size.' },
+const TERMS=[
+  {t:'Alpha',d:'Excess return relative to a benchmark. Positive alpha = outperformed the market.'},
+  {t:'Ask Price',d:'The lowest price a seller will accept. When you buy at market, you pay the ask price.'},
+  {t:'ATR (Average True Range)',d:'Volatility indicator measuring average daily range. Used to set stop-losses and position sizes.'},
+  {t:'Backtesting',d:'Testing a trading strategy on historical data. Distinct from paper trading (forward testing).'},
+  {t:'Bear Market',d:'A market decline of 20%+ from recent highs. Associated with negative sentiment.'},
+  {t:'Beta',d:'How much a stock moves relative to the market. Beta 1.5 = moves 1.5× as much as the index.'},
+  {t:'Bid Price',d:'The highest price a buyer will pay. When you sell at market, you receive the bid price.'},
+  {t:'Bid-Ask Spread',d:'The gap between ask and bid price. The implicit cost of a market order.'},
+  {t:'Bollinger Bands',d:'A 20-period SMA with upper/lower bands at 2 standard deviations. Measures volatility.'},
+  {t:'Breakout',d:'When price moves beyond a key support or resistance level with increased volume.'},
+  {t:'Bull Market',d:'A period of rising prices, typically a 20%+ gain from recent lows.'},
+  {t:'Buying Power',d:'Capital available to open new positions. Cash plus any available margin.'},
+  {t:'Calmar Ratio',d:'Annual return divided by maximum drawdown. A risk-adjusted performance metric.'},
+  {t:'Candlestick',d:'Chart element displaying Open, High, Low, Close for a time period. Body = O-C range; wicks = H-L range.'},
+  {t:'Channel',d:'Price pattern where price moves between two parallel trendlines.'},
+  {t:'Correlation',d:'How consistently two assets move together. Ranges from -1 (opposite) to +1 (identical).'},
+  {t:'Day Trading',d:'All positions opened and closed within the same trading day. No overnight exposure.'},
+  {t:'Death Cross',d:'Bearish signal: short-term MA crosses below long-term MA (e.g., 50-day below 200-day).'},
+  {t:'Divergence',d:'Price makes a new high/low but an indicator fails to confirm it. Often signals a reversal.'},
+  {t:'Drawdown',d:'Decline from a peak in equity to a subsequent trough. Maximum drawdown = worst decline.'},
+  {t:'EMA (Exponential Moving Average)',d:'Moving average giving more weight to recent prices. More responsive than SMA but more noise.'},
+  {t:'Equity Curve',d:'Chart showing growth or decline of a trading account over time. Best way to evaluate strategy health.'},
+  {t:'Golden Cross',d:'Bullish signal: short-term MA crosses above long-term MA (e.g., 50-day above 200-day).'},
+  {t:'Head and Shoulders',d:'Bearish reversal pattern: three peaks (left shoulder, head, right shoulder). Sell when neckline breaks.'},
+  {t:'Heikin-Ashi',d:'Modified candlesticks that average OHLC values to smooth price action and reveal trends more clearly.'},
+  {t:'Ichimoku Cloud',d:'Japanese indicator showing trend, momentum, and support/resistance using five lines and a cloud area.'},
+  {t:'Limit Order',d:'Order to buy/sell at a specific price or better. Guarantees price but not fill.'},
+  {t:'Liquidity',d:'Ease of buying/selling without affecting price. Liquid assets have tight bid-ask spreads.'},
+  {t:'MACD',d:'Moving Average Convergence Divergence. Momentum indicator using two EMAs to identify trend shifts.'},
+  {t:'Margin',d:'Borrowed money from a broker to increase buying power. Amplifies both gains and losses.'},
+  {t:'Market Order',d:'Order to buy/sell immediately at best available price. Guaranteed fill, not guaranteed price.'},
+  {t:'Maximum Drawdown',d:'Largest peak-to-trough decline in a portfolio. A key risk evaluation metric.'},
+  {t:'Moving Average',d:'Indicator that smooths price by averaging closing prices over a set number of periods.'},
+  {t:'OHLC',d:'Open, High, Low, Close — the four key data points that define any price bar or candlestick.'},
+  {t:'Paper Trading',d:'Simulated trading with virtual money. Allows learning market mechanics without financial risk.'},
+  {t:'Position Sizing',d:'Determining how much capital to risk per trade. Never risk more than 1-2% of account per trade.'},
+  {t:'R-Multiple',d:'Trade result expressed as ratio of gain/loss to initial risk. +2R = made twice your initial risk.'},
+  {t:'Resistance',d:'Price level where selling pressure halts a rally. Previous highs often act as resistance.'},
+  {t:'Risk/Reward Ratio',d:'Ratio of potential loss to potential gain. 1:2 = risk $1 to make $2.'},
+  {t:'RSI (Relative Strength Index)',d:'Momentum oscillator 0-100. Above 70 = overbought; below 30 = oversold.'},
+  {t:'Sector Rotation',d:'Flow of investment capital between industry sectors as economic conditions change.'},
+  {t:'Sharpe Ratio',d:'Risk-adjusted return = (Return − Risk-Free Rate) / Standard Deviation. Above 1.0 is good.'},
+  {t:'Slippage',d:'Difference between expected and actual execution price. Common in fast-moving or illiquid markets.'},
+  {t:'SMA (Simple Moving Average)',d:'Arithmetic average of closing prices over a set period. Equal weight to all periods.'},
+  {t:'Stop-Loss Order',d:'Pre-set order to exit if price moves against you. Limits maximum loss on any trade.'},
+  {t:'Support',d:'Price level where buying demand prevents further decline. Previous lows often act as support.'},
+  {t:'Take-Profit Order',d:'Pre-set order to close at a specific profit target. Locks in gains automatically.'},
+  {t:'Technical Analysis',d:'Study of past price and volume data to forecast future movements.'},
+  {t:'Trend',d:'General direction of price movement. Uptrend = higher highs and higher lows.'},
+  {t:'Trendline',d:'Straight line connecting price pivots. Uptrend lines connect swing lows.'},
+  {t:'VIX',d:'CBOE Volatility Index — the "Fear Index." High VIX = fear; Low VIX = complacency.'},
+  {t:'Volatility',d:'Degree of price variation over time. High = large swings; Low = stable movements.'},
+  {t:'Volume',d:'Number of shares traded during a period. High volume confirms price moves.'},
+  {t:'Volume Profile',d:'Trading volume at each price level as a horizontal histogram. Reveals the Point of Control.'},
+  {t:'Wedge',d:'Pattern where two converging trendlines move in the same direction. Rising = bearish; Falling = bullish.'},
+  {t:'Win Rate',d:'Percentage of trades that are profitable. High win rate alone does not mean profitability.'},
 ];
-
-TERMS.sort((a, b) => a.term.localeCompare(b.term));
-
-const letters = [...new Set(TERMS.map(t => t.term[0].toUpperCase()))].sort();
-
-// Build letter nav
-const lnav = document.getElementById('letterNav');
-letters.forEach(l => {
-  const btn = document.createElement('a');
-  btn.href = '#letter-' + l;
-  btn.textContent = l;
-  btn.style.cssText = 'padding:4px 10px;border-radius:4px;font-size:0.78rem;font-weight:700;background:var(--bg-surface);color:var(--text-secondary);border:1px solid var(--border)';
-  lnav.appendChild(btn);
-});
-
-function buildGlossary(filter = '') {
-  const gc = document.getElementById('glossaryContent');
-  let html = '';
-  let currentLetter = '';
-  const filtered = TERMS.filter(t =>
-    !filter || t.term.toLowerCase().includes(filter.toLowerCase()) || t.def.toLowerCase().includes(filter.toLowerCase())
-  );
-  filtered.forEach(t => {
-    const first = t.term[0].toUpperCase();
-    if (first !== currentLetter) {
-      currentLetter = first;
-      html += `<div class="glossary-letter" id="letter-${first}">${first}</div>`;
-    }
-    html += `<dl class="glossary-term"><dt>${t.term}</dt><dd>${t.def}</dd></dl>`;
+TERMS.sort((a,b)=>a.t.localeCompare(b.t));
+function buildGlossary(filter){
+  let html='',cur='';
+  TERMS.filter(x=>!filter||x.t.toLowerCase().includes(filter.toLowerCase())||x.d.toLowerCase().includes(filter.toLowerCase())).forEach(x=>{
+    const l=x.t[0].toUpperCase();
+    if(l!==cur){cur=l;html+=`<div class="gletter">${l}</div>`;}
+    html+=`<dl class="gl"><dt>${x.t}</dt><dd>${x.d}</dd></dl>`;
   });
-  if (!filtered.length) html = '<p style="color:var(--text-muted);text-align:center;padding:40px">No terms found matching your search.</p>';
-  gc.innerHTML = html;
+  document.getElementById('gc').innerHTML=html||'<p style="color:#3d4f66;text-align:center;padding:32px">No terms found.</p>';
 }
-
-function filterGlossary(v) { buildGlossary(v); }
+function search(v){buildGlossary(v);}
 buildGlossary();
 </script>
-</body>
-</html>
+</body></html>

@@ -1,252 +1,59 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Order Types Explained — TradeX Academy</title>
-<link rel="stylesheet" href="../css/styles.css">
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-</head>
+<link rel="stylesheet" href="../css/styles.css"></head>
 <body>
-<script src="../js/main.js"></script>
-<script>buildNav('module2');</script>
+<script src="../js/main.js"></script><script>buildNav('module2');</script>
+<div class="pg-top"><div class="wrap"><p class="crumb"><a href="../index.html">Home</a> › Module 2</p>
+  <h1>Order Types Explained</h1>
+  <p>Visualizing Market, Limit, Stop-Loss, and Take-Profit orders — and when to use each one.</p>
+</div></div>
 
-<div class="page-wrap">
-  <div class="page-hero">
-    <div class="container">
-      <div class="breadcrumb"><a href="../index.html">Home</a> › Module 2 › Order Types Explained</div>
-      <span class="badge badge-green">Module 2 · Lesson 3</span>
-      <h1>Order Types Explained</h1>
-      <p>Visualizing the difference between Market, Limit, Stop-Loss, and Take-Profit orders — and exactly when to use each one.</p>
+<div class="section"><div class="wrap">
+  <div class="box" style="margin-bottom:20px">
+    <p style="font-weight:bold;margin-bottom:10px">Interactive Order Level Diagram — Click an order type:</p>
+    <canvas id="oc" height="240" style="width:100%;background:#0d1525;border-radius:6px"></canvas>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
+      <button onclick="showOrder('market')" class="btn btn-blue btn-sm">Market</button>
+      <button onclick="showOrder('limit')"  class="btn btn-sm" style="background:#00d4aa;color:#000">Limit Buy</button>
+      <button onclick="showOrder('stop')"   class="btn btn-sm" style="background:#ff4757;color:#fff">Stop-Loss</button>
+      <button onclick="showOrder('tp')"     class="btn btn-sm" style="background:#f59e0b;color:#000">Take-Profit</button>
     </div>
+    <div id="od" style="margin-top:8px;padding:10px;background:#111e35;border-radius:6px;font-size:.875rem;color:#7a8fa8">Click a button above to see how each order type appears on a chart.</div>
   </div>
 
-  <div class="section">
-    <div class="container">
-
-      <!-- PRICE LEVEL DIAGRAM -->
-      <div class="chart-box" style="margin-bottom:40px">
-        <div class="chart-box-header">
-          <span class="chart-box-title">Interactive Order Price Level Diagram</span>
-          <span class="badge badge-blue">Click any order type below</span>
-        </div>
-        <canvas id="orderCanvas" width="900" height="280" style="width:100%"></canvas>
-        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px" id="orderBtns">
-          <button onclick="showOrder('market')"  class="btn btn-sm" style="background:var(--blue);color:#fff">Market Order</button>
-          <button onclick="showOrder('limit')"   class="btn btn-sm" style="background:var(--green);color:#000">Limit Buy</button>
-          <button onclick="showOrder('stop')"    class="btn btn-sm" style="background:var(--red);color:#fff">Stop-Loss</button>
-          <button onclick="showOrder('tp')"      class="btn btn-sm" style="background:var(--gold);color:#000">Take-Profit</button>
-          <button onclick="showOrder('stoplimit')" class="btn btn-sm btn-outline">Stop-Limit</button>
-        </div>
-        <div id="orderExplain" style="margin-top:12px;padding:14px;border-radius:var(--r);background:var(--bg-surface);font-size:0.875rem"></div>
-      </div>
-
-      <!-- FOUR ORDER TYPES -->
-      <h2 class="section-title">The Four Core Order Types</h2>
-      <p class="section-sub">Every order you'll ever place falls into one of these categories</p>
-      <div class="grid grid-2" style="gap:20px;margin-bottom:40px">
-
-        <div class="card" style="border-color:rgba(59,130,246,0.3)">
-          <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
-            <div style="width:48px;height:48px;border-radius:var(--rl);background:var(--blue-dim);display:flex;align-items:center;justify-content:center;font-size:1.5rem">⚡</div>
-            <div><span class="tag" style="background:var(--blue-dim);color:var(--blue)">INSTANT</span><h3 style="font-weight:700;margin-top:4px">Market Order</h3></div>
-          </div>
-          <p style="font-size:0.875rem;color:var(--text-secondary);margin-bottom:14px">A market order executes immediately at the best available price. You get filled instantly — but you don't control the exact price you pay.</p>
-          <div style="background:var(--bg-surface);border-radius:var(--r);padding:12px;font-size:0.82rem">
-            <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="color:var(--text-muted)">You set:</span><span>Quantity only</span></div>
-            <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="color:var(--text-muted)">Guaranteed fill?</span><span class="up">Yes</span></div>
-            <div style="display:flex;justify-content:space-between"><span style="color:var(--text-muted)">Guaranteed price?</span><span class="down">No (slippage risk)</span></div>
-          </div>
-          <div class="callout" style="margin-top:12px"><strong>Use when:</strong> You need to enter or exit a position immediately, regardless of the exact price. Ideal for highly liquid assets.</div>
-        </div>
-
-        <div class="card" style="border-color:rgba(0,212,170,0.3)">
-          <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
-            <div style="width:48px;height:48px;border-radius:var(--rl);background:var(--green-dim);display:flex;align-items:center;justify-content:center;font-size:1.5rem">🎯</div>
-            <div><span class="tag tag-limit">PRICE-SPECIFIC</span><h3 style="font-weight:700;margin-top:4px">Limit Order</h3></div>
-          </div>
-          <p style="font-size:0.875rem;color:var(--text-secondary);margin-bottom:14px">A limit order only executes at your specified price OR better. You control the exact price, but there's no guarantee of a fill if the price never reaches your level.</p>
-          <div style="background:var(--bg-surface);border-radius:var(--r);padding:12px;font-size:0.82rem">
-            <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="color:var(--text-muted)">You set:</span><span>Quantity + Max price</span></div>
-            <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="color:var(--text-muted)">Guaranteed fill?</span><span style="color:var(--gold)">Only if price reached</span></div>
-            <div style="display:flex;justify-content:space-between"><span style="color:var(--text-muted)">Guaranteed price?</span><span class="up">Yes (or better)</span></div>
-          </div>
-          <div class="callout green" style="margin-top:12px"><strong>Use when:</strong> You want to buy a dip or sell a rally at a specific price. Patient traders use limit orders to get better fills.</div>
-        </div>
-
-        <div class="card" style="border-color:rgba(255,71,87,0.3)">
-          <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
-            <div style="width:48px;height:48px;border-radius:var(--rl);background:var(--red-dim);display:flex;align-items:center;justify-content:center;font-size:1.5rem">🛡️</div>
-            <div><span class="tag tag-sell">PROTECTION</span><h3 style="font-weight:700;margin-top:4px">Stop-Loss Order</h3></div>
-          </div>
-          <p style="font-size:0.875rem;color:var(--text-secondary);margin-bottom:14px">A stop-loss is a pre-set instruction to exit a trade if it moves against you by a specified amount. It's the most important risk management tool available to traders.</p>
-          <div style="background:var(--bg-surface);border-radius:var(--r);padding:12px;font-size:0.82rem">
-            <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="color:var(--text-muted)">Trigger:</span><span>When price drops to stop level</span></div>
-            <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="color:var(--text-muted)">Converts to:</span><span>Market order when triggered</span></div>
-            <div style="display:flex;justify-content:space-between"><span style="color:var(--text-muted)">Max loss:</span><span class="up">Pre-defined</span></div>
-          </div>
-          <div class="callout red" style="margin-top:12px"><strong>NEVER trade without one.</strong> A stop-loss is your financial airbag. It limits your loss to an acceptable amount if the trade goes wrong.</div>
-        </div>
-
-        <div class="card" style="border-color:rgba(245,158,11,0.3)">
-          <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
-            <div style="width:48px;height:48px;border-radius:var(--rl);background:var(--gold-dim);display:flex;align-items:center;justify-content:center;font-size:1.5rem">💰</div>
-            <div><span class="tag tag-stop">PROFIT</span><h3 style="font-weight:700;margin-top:4px">Take-Profit Order</h3></div>
-          </div>
-          <p style="font-size:0.875rem;color:var(--text-secondary);margin-bottom:14px">A take-profit order automatically closes your position when the price reaches your target. It locks in your gains without requiring you to monitor the screen 24/7.</p>
-          <div style="background:var(--bg-surface);border-radius:var(--r);padding:12px;font-size:0.82rem">
-            <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="color:var(--text-muted)">Trigger:</span><span>When price rises to target</span></div>
-            <div style="display:flex;justify-content:space-between;margin-bottom:6px"><span style="color:var(--text-muted)">Converts to:</span><span>Limit order (usually)</span></div>
-            <div style="display:flex;justify-content:space-between"><span style="color:var(--text-muted)">Benefit:</span><span class="up">Guaranteed profit-taking</span></div>
-          </div>
-          <div class="callout gold" style="margin-top:12px"><strong>Use when:</strong> You have a specific profit target. Set it when you enter a trade, so emotions don't prevent you from taking profits when they're available.</div>
-        </div>
-      </div>
-
-      <!-- BRACKET ORDER EXAMPLE -->
-      <div class="chart-box" style="margin-bottom:40px">
-        <div class="chart-box-header">
-          <span class="chart-box-title">Bracket Order — The Professional's Setup</span>
-        </div>
-        <div class="grid grid-2" style="gap:32px;align-items:center">
-          <canvas id="bracketCanvas" width="400" height="300" style="width:100%"></canvas>
-          <div>
-            <p style="color:var(--text-secondary);margin-bottom:16px">A bracket order combines three orders simultaneously: your entry + stop-loss + take-profit. It creates a "bracket" of protection around your position.</p>
-            <div style="display:flex;flex-direction:column;gap:10px">
-              <div style="display:flex;align-items:center;gap:12px;padding:10px;background:var(--green-dim);border-radius:var(--r);border:1px solid rgba(0,212,170,0.2)">
-                <span style="font-weight:700;color:var(--green)">TP</span>
-                <div><strong style="font-size:0.85rem">Take-Profit: $215.00</strong><br><span style="font-size:0.78rem;color:var(--text-secondary)">+$15.00 (+7.5%) above entry</span></div>
-              </div>
-              <div style="display:flex;align-items:center;gap:12px;padding:10px;background:var(--blue-dim);border-radius:var(--r);border:1px solid rgba(59,130,246,0.2)">
-                <span style="font-weight:700;color:var(--blue)">E</span>
-                <div><strong style="font-size:0.85rem">Entry: $200.00</strong><br><span style="font-size:0.78rem;color:var(--text-secondary)">Market order executed at this price</span></div>
-              </div>
-              <div style="display:flex;align-items:center;gap:12px;padding:10px;background:var(--red-dim);border-radius:var(--r);border:1px solid rgba(255,71,87,0.2)">
-                <span style="font-weight:700;color:var(--red)">SL</span>
-                <div><strong style="font-size:0.85rem">Stop-Loss: $190.00</strong><br><span style="font-size:0.78rem;color:var(--text-secondary)">-$10.00 (-5%) below entry</span></div>
-              </div>
-            </div>
-            <div class="callout" style="margin-top:16px">
-              <strong>Risk/Reward Ratio: 1:1.5</strong><br>
-              Risking $10 to make $15. Always aim for at least 1:2 (risk $1 to make $2) for long-term profitability.
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:40px;padding-top:24px;border-top:1px solid var(--border)">
-        <a href="virtual-terminal.html" class="btn btn-outline">← Previous</a>
-        <a href="portfolio-management.html" class="btn btn-primary">Next: Portfolio Management →</a>
-      </div>
-    </div>
+  <div class="cols-2" style="gap:14px;margin-bottom:20px">
+    <div class="box" style="border-color:rgba(59,130,246,.3)"><h3>⚡ Market Order</h3><p style="font-size:.875rem">Executes immediately at the best available price. Guaranteed fill, but you don't control the exact price. Subject to slippage.</p></div>
+    <div class="box" style="border-color:rgba(0,212,170,.3)"><h3>🎯 Limit Order</h3><p style="font-size:.875rem">Only executes at your specified price or better. Guarantees price but not fill. May not execute if price never reaches your level.</p></div>
+    <div class="box" style="border-color:rgba(255,71,87,.3)"><h3>🛡️ Stop-Loss</h3><p style="font-size:.875rem">Exits a trade if it moves against you by a specified amount. Converts to a market order when triggered. <strong>NEVER trade without one.</strong></p></div>
+    <div class="box" style="border-color:rgba(245,158,11,.3)"><h3>💰 Take-Profit</h3><p style="font-size:.875rem">Closes your position when price reaches your target. Locks in gains automatically without requiring you to monitor the screen.</p></div>
   </div>
-</div>
+
+  <div class="lnav">
+    <a href="virtual-terminal.html" class="btn btn-outline">← Previous</a>
+    <a href="portfolio-management.html" class="btn btn-blue">Next: Portfolio Management →</a>
+  </div>
+</div></div>
 
 <script>
-// Order level diagram
-const canvas = document.getElementById('orderCanvas');
-canvas.width = canvas.parentElement.clientWidth || 900;
-const ctx = canvas.getContext('2d');
-const W = canvas.width, H = 280;
-
+const BARS = generateOHLC(25, 178, 4);
 const explains = {
-  market: '⚡ <strong>Market Order:</strong> Executes immediately at the current market price. You get $178.42 right now, no waiting. The arrow shows an instant fill. Best for urgent entries and exits on liquid assets.',
-  limit:  '🎯 <strong>Limit Buy Order at $170:</strong> You want to buy cheaper! You set a limit order at $170 (below current price). The order sits waiting. When price drops to $170, you automatically buy. No fill unless price reaches your level.',
-  stop:   '🛡️ <strong>Stop-Loss at $165:</strong> Protecting your position. If you bought at $178 and price falls to $165, this order triggers and sells you out automatically. Maximum loss = $13 per share. You define your risk.',
-  tp:     '💰 <strong>Take-Profit at $195:</strong> Your profit target. If you bought at $178 and price rises to $195, this order triggers and locks in your $17 profit automatically. No greed, no hesitation — the order does it for you.',
-  stoplimit: '🔒 <strong>Stop-Limit:</strong> A combination — when price drops to the stop level ($165), a limit order is placed at $163. You get protection with price control, but risk no fill if price falls through the limit gap quickly.',
+  market:'⚡ <strong>Market Order (~$178):</strong> Executes immediately at current price. Instant fill, best for urgent entries.',
+  limit: '🎯 <strong>Limit Buy at $170:</strong> Waits below current price. Only fills when price drops to $170.',
+  stop:  '🛡️ <strong>Stop-Loss at $165:</strong> If price falls to $165 after buying at $178, this exits automatically. Max loss = $13/share.',
+  tp:    '💰 <strong>Take-Profit at $195:</strong> If price rises to $195, position closes automatically and locks in $17 profit.',
 };
-
-function drawBase() {
-  const bars = generateOHLC(35, 178, 4);
-  ctx.clearRect(0, 0, W, H);
-  const pad = { top: 30, right: 20, bottom: 30, left: 50 };
-  drawCandlesticks(canvas, bars, { pad });
-
-  const closeY = p => {
-    const closes = bars.map(b => b.close);
-    const minP = Math.min(...bars.map(b => b.low)) * 0.998;
-    const maxP = Math.max(...bars.map(b => b.high)) * 1.002;
-    return pad.top + (H - pad.top - pad.bottom) * (1 - (p - minP) / (maxP - minP));
-  };
-  return { bars, closeY, pad };
-}
-
+function drawBase(){ const cv = document.getElementById('oc'); cv.width = cv.parentElement.clientWidth; drawCandles(cv, BARS); return cv; }
 function showOrder(type) {
-  const { closeY } = drawBase();
-  ctx.font = 'bold 11px sans-serif';
-  ctx.textAlign = 'left';
-  ctx.setLineDash([5, 3]);
-  ctx.lineWidth = 1.5;
-
-  const lines = {
-    market:    [{ y: 178.42, color: '#3b82f6',  label: 'MARKET: $178.42', arrow: true }],
-    limit:     [{ y: 170,    color: '#00d4aa',  label: 'LIMIT BUY: $170.00' }],
-    stop:      [{ y: 165,    color: '#ff4757',  label: 'STOP-LOSS: $165.00' }],
-    tp:        [{ y: 195,    color: '#f59e0b',  label: 'TAKE-PROFIT: $195.00' }],
-    stoplimit: [{ y: 165,    color: '#ff4757',  label: 'STOP: $165.00' }, { y: 163, color: '#8b5cf6', label: 'LIMIT: $163.00' }],
-  };
-
-  (lines[type] || []).forEach(line => {
-    const y = closeY(line.y);
-    ctx.strokeStyle = line.color; ctx.lineWidth = 2;
-    ctx.beginPath(); ctx.moveTo(50, y); ctx.lineTo(W - 20, y); ctx.stroke();
-    ctx.fillStyle = line.color;
-    const lw = ctx.measureText(line.label).width + 16;
-    ctx.fillRect(W - 20 - lw, y - 11, lw, 22);
-    ctx.fillStyle = '#fff'; ctx.fillText(line.label, W - 20 - lw + 8, y + 4);
-  });
-
-  ctx.setLineDash([]);
-  document.getElementById('orderExplain').innerHTML = explains[type] || '';
+  const cv = drawBase(), ctx = cv.getContext('2d'), W = cv.width, H = 240;
+  const pad={t:16,r:8,b:18,l:42};
+  const cH=H-pad.t-pad.b, px=BARS.flatMap(b=>[b.high,b.low]), minP=Math.min(...px)*.998, maxP=Math.max(...px)*1.002, rng=maxP-minP;
+  const toY=p=>pad.t+cH*(1-(p-minP)/rng);
+  const lines={market:[{p:178.42,c:'#3b82f6',l:'MARKET: $178'}],limit:[{p:170,c:'#00d4aa',l:'LIMIT BUY: $170'}],stop:[{p:165,c:'#ff4757',l:'STOP: $165'}],tp:[{p:195,c:'#f59e0b',l:'TARGET: $195'}]};
+  (lines[type]||[]).forEach(ln=>{const y=toY(ln.p);ctx.strokeStyle=ln.c;ctx.lineWidth=1.5;ctx.setLineDash([5,3]);ctx.beginPath();ctx.moveTo(pad.l,y);ctx.lineTo(W-pad.r,y);ctx.stroke();ctx.setLineDash([]);ctx.fillStyle=ln.c;ctx.font='bold 11px sans-serif';const lw=ctx.measureText(ln.l).width+12;ctx.fillRect(W-pad.r-lw,y-10,lw,20);ctx.fillStyle='#fff';ctx.textAlign='left';ctx.fillText(ln.l,W-pad.r-lw+6,y+4);});
+  document.getElementById('od').innerHTML = explains[type]||'';
 }
-
 drawBase();
-document.getElementById('orderExplain').innerHTML = '👆 Click one of the buttons above to see how each order type is visualized on a price chart.';
-
-// Bracket canvas
-(function() {
-  const c = document.getElementById('bracketCanvas');
-  c.width = c.parentElement.clientWidth || 400;
-  const cx = c.getContext('2d');
-  const W2 = c.width, H2 = 300;
-  const mid = H2 / 2;
-
-  cx.clearRect(0, 0, W2, H2);
-
-  // Price levels
-  const entry = mid;
-  const tp = mid - 80;
-  const sl = mid + 60;
-  const x1 = 80, x2 = W2 - 40;
-
-  // Shade zones
-  cx.fillStyle = 'rgba(0,212,170,0.06)';
-  cx.fillRect(x1, tp, x2 - x1, entry - tp);
-  cx.fillStyle = 'rgba(255,71,87,0.06)';
-  cx.fillRect(x1, entry, x2 - x1, sl - entry);
-
-  // Lines
-  [{ y: tp, c: '#00d4aa', l: '↑ Take-Profit $215', r: '+7.5%' },
-   { y: entry, c: '#3b82f6', l: 'Entry $200', r: 'Bought here' },
-   { y: sl, c: '#ff4757', l: '↓ Stop-Loss $190', r: '-5.0%' }].forEach(ln => {
-    cx.strokeStyle = ln.c; cx.lineWidth = 2; cx.setLineDash([4, 3]);
-    cx.beginPath(); cx.moveTo(x1, ln.y); cx.lineTo(x2, ln.y); cx.stroke();
-    cx.setLineDash([]);
-    cx.fillStyle = ln.c; cx.font = 'bold 11px sans-serif'; cx.textAlign = 'left';
-    cx.fillText(ln.l, x1 + 4, ln.y - 5);
-    cx.textAlign = 'right'; cx.fillStyle = ln.c + 'cc';
-    cx.fillText(ln.r, x2 - 4, ln.y - 5);
-  });
-
-  // Bracket bracket
-  cx.strokeStyle = '#4a6080'; cx.lineWidth = 1.5; cx.setLineDash([]);
-  cx.beginPath();
-  cx.moveTo(x1 - 10, tp); cx.lineTo(x1 - 20, tp);
-  cx.lineTo(x1 - 20, sl);
-  cx.moveTo(x1 - 10, sl); cx.lineTo(x1 - 20, sl);
-  cx.stroke();
-})();
 </script>
-</body>
-</html>
+</body></html>

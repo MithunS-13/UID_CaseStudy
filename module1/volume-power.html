@@ -1,263 +1,100 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Power of Volume — TradeX Academy</title>
-<link rel="stylesheet" href="../css/styles.css">
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-</head>
+<link rel="stylesheet" href="../css/styles.css"></head>
 <body>
-<script src="../js/main.js"></script>
-<script>buildNav('module1');</script>
+<script src="../js/main.js"></script><script>buildNav('module1');</script>
+<div class="pg-top"><div class="wrap"><p class="crumb"><a href="../index.html">Home</a> › Module 1</p>
+  <h1>The Power of Volume</h1>
+  <p>Volume is the fuel behind price movements. Learn to read volume bars and understand where the real money is moving.</p>
+</div></div>
 
-<div class="page-wrap">
-  <div class="page-hero">
-    <div class="container">
-      <div class="breadcrumb"><a href="../index.html">Home</a> › Module 1 › The Power of Volume</div>
-      <span class="badge badge-green">Module 1 · Lesson 5</span>
-      <h1>The Power of Volume</h1>
-      <p>Volume is the fuel behind price movements. Learn to read volume bars and Volume Profile to understand where the real money is moving.</p>
+<div class="section"><div class="wrap">
+  <div class="cols-2" style="gap:28px;align-items:start;margin-bottom:28px">
+    <div>
+      <h2>Volume: The Missing Dimension</h2>
+      <p>Price tells you <em>where</em> the market went. Volume tells you <em>how much conviction</em> was behind that move.</p>
+      <div class="note green"><strong>The Golden Rule:</strong> "Volume precedes price." Unusual volume spikes often appear BEFORE the major price move.</div>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-top:12px">
+        <div class="box" style="padding:10px;border-color:rgba(0,212,170,.2)"><strong style="color:#00d4aa">Rising Price + High Volume</strong> — Strong uptrend with conviction</div>
+        <div class="box" style="padding:10px;border-color:rgba(245,158,11,.2)"><strong style="color:#f59e0b">Rising Price + Low Volume</strong> — Weak rally, likely to reverse</div>
+        <div class="box" style="padding:10px;border-color:rgba(255,71,87,.2)"><strong style="color:#ff4757">Falling Price + High Volume</strong> — Panic selling, key reversal zone</div>
+        <div class="box" style="padding:10px"><strong style="color:#06b6d4">Falling Price + Low Volume</strong> — Healthy pullback in an uptrend</div>
+      </div>
+    </div>
+    <div>
+      <p style="font-weight:bold;margin-bottom:6px">Price + Volume Chart:</p>
+      <canvas id="pc" height="160" style="width:100%;background:#0d1525;border-radius:8px 8px 0 0"></canvas>
+      <canvas id="vc" height="60" style="width:100%;background:#0d1525;border-radius:0 0 8px 8px;margin-top:1px"></canvas>
     </div>
   </div>
 
-  <div class="section">
-    <div class="container">
-
-      <!-- INTRO -->
-      <div class="grid grid-2" style="gap:40px;align-items:start;margin-bottom:48px">
-        <div>
-          <h2 class="section-title">Volume: The Missing Dimension</h2>
-          <p style="color:var(--text-secondary);margin-bottom:16px">Price tells you <em>where</em> the market went. Volume tells you <em>how much conviction</em> was behind that move. A 5% rally on 10 million shares means something very different from a 5% rally on 100 million shares.</p>
-          <div class="callout green">
-            <strong>The Golden Rule of Volume:</strong> "Volume precedes price." Unusual volume spikes often appear BEFORE the major price move — making volume one of the most predictive indicators.
-          </div>
-          <div style="margin-top:20px;display:flex;flex-direction:column;gap:12px">
-            <div class="card card-sm" style="border-color:rgba(0,212,170,0.2)">
-              <div style="display:flex;align-items:center;gap:10px">
-                <span style="font-size:1.3rem">📈</span>
-                <div><strong style="font-size:0.875rem;color:var(--green)">Rising Price + High Volume</strong><br><span style="font-size:0.8rem;color:var(--text-secondary)">Strong, confirmed uptrend. The move has conviction.</span></div>
-              </div>
-            </div>
-            <div class="card card-sm" style="border-color:rgba(255,71,87,0.2)">
-              <div style="display:flex;align-items:center;gap:10px">
-                <span style="font-size:1.3rem">📈</span>
-                <div><strong style="font-size:0.875rem;color:var(--gold)">Rising Price + Low Volume</strong><br><span style="font-size:0.8rem;color:var(--text-secondary)">Weak rally. Likely to reverse. Be cautious — no participation.</span></div>
-              </div>
-            </div>
-            <div class="card card-sm" style="border-color:rgba(255,71,87,0.2)">
-              <div style="display:flex;align-items:center;gap:10px">
-                <span style="font-size:1.3rem">📉</span>
-                <div><strong style="font-size:0.875rem;color:var(--red)">Falling Price + High Volume</strong><br><span style="font-size:0.8rem;color:var(--text-secondary)">Panic selling. Distribution or capitulation. Key reversal zone.</span></div>
-              </div>
-            </div>
-            <div class="card card-sm">
-              <div style="display:flex;align-items:center;gap:10px">
-                <span style="font-size:1.3rem">📉</span>
-                <div><strong style="font-size:0.875rem;color:var(--cyan)">Falling Price + Low Volume</strong><br><span style="font-size:0.8rem;color:var(--text-secondary)">Pullback within an uptrend. Healthy consolidation.</span></div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="chart-box">
-          <div class="chart-box-header">
-            <span class="chart-box-title">Price + Volume Chart</span>
-            <span class="live-dot"></span>
-          </div>
-          <canvas id="priceVolumeChart" height="300"></canvas>
-        </div>
-      </div>
-
-      <!-- VOLUME PROFILE -->
-      <h2 class="section-title">Volume Profile</h2>
-      <p class="section-sub">Instead of showing volume over time, Volume Profile shows where volume occurred at each PRICE LEVEL</p>
-
-      <div class="grid grid-2" style="gap:40px;align-items:start;margin-bottom:48px">
-        <div class="chart-box">
-          <div class="chart-box-header">
-            <span class="chart-box-title">Volume Profile — Horizontal Bars</span>
-          </div>
-          <canvas id="vpCanvas" width="500" height="320" style="width:100%"></canvas>
-          <div style="margin-top:10px;display:flex;gap:16px;flex-wrap:wrap">
-            <div style="display:flex;align-items:center;gap:6px;font-size:0.78rem"><span style="display:inline-block;width:12px;height:12px;background:#3b82f6;border-radius:2px"></span> Volume at price</div>
-            <div style="display:flex;align-items:center;gap:6px;font-size:0.78rem"><span style="display:inline-block;width:12px;height:12px;background:#f59e0b;border-radius:2px"></span> Point of Control (POC)</div>
-          </div>
-        </div>
-        <div>
-          <h3 style="font-size:1.1rem;font-weight:700;margin-bottom:16px">Key Volume Profile Concepts</h3>
-          <div style="display:flex;flex-direction:column;gap:14px">
-            <div class="card card-sm" style="border-color:rgba(245,158,11,0.3)">
-              <strong style="color:var(--gold)">Point of Control (POC)</strong>
-              <p style="font-size:0.82rem;color:var(--text-secondary);margin-top:6px">The price level where the MOST volume was traded. Often acts as a magnet — price frequently returns to test it. The most important level on any Volume Profile.</p>
-            </div>
-            <div class="card card-sm">
-              <strong style="color:var(--blue)">Value Area (VA)</strong>
-              <p style="font-size:0.82rem;color:var(--text-secondary);margin-top:6px">The range where 70% of all volume occurred. Price inside the value area is considered "fair." Price outside the value area is considered "extreme."</p>
-            </div>
-            <div class="card card-sm">
-              <strong style="color:var(--purple)">Low Volume Nodes (LVN)</strong>
-              <p style="font-size:0.82rem;color:var(--text-secondary);margin-top:6px">Price levels where very little trading happened. Price tends to move THROUGH these areas quickly, like a hot knife through butter.</p>
-            </div>
-            <div class="card card-sm">
-              <strong style="color:var(--green)">High Volume Nodes (HVN)</strong>
-              <p style="font-size:0.82rem;color:var(--text-secondary);margin-top:6px">Heavy trading zones that act as support or resistance. Price often consolidates or reverses at these levels.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ON BALANCE VOLUME -->
-      <div class="chart-box" style="margin-bottom:40px">
-        <div class="chart-box-header">
-          <div>
-            <span class="chart-box-title">On-Balance Volume (OBV)</span>
-            <div style="font-size:0.78rem;color:var(--text-secondary);margin-top:2px">A cumulative indicator that adds volume on up days and subtracts on down days</div>
-          </div>
-        </div>
-        <canvas id="obvChart" height="200"></canvas>
-        <div class="callout" style="margin-top:14px">
-          <strong>How to read OBV:</strong> When OBV rises while price is flat or falling, it signals accumulation — big buyers absorbing shares quietly. This often precedes a breakout.
-        </div>
-      </div>
-
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:40px;padding-top:24px;border-top:1px solid var(--border)">
-        <a href="exotic-charts.html" class="btn btn-outline">← Previous</a>
-        <a href="technical-indicators.html" class="btn btn-primary">Next: Technical Indicators 101 →</a>
-      </div>
+  <h2 style="margin-bottom:12px">Volume Profile</h2>
+  <p style="margin-bottom:14px">Instead of volume over time, Volume Profile shows where volume occurred at each PRICE LEVEL. This reveals key support and resistance.</p>
+  <div class="cols-2" style="gap:24px;margin-bottom:24px">
+    <div class="chart-box"><svg viewBox="0 0 480 240" xmlns="http://www.w3.org/2000/svg">
+      <text x="44" y="28" fill="#7a8fa8" font-size="10" text-anchor="end" font-family="monospace">185</text>
+      <text x="44" y="58" fill="#7a8fa8" font-size="10" text-anchor="end" font-family="monospace">182</text>
+      <text x="44" y="88" fill="#f59e0b" font-size="10" text-anchor="end" font-family="monospace">179 ◄POC</text>
+      <text x="44" y="118" fill="#7a8fa8" font-size="10" text-anchor="end" font-family="monospace">176</text>
+      <text x="44" y="148" fill="#7a8fa8" font-size="10" text-anchor="end" font-family="monospace">173</text>
+      <text x="44" y="178" fill="#7a8fa8" font-size="10" text-anchor="end" font-family="monospace">170</text>
+      <rect x="46" y="20" width="80" height="18" fill="rgba(59,130,246,0.5)" rx="2"/>
+      <rect x="46" y="50" width="140" height="18" fill="rgba(59,130,246,0.5)" rx="2"/>
+      <rect x="46" y="80" width="320" height="18" fill="#f59e0b" rx="2"/>
+      <line x1="46" y1="80" x2="470" y2="80" stroke="#f59e0b" stroke-width="0.5" stroke-dasharray="4,3" opacity="0.5"/>
+      <rect x="46" y="110" width="200" height="18" fill="rgba(59,130,246,0.5)" rx="2"/>
+      <rect x="46" y="140" width="120" height="18" fill="rgba(59,130,246,0.5)" rx="2"/>
+      <rect x="46" y="170" width="70" height="18" fill="rgba(59,130,246,0.5)" rx="2"/>
+    </svg></div>
+    <div>
+      <div class="box" style="margin-bottom:8px;border-color:rgba(245,158,11,.3)"><strong style="color:#f59e0b">Point of Control (POC)</strong><p style="font-size:.82rem;margin:4px 0 0">The price level where the MOST volume was traded. Price frequently returns to test it.</p></div>
+      <div class="box" style="margin-bottom:8px"><strong style="color:#3b82f6">Value Area (VA)</strong><p style="font-size:.82rem;margin:4px 0 0">The range where 70% of all volume occurred. Inside = "fair price." Outside = "extreme."</p></div>
+      <div class="box"><strong style="color:#8b5cf6">Low Volume Nodes (LVN)</strong><p style="font-size:.82rem;margin:4px 0 0">Price levels where very little trading happened. Price moves through these quickly.</p></div>
     </div>
   </div>
-</div>
+
+  <div class="lnav">
+    <a href="exotic-charts.html" class="btn btn-outline">← Previous</a>
+    <a href="technical-indicators.html" class="btn btn-blue">Next: Technical Indicators →</a>
+  </div>
+</div></div>
 
 <script>
-const BARS = generateOHLC(40, 180, 5);
-const labels = BARS.map((_, i) => `Day ${i+1}`);
+const BARS = generateOHLC(25, 175, 5);
 const closes = BARS.map(b => b.close);
-const volumes = BARS.map(b => Math.round(500000 + Math.random() * 2500000));
+const vols = BARS.map(() => Math.round(400000 + Math.random()*2000000));
 
-// Price + Volume combo chart
-const pvCtx = document.getElementById('priceVolumeChart').getContext('2d');
-const pvGrad = pvCtx.createLinearGradient(0, 0, 0, 300);
-pvGrad.addColorStop(0, 'rgba(59,130,246,0.25)');
-pvGrad.addColorStop(1, 'rgba(59,130,246,0)');
-
-new Chart(pvCtx, {
-  data: {
-    labels,
-    datasets: [
-      {
-        type: 'line', label: 'Price', data: closes,
-        borderColor: '#3b82f6', backgroundColor: pvGrad, fill: true,
-        tension: 0.3, borderWidth: 2, pointRadius: 0,
-        yAxisID: 'yPrice',
-      },
-      {
-        type: 'bar', label: 'Volume', data: volumes,
-        backgroundColor: BARS.map(b => b.close >= b.open ? 'rgba(0,212,170,0.4)' : 'rgba(255,71,87,0.4)'),
-        borderColor: BARS.map(b => b.close >= b.open ? '#00d4aa' : '#ff4757'),
-        borderWidth: 0,
-        yAxisID: 'yVol',
-      }
-    ]
-  },
-  options: {
-    responsive: true, maintainAspectRatio: false,
-    plugins: { legend: { display: false }, tooltip: { mode: 'index', intersect: false } },
-    scales: {
-      x: { grid: { display: false }, ticks: { maxTicksLimit: 8 } },
-      yPrice: {
-        position: 'left', grid: { color: 'rgba(255,255,255,0.04)' },
-        ticks: { callback: v => '$' + v.toFixed(0) },
-      },
-      yVol: {
-        position: 'right', grid: { display: false },
-        ticks: { callback: v => (v / 1000000).toFixed(1) + 'M' },
-        max: Math.max(...volumes) * 4,
-      }
-    }
-  }
-});
-
-// Volume Profile (horizontal bar chart using canvas)
-(function() {
-  const canvas = document.getElementById('vpCanvas');
-  canvas.width = canvas.parentElement.clientWidth || 500;
-  const ctx = canvas.getContext('2d');
-  const W = canvas.width, H = 320;
-
-  const minP = Math.min(...closes) - 2;
-  const maxP = Math.max(...closes) + 2;
-  const buckets = 20;
-  const bucketSize = (maxP - minP) / buckets;
-  const volByPrice = Array(buckets).fill(0);
-
-  closes.forEach((c, i) => {
-    const bi = Math.min(buckets - 1, Math.floor((c - minP) / bucketSize));
-    volByPrice[bi] += volumes[i];
-  });
-
-  const maxVol = Math.max(...volByPrice);
-  const pocIdx = volByPrice.indexOf(maxVol);
-  const padL = 50, padR = 20, padT = 10, padB = 20;
-  const chartW = W - padL - padR;
-  const rowH = (H - padT - padB) / buckets;
-
-  ctx.clearRect(0, 0, W, H);
-
-  volByPrice.forEach((v, i) => {
-    const y = padT + (buckets - 1 - i) * rowH;
-    const barW = (v / maxVol) * chartW;
-    ctx.fillStyle = i === pocIdx ? '#f59e0b' : 'rgba(59,130,246,0.5)';
-    ctx.fillRect(padL, y + 2, barW, rowH - 4);
-    if (i === pocIdx) {
-      ctx.strokeStyle = '#f59e0b';
-      ctx.lineWidth = 1;
-      ctx.setLineDash([4, 3]);
-      ctx.beginPath(); ctx.moveTo(padL, y + rowH/2); ctx.lineTo(W - padR, y + rowH/2); ctx.stroke();
-      ctx.setLineDash([]);
-    }
-    const price = minP + (buckets - 1 - i) * bucketSize;
-    ctx.fillStyle = '#7a8fa8'; ctx.font = '10px monospace'; ctx.textAlign = 'right';
-    ctx.fillText('$' + price.toFixed(0), padL - 4, y + rowH / 2 + 4);
-  });
-
-  // POC label
-  const pocY = padT + (buckets - 1 - pocIdx) * rowH;
-  ctx.fillStyle = '#f59e0b'; ctx.font = 'bold 10px sans-serif'; ctx.textAlign = 'left';
-  ctx.fillText('◄ POC', padL + (volByPrice[pocIdx] / maxVol) * chartW + 4, pocY + rowH / 2 + 4);
+// Price chart
+(function(){
+  const cv = document.getElementById('pc');
+  cv.width = cv.parentElement.clientWidth;
+  const ctx = cv.getContext('2d'), W = cv.width, H = 160;
+  const pad={t:12,r:8,b:8,l:40};
+  const cW=W-pad.l-pad.r, cH=H-pad.t-pad.b;
+  const minY=Math.min(...closes)*.997, maxY=Math.max(...closes)*1.003, rng=maxY-minY;
+  const toX=i=>pad.l+(i/(closes.length-1))*cW, toY=v=>pad.t+cH*(1-(v-minY)/rng);
+  ctx.clearRect(0,0,W,H);
+  ctx.strokeStyle='rgba(255,255,255,0.04)'; ctx.lineWidth=1;
+  for(let i=0;i<=3;i++){const y=pad.t+(cH/3)*i;ctx.beginPath();ctx.moveTo(pad.l,y);ctx.lineTo(W-pad.r,y);ctx.stroke();}
+  ctx.beginPath(); ctx.moveTo(toX(0),toY(closes[0]));
+  closes.forEach((v,i)=>ctx.lineTo(toX(i),toY(v)));
+  ctx.lineTo(toX(closes.length-1),pad.t+cH); ctx.lineTo(pad.l,pad.t+cH); ctx.closePath();
+  const g=ctx.createLinearGradient(0,pad.t,0,pad.t+cH); g.addColorStop(0,'rgba(59,130,246,.3)'); g.addColorStop(1,'rgba(59,130,246,0)');
+  ctx.fillStyle=g; ctx.fill();
+  ctx.strokeStyle='#3b82f6'; ctx.lineWidth=2; ctx.setLineDash([]);
+  ctx.beginPath(); ctx.moveTo(toX(0),toY(closes[0])); closes.forEach((v,i)=>ctx.lineTo(toX(i),toY(v))); ctx.stroke();
 })();
 
-// OBV
-let obv = 0;
-const obvData = closes.map((c, i) => {
-  if (i === 0) return 0;
-  if (c > closes[i-1]) obv += volumes[i];
-  else if (c < closes[i-1]) obv -= volumes[i];
-  return obv;
-});
-
-const obvCtx = document.getElementById('obvChart').getContext('2d');
-const obvGrad = obvCtx.createLinearGradient(0, 0, 0, 200);
-obvGrad.addColorStop(0, 'rgba(139,92,246,0.3)');
-obvGrad.addColorStop(1, 'rgba(139,92,246,0)');
-new Chart(obvCtx, {
-  type: 'line',
-  data: {
-    labels,
-    datasets: [
-      { data: closes, borderColor: '#3b82f6', borderWidth: 1.5, fill: false, tension: 0.3, pointRadius: 0, yAxisID: 'yP' },
-      { data: obvData, borderColor: '#8b5cf6', backgroundColor: obvGrad, fill: true, tension: 0.3, borderWidth: 2, pointRadius: 0, yAxisID: 'yO' },
-    ]
-  },
-  options: {
-    responsive: true, maintainAspectRatio: false,
-    plugins: { legend: { display: false } },
-    scales: {
-      x: { grid: { display: false }, ticks: { maxTicksLimit: 8 } },
-      yP: { position: 'left', grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { callback: v => '$' + v.toFixed(0) } },
-      yO: { position: 'right', grid: { display: false }, ticks: { callback: v => (v/1000000).toFixed(1) + 'M' } }
-    }
-  }
-});
+// Volume
+(function(){
+  const cv = document.getElementById('vc');
+  cv.width = cv.parentElement.clientWidth;
+  const ctx = cv.getContext('2d'), W = cv.width, maxV = Math.max(...vols);
+  const bw = (W / vols.length) * 0.75;
+  ctx.clearRect(0,0,W,60);
+  vols.forEach((v,i)=>{ const x=i*(W/vols.length)+(W/vols.length)*.125, bh=(v/maxV)*54; ctx.fillStyle=BARS[i].close>=BARS[i].open?'rgba(0,212,170,.5)':'rgba(255,71,87,.5)'; ctx.fillRect(x,56-bh,bw,bh); });
+})();
 </script>
-</body>
-</html>
+</body></html>

@@ -1,273 +1,79 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Trade Execution Flow — TradeX Academy</title>
-<link rel="stylesheet" href="../css/styles.css">
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-</head>
+<link rel="stylesheet" href="../css/styles.css"></head>
 <body>
-<script src="../js/main.js"></script>
-<script>buildNav('module2');</script>
+<script src="../js/main.js"></script><script>buildNav('module2');</script>
+<div class="pg-top"><div class="wrap"><p class="crumb"><a href="../index.html">Home</a> › Module 2</p>
+  <h1>Trade Execution Flow</h1>
+  <p>A step-by-step visual walkthrough of placing, monitoring, and closing a paper trade from start to finish.</p>
+</div></div>
 
-<div class="page-wrap">
-  <div class="page-hero">
-    <div class="container">
-      <div class="breadcrumb"><a href="../index.html">Home</a> › Module 2 › Trade Execution Flow</div>
-      <span class="badge badge-green">Module 2 · Lesson 5</span>
-      <h1>Trade Execution Flow</h1>
-      <p>A step-by-step visual walkthrough of placing, monitoring, and closing a paper trade from start to finish.</p>
+<div class="section"><div class="wrap">
+  <div class="box" style="margin-bottom:20px">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:12px">
+      <strong>AAPL Long Trade — Step Walkthrough</strong>
+      <div style="display:flex;gap:6px">
+        <button class="btn btn-outline btn-sm" id="prevBtn" onclick="go(step-1)" disabled>← Prev</button>
+        <button class="btn btn-blue btn-sm" id="nextBtn" onclick="go(step+1)">Next →</button>
+      </div>
+    </div>
+    <div id="dots" style="display:flex;gap:5px;margin-bottom:12px"></div>
+    <div class="cols-2" style="gap:20px;align-items:start">
+      <canvas id="tc" height="240" style="width:100%;background:#0d1525;border-radius:6px"></canvas>
+      <div id="sc"></div>
     </div>
   </div>
 
-  <div class="section">
-    <div class="container">
-
-      <!-- INTERACTIVE FLOW -->
-      <div class="chart-box" style="margin-bottom:40px">
-        <div class="chart-box-header">
-          <span class="chart-box-title">Complete Trade Walkthrough — AAPL Long Trade</span>
-          <div class="chart-controls">
-            <button class="chart-btn" onclick="setStep(0)">Reset</button>
-            <button class="chart-btn" id="prevBtn" onclick="setStep(currentStep - 1)" disabled>← Prev</button>
-            <button class="chart-btn active" id="nextBtn" onclick="setStep(currentStep + 1)">Next →</button>
-          </div>
-        </div>
-        <div id="stepIndicator" style="display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap"></div>
-        <div class="grid grid-2" style="gap:28px;align-items:start">
-          <canvas id="tradeCanvas" width="500" height="320" style="width:100%"></canvas>
-          <div>
-            <div id="stepContent"></div>
-          </div>
-        </div>
-        <div style="display:flex;justify-content:flex-end;margin-top:16px">
-          <button class="btn btn-primary" id="mainNextBtn" onclick="setStep(currentStep + 1)">Next Step →</button>
-        </div>
-      </div>
-
-      <!-- FULL STEPS LIST -->
-      <h2 class="section-title">The 7-Step Trading Process</h2>
-      <p class="section-sub">Every successful paper trade follows this exact sequence</p>
-      <div class="steps" style="margin-bottom:40px">
-        <div class="step">
-          <div class="step-num" style="background:var(--blue)">1</div>
-          <div class="step-content">
-            <div class="step-title">Market Analysis & Setup Identification</div>
-            <div class="step-desc">Analyze the chart. Identify the trend (up/down/sideways). Find a technical setup — a pattern, breakout, or indicator signal that gives you a reason to trade. This is your "thesis."</div>
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-num" style="background:var(--purple)">2</div>
-          <div class="step-content">
-            <div class="step-title">Define Your Risk (Stop-Loss Level)</div>
-            <div class="step-desc">Before thinking about profits, decide where you're WRONG. Set your stop-loss at a logical technical level (below support, above resistance). This is your maximum loss per share.</div>
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-num" style="background:var(--gold)">3</div>
-          <div class="step-content">
-            <div class="step-title">Calculate Position Size</div>
-            <div class="step-desc">Use the 1% rule: Max risk = 1% of account = $1,000 (on a $100K account). If stop is $5 away, max shares = $1,000 ÷ $5 = 200 shares. This is your position size.</div>
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-num" style="background:var(--green)">4</div>
-          <div class="step-content">
-            <div class="step-title">Define Your Target (Take-Profit Level)</div>
-            <div class="step-desc">Set a realistic profit target. Aim for at least 2:1 reward-to-risk. If you're risking $5, your target should be at least $10 away from entry. Place it at the next key resistance level.</div>
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-num" style="background:var(--blue)">5</div>
-          <div class="step-content">
-            <div class="step-title">Place the Order (Entry + Bracket)</div>
-            <div class="step-desc">Enter the trade. Simultaneously place your stop-loss and take-profit orders. This creates a "bracket" — you're fully protected as soon as the trade is live. You can now walk away.</div>
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-num" style="background:var(--cyan)">6</div>
-          <div class="step-content">
-            <div class="step-title">Monitor & Manage the Trade</div>
-            <div class="step-desc">Watch for changes in market conditions. If the trade moves in your favor, consider "trailing" your stop-loss to lock in profits. Don't move your stop-loss to AVOID a loss — this is emotional trading.</div>
-          </div>
-        </div>
-        <div class="step">
-          <div class="step-num" style="background:var(--red)">7</div>
-          <div class="step-content">
-            <div class="step-title">Close & Review</div>
-            <div class="step-desc">The trade exits (via TP, SL, or manual close). Review: Did price act as expected? Did you follow your plan? Write this in your trading journal. The journal is where improvement happens.</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- TRADE JOURNAL -->
-      <div class="chart-box">
-        <div class="chart-box-header">
-          <span class="chart-box-title">Sample Trade Journal Entry</span>
-          <span class="badge badge-green">Template</span>
-        </div>
-        <div class="grid grid-2" style="gap:24px">
-          <div>
-            <div style="display:flex;flex-direction:column;gap:10px">
-              <div class="form-group"><label class="form-label">Date & Time</label><input class="form-input" value="May 10, 2026 — 9:35 AM" readonly></div>
-              <div class="form-group"><label class="form-label">Symbol</label><input class="form-input" value="AAPL" readonly></div>
-              <div class="form-group"><label class="form-label">Setup / Reason to Trade</label><input class="form-input" value="Bullish engulfing at 50-day SMA support" readonly></div>
-              <div class="form-group"><label class="form-label">Entry Price</label><input class="form-input" value="$186.40" readonly></div>
-              <div class="form-group"><label class="form-label">Stop-Loss</label><input class="form-input" value="$183.00 (−$3.40)" readonly></div>
-              <div class="form-group"><label class="form-label">Take-Profit</label><input class="form-input" value="$193.20 (+$6.80)" readonly></div>
-            </div>
-          </div>
-          <div>
-            <div style="display:flex;flex-direction:column;gap:10px">
-              <div class="form-group"><label class="form-label">Position Size</label><input class="form-input" value="200 shares ($37,280 total)" readonly></div>
-              <div class="form-group"><label class="form-label">Risk/Reward Ratio</label><input class="form-input" value="1:2.0 (risking $680, targeting $1,360)" readonly></div>
-              <div class="form-group"><label class="form-label">Outcome</label>
-                <select class="form-select"><option>✅ Take-Profit Hit (+$1,360)</option><option>❌ Stop-Loss Hit</option><option>🔄 Manually Closed</option></select>
-              </div>
-              <div class="form-group"><label class="form-label">Emotions During Trade</label><input class="form-input" value="Anxious at open. Calm after 1 hour." readonly></div>
-              <div class="form-group"><label class="form-label">What Went Well</label><input class="form-input" value="Identified pattern correctly. Held to TP." readonly></div>
-              <div class="form-group"><label class="form-label">What to Improve</label><input class="form-input" value="Entry was slightly late. Wait for daily close." readonly></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:40px;padding-top:24px;border-top:1px solid var(--border)">
-        <a href="portfolio-management.html" class="btn btn-outline">← Previous</a>
-        <a href="../module3/trendlines-channels.html" class="btn btn-primary">Module 3: Advanced Analysis →</a>
-      </div>
-    </div>
+  <h2 style="margin-bottom:12px">The 7-Step Trading Process</h2>
+  <div style="display:flex;flex-direction:column;gap:0;margin-bottom:20px">
+    <div style="display:flex;gap:14px;padding:12px 0;border-bottom:1px solid #1e2d45"><div style="width:30px;height:30px;border-radius:50%;background:#3b82f6;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;flex-shrink:0">1</div><div><strong>Market Analysis</strong><p style="font-size:.82rem;margin:2px 0 0">Identify the trend and find a setup that gives you a reason to trade — your "thesis."</p></div></div>
+    <div style="display:flex;gap:14px;padding:12px 0;border-bottom:1px solid #1e2d45"><div style="width:30px;height:30px;border-radius:50%;background:#8b5cf6;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;flex-shrink:0">2</div><div><strong>Define Risk (Stop-Loss)</strong><p style="font-size:.82rem;margin:2px 0 0">Decide where you're WRONG before thinking about profits. Set your stop at a logical technical level.</p></div></div>
+    <div style="display:flex;gap:14px;padding:12px 0;border-bottom:1px solid #1e2d45"><div style="width:30px;height:30px;border-radius:50%;background:#f59e0b;color:#000;display:flex;align-items:center;justify-content:center;font-weight:bold;flex-shrink:0">3</div><div><strong>Calculate Position Size</strong><p style="font-size:.82rem;margin:2px 0 0">1% Rule: max risk = $1,000. If stop is $5 away → max 200 shares.</p></div></div>
+    <div style="display:flex;gap:14px;padding:12px 0;border-bottom:1px solid #1e2d45"><div style="width:30px;height:30px;border-radius:50%;background:#00d4aa;color:#000;display:flex;align-items:center;justify-content:center;font-weight:bold;flex-shrink:0">4</div><div><strong>Set Take-Profit Target</strong><p style="font-size:.82rem;margin:2px 0 0">Aim for at least 2:1 reward-to-risk. Place target at next key resistance level.</p></div></div>
+    <div style="display:flex;gap:14px;padding:12px 0;border-bottom:1px solid #1e2d45"><div style="width:30px;height:30px;border-radius:50%;background:#3b82f6;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;flex-shrink:0">5</div><div><strong>Place the Bracket Order</strong><p style="font-size:.82rem;margin:2px 0 0">Enter trade + stop-loss + take-profit simultaneously. You're now fully protected.</p></div></div>
+    <div style="display:flex;gap:14px;padding:12px 0;border-bottom:1px solid #1e2d45"><div style="width:30px;height:30px;border-radius:50%;background:#06b6d4;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;flex-shrink:0">6</div><div><strong>Monitor &amp; Manage</strong><p style="font-size:.82rem;margin:2px 0 0">Watch for changes. Trail your stop to lock in profits as price moves in your favor.</p></div></div>
+    <div style="display:flex;gap:14px;padding:12px 0"><div style="width:30px;height:30px;border-radius:50%;background:#ff4757;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:bold;flex-shrink:0">7</div><div><strong>Close &amp; Review</strong><p style="font-size:.82rem;margin:2px 0 0">Trade exits via TP, SL, or manual close. Record the trade in your journal.</p></div></div>
   </div>
-</div>
+
+  <div class="lnav">
+    <a href="portfolio-management.html" class="btn btn-outline">← Previous</a>
+    <a href="../module3/trendlines-channels.html" class="btn btn-blue">Module 3: Advanced Analysis →</a>
+  </div>
+</div></div>
 
 <script>
-const BARS = generateOHLC(25, 182, 4);
-let currentStep = 0;
-
+let step = 0;
+const BARS = generateOHLC(22, 192, 3);
 const steps = [
-  {
-    title: '1. Market Analysis',
-    content: `<p style="color:var(--text-secondary);font-size:0.875rem;margin-bottom:12px">Look at the chart. AAPL has been in a clear uptrend, with higher highs and higher lows. Price has pulled back to the 50-day SMA — a key support level.</p>
-    <div class="callout green"><strong>Setup Found:</strong> Bullish engulfing candle forming at the 50 SMA. The setup is valid.</div>`,
-    draw: (ctx, bars, W, H) => {
-      drawStep(ctx, bars, W, H);
-    }
-  },
-  {
-    title: '2. Define Risk — Stop-Loss',
-    content: `<p style="color:var(--text-secondary);font-size:0.875rem;margin-bottom:12px">Stop-loss goes below the swing low at $183.00. If AAPL breaks below that level, our analysis is wrong and we exit with a controlled loss.</p>
-    <div style="background:var(--red-dim);padding:12px;border-radius:var(--r);border:1px solid rgba(255,71,87,0.2)">
-      <strong style="color:var(--red)">Stop-Loss: $183.00</strong><br>
-      <span style="font-size:0.82rem;color:var(--text-secondary)">Entry $186.40 − SL $183.00 = $3.40 risk per share</span>
-    </div>`,
-  },
-  {
-    title: '3. Calculate Position Size',
-    content: `<div style="background:var(--bg-surface);padding:14px;border-radius:var(--r);font-size:0.85rem;font-family:var(--font-mono)">
-      Account: $100,000<br>
-      Max Risk (1%): $1,000<br>
-      Risk per share: $3.40<br>
-      <strong style="color:var(--gold)">Max shares: 294 (round to 290)</strong>
-    </div>`,
-  },
-  {
-    title: '4. Set Take-Profit',
-    content: `<p style="color:var(--text-secondary);font-size:0.875rem;margin-bottom:12px">Take-profit at next resistance: $193.20. That's a $6.80 gain per share — a 2:1 reward-to-risk ratio.</p>
-    <div style="background:var(--green-dim);padding:12px;border-radius:var(--r);border:1px solid rgba(0,212,170,0.2)">
-      <strong style="color:var(--green)">Take-Profit: $193.20</strong><br>
-      <span style="font-size:0.82rem;color:var(--text-secondary)">$6.80 per share × 290 shares = $1,972 potential profit</span>
-    </div>`,
-  },
-  {
-    title: '5. Order Placed! ✅',
-    content: `<div style="background:var(--blue-dim);padding:14px;border-radius:var(--r);border:1px solid rgba(59,130,246,0.2);margin-bottom:12px">
-      <strong>Entry: $186.40 × 290 shares = $54,056</strong>
-    </div>
-    <p style="color:var(--text-secondary);font-size:0.875rem">Bracket order is active. Stop-loss at $183 and take-profit at $193.20 are set. You can now walk away — the orders manage the trade automatically.</p>`,
-  },
-  {
-    title: '6. Trade in Progress',
-    content: `<p style="color:var(--text-secondary);font-size:0.875rem;margin-bottom:12px">Price is moving in our favor. Currently at $190.50 — open profit of $4.10 per share ($1,189 total unrealized). Consider trailing stop to $187 to lock in partial gains.</p>
-    <div class="callout gold"><strong>Trailing Stop:</strong> Move your stop-loss up as price rises. This "trails" the price and locks in profits while letting winners run.</div>`,
-  },
-  {
-    title: '7. Take-Profit Hit! 🎉',
-    content: `<div style="background:var(--green-dim);padding:16px;border-radius:var(--r);border:1px solid rgba(0,212,170,0.2);text-align:center;margin-bottom:12px">
-      <div style="font-size:1.5rem;font-weight:800;color:var(--green)">+$1,972</div>
-      <div style="font-size:0.85rem;color:var(--text-secondary)">Take-profit hit at $193.20</div>
-    </div>
-    <p style="color:var(--text-secondary);font-size:0.875rem">Trade complete! Now write in your journal: what went right, what you felt, what to improve. The journal is where your edge gets built.</p>`,
-  },
+  {title:'📊 Step 1: Identify Setup',desc:'AAPL is in an uptrend. Price pulled back to the 20-day SMA. A bullish candle at support suggests an entry opportunity.'},
+  {title:'🛡️ Step 2: Set Stop-Loss',desc:'Most recent swing low is at $188. Stop-loss placed just below at $187. This is where you are proved wrong.',stop:187},
+  {title:'📐 Step 3: Position Size',desc:'Entry ~$192, Stop $187 = $5 risk. 1% of $100K = $1,000 max risk → 200 shares maximum.',stop:187},
+  {title:'💰 Step 4: Set Take-Profit',desc:'Next resistance at $202. That is $10 reward vs $5 risk = 2:1 R:R. Take-profit set at $202.',stop:187,tp:202},
+  {title:'⚡ Step 5: Place Order',desc:'Bracket order placed: Buy 200 shares at market, Stop at $187, Take-Profit at $202. Trade is live and protected.',entry:192,stop:187,tp:202},
+  {title:'📈 Step 6: Monitor',desc:'Price moves in your favor. Stop trailed up to $194 to lock in a small profit. Worst case is now break-even.',entry:192,stop:194,tp:202},
+  {title:'✅ Step 7: Trade Closed',desc:'Price hits $202 take-profit! +$10 × 200 shares = +$2,000 profit. Record the trade in your journal.',entry:192,tp:202,closed:true},
 ];
 
-function drawStep(ctx, bars, W, H) {
-  const c2 = document.getElementById('tradeCanvas');
-  c2.width = c2.parentElement.clientWidth || 500;
-  drawCandlesticks(c2, bars, { pad: { top: 40, right: 20, bottom: 30, left: 50 } });
-  // Overlay price levels based on step
+function go(n) {
+  if(n<0||n>=steps.length) return; step=n;
+  document.getElementById('prevBtn').disabled = n===0;
+  document.getElementById('nextBtn').textContent = n===steps.length-1?'Done ✓':'Next →';
+  document.getElementById('dots').innerHTML = steps.map((_,i)=>`<span style="width:9px;height:9px;border-radius:50%;background:${i===n?'#3b82f6':'#1e2d45'};display:inline-block"></span>`).join('');
+  const s = steps[n];
+  document.getElementById('sc').innerHTML = `<h3 style="margin-bottom:8px;color:#e2e8f0">${s.title}</h3><p>${s.desc}</p>`;
+
+  const cv=document.getElementById('tc'); cv.width=cv.parentElement.clientWidth; drawCandles(cv,BARS);
+  const ctx=cv.getContext('2d'),W=cv.width,H=240,pad={t:16,r:8,b:18,l:42},cH=H-pad.t-pad.b;
+  const px=BARS.flatMap(b=>[b.high,b.low]),minP=Math.min(...px)*.998,maxP=Math.max(...px)*1.002,rng=maxP-minP;
+  const toY=p=>pad.t+cH*(1-(p-minP)/rng);
+  const addLine=(p,c,l)=>{if(!p)return;const y=toY(p);ctx.strokeStyle=c;ctx.lineWidth=1.5;ctx.setLineDash([4,3]);ctx.beginPath();ctx.moveTo(pad.l,y);ctx.lineTo(W-pad.r,y);ctx.stroke();ctx.setLineDash([]);ctx.fillStyle=c;ctx.font='bold 10px sans-serif';ctx.textAlign='right';ctx.fillText(l,W-pad.r-2,y-3);};
+  addLine(s.entry,'#3b82f6','ENTRY: $'+(s.entry||''));
+  addLine(s.stop, '#ff4757','STOP: $'+(s.stop||''));
+  addLine(s.tp,   '#00d4aa','TARGET: $'+(s.tp||''));
+  if(s.closed){ctx.fillStyle='rgba(0,212,170,.12)';ctx.fillRect(pad.l,pad.t,W-pad.l-pad.r,toY(s.entry)-pad.t);ctx.fillStyle='#00d4aa';ctx.font='bold 13px sans-serif';ctx.textAlign='center';ctx.fillText('✓ PROFIT: +$2,000',W/2,55);}
 }
-
-function setStep(n) {
-  if (n < 0 || n >= steps.length) return;
-  currentStep = n;
-  document.getElementById('prevBtn').disabled = n === 0;
-  document.getElementById('mainNextBtn').style.display = n === steps.length - 1 ? 'none' : '';
-  if (n === steps.length - 1) document.getElementById('nextBtn').disabled = true;
-  else document.getElementById('nextBtn').disabled = false;
-
-  const step = steps[n];
-  document.getElementById('stepContent').innerHTML = `
-    <h3 style="font-size:1rem;font-weight:700;margin-bottom:14px;color:var(--blue)">${step.title}</h3>
-    ${step.content}`;
-
-  // Step indicators
-  const ind = document.getElementById('stepIndicator');
-  ind.innerHTML = steps.map((s, i) => `<div style="padding:4px 10px;border-radius:100px;font-size:0.72rem;font-weight:600;
-    background:${i === n ? 'var(--blue)' : i < n ? 'var(--green-dim)' : 'var(--bg-surface)'};
-    color:${i === n ? '#fff' : i < n ? 'var(--green)' : 'var(--text-muted)'};
-    cursor:pointer" onclick="setStep(${i})">${i+1}</div>`).join('');
-
-  // Chart
-  const c = document.getElementById('tradeCanvas');
-  c.width = c.parentElement.clientWidth || 500;
-  const cx = c.getContext('2d');
-  drawCandlesticks(c, BARS, { pad: { top: 40, right: 80, bottom: 30, left: 50 } });
-
-  // Draw overlays
-  const allP = BARS.flatMap(b => [b.high, b.low]);
-  const minP = Math.min(...allP) * 0.998;
-  const maxP = Math.max(...allP) * 1.002;
-  const chartH = c.height - 70;
-  const toY = p => 40 + chartH * (1 - (p - minP) / (maxP - minP));
-  const W2 = c.width;
-
-  const overlays = [
-    { step: 1, y: 183.00, color: '#ff4757', label: 'SL $183' },
-    { step: 2, y: 183.00, color: '#ff4757', label: 'SL $183' },
-    { step: 3, y: 193.20, color: '#00d4aa', label: 'TP $193.20' },
-    { step: 3, y: 186.40, color: '#3b82f6', label: 'Entry $186.40' },
-    { step: 3, y: 183.00, color: '#ff4757', label: 'SL $183' },
-    { step: 4, y: 193.20, color: '#00d4aa', label: 'TP $193.20' },
-    { step: 4, y: 186.40, color: '#3b82f6', label: 'Entry $186.40' },
-    { step: 4, y: 183.00, color: '#ff4757', label: 'SL $183' },
-    { step: 5, y: 190.50, color: '#f59e0b', label: 'Current $190.50' },
-    { step: 5, y: 186.40, color: '#3b82f6', label: 'Entry' },
-    { step: 5, y: 193.20, color: '#00d4aa', label: 'TP $193.20' },
-    { step: 6, y: 193.20, color: '#00d4aa', label: 'TP HIT! $193.20' },
-  ];
-
-  overlays.filter(o => o.step === n).forEach(o => {
-    const y = toY(o.y);
-    cx.strokeStyle = o.color; cx.lineWidth = 1.5; cx.setLineDash([4, 3]);
-    cx.beginPath(); cx.moveTo(50, y); cx.lineTo(W2 - 80, y); cx.stroke();
-    cx.setLineDash([]);
-    cx.fillStyle = o.color; cx.font = 'bold 10px sans-serif'; cx.textAlign = 'left';
-    cx.fillText(o.label, W2 - 76, y + 4);
-  });
-}
-
-setStep(0);
+window.addEventListener('load', () => go(0));
 </script>
-</body>
-</html>
+</body></html>

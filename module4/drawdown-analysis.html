@@ -1,232 +1,70 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Drawdown Analysis — TradeX Academy</title>
-<link rel="stylesheet" href="../css/styles.css">
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-</head>
+<link rel="stylesheet" href="../css/styles.css"></head>
 <body>
-<script src="../js/main.js"></script>
-<script>buildNav('module4');</script>
+<script src="../js/main.js"></script><script>buildNav('module4');</script>
+<div class="pg-top"><div class="wrap"><p class="crumb"><a href="../index.html">Home</a> › Module 4</p>
+  <h1>Drawdown Analysis</h1>
+  <p>Visualizing peak-to-trough declines — understanding and managing the psychological pain of losing phases.</p>
+</div></div>
 
-<div class="page-wrap">
-  <div class="page-hero">
-    <div class="container">
-      <div class="breadcrumb"><a href="../index.html">Home</a> › Module 4 › Drawdown Analysis</div>
-      <span class="badge badge-gold">Module 4 · Lesson 4</span>
-      <h1>Drawdown Analysis</h1>
-      <p>A visual representation of peak-to-trough declines — the single most important metric for understanding and managing your trading psychology.</p>
+<div class="section"><div class="wrap">
+  <div class="box" style="margin-bottom:8px"><strong style="display:block;margin-bottom:8px">Equity Curve with Drawdown Periods</strong><canvas id="eq" height="200" style="width:100%;background:#0d1525;border-radius:8px"></canvas></div>
+  <div class="box" style="margin-bottom:18px"><strong style="display:block;margin-bottom:6px">Underwater Equity Curve</strong><p style="font-size:.78rem;color:#7a8fa8;margin-bottom:8px">Shows how far below the previous peak the account is at each point</p><canvas id="dd" height="130" style="width:100%;background:#0d1525;border-radius:8px"></canvas></div>
+
+  <div class="cols-2" style="gap:20px;margin-bottom:16px">
+    <div>
+      <h2>Understanding Drawdowns</h2>
+      <p>A drawdown is the decline from a peak in your account equity to a subsequent trough — before a new peak is established.</p>
+      <div class="note red"><strong>The Math of Recovery:</strong><br>25% loss → need 33% gain to recover<br>50% loss → need 100% gain to recover<br>75% loss → need 300% gain to recover<br><strong>Protect capital first.</strong></div>
+      <ul style="margin-top:12px">
+        <li><strong>Max Drawdown</strong> — Largest peak-to-trough decline over a period</li>
+        <li><strong>Duration</strong> — How long the account was below its peak</li>
+        <li><strong>Recovery Time</strong> — Time from trough back to a new peak</li>
+      </ul>
+    </div>
+    <div>
+      <div class="cols-2" style="gap:8px;margin-bottom:12px">
+        <div class="box" style="text-align:center;border-color:rgba(255,71,87,.2)"><div style="font-size:.7rem;color:#3d4f66">Max Drawdown</div><div style="font-size:1.3rem;font-weight:bold" class="down">-14.8%</div></div>
+        <div class="box" style="text-align:center"><div style="font-size:.7rem;color:#3d4f66">Avg Drawdown</div><div style="font-size:1.3rem;font-weight:bold;color:#f59e0b">-5.2%</div></div>
+        <div class="box" style="text-align:center"><div style="font-size:.7rem;color:#3d4f66">Recovery Time</div><div style="font-size:1.3rem;font-weight:bold;color:#3b82f6">18 days</div></div>
+        <div class="box" style="text-align:center"><div style="font-size:.7rem;color:#3d4f66">DD Periods</div><div style="font-size:1.3rem;font-weight:bold;color:#8b5cf6">4</div></div>
+      </div>
+      <div class="note"><strong>Calmar Ratio:</strong> Annual Return ÷ Max Drawdown = 23.4% ÷ 14.8% = <span class="up">1.58</span><br>Above 1.0 is good. Shows return per unit of max drawdown.</div>
     </div>
   </div>
 
-  <div class="section">
-    <div class="container">
-
-      <!-- EQUITY + DRAWDOWN -->
-      <div class="chart-box" style="margin-bottom:12px">
-        <div class="chart-box-header">
-          <span class="chart-box-title">Equity Curve with Drawdown Periods Highlighted</span>
-        </div>
-        <canvas id="equityWithDD" height="240"></canvas>
-      </div>
-      <div class="chart-box" style="margin-bottom:40px">
-        <div class="chart-box-header">
-          <span class="chart-box-title">Drawdown Chart (Underwater Equity Curve)</span>
-          <span style="font-size:0.78rem;color:var(--text-secondary)">Shows how far below the previous peak the account is at each point</span>
-        </div>
-        <canvas id="ddChart" height="180"></canvas>
-      </div>
-
-      <!-- EXPLANATION -->
-      <div class="grid grid-2" style="gap:40px;align-items:start;margin-bottom:40px">
-        <div>
-          <h2 class="section-title">Understanding Drawdowns</h2>
-          <p style="color:var(--text-secondary);margin-bottom:16px">A drawdown is the decline from a peak in your account equity to a subsequent trough — before a new peak is established. It measures the pain of losing phases.</p>
-          <div class="callout red">
-            <strong>The Math of Recovery:</strong><br>
-            A 25% loss requires a 33% gain to recover.<br>
-            A 50% loss requires a 100% gain to recover.<br>
-            A 75% loss requires a 300% gain to recover.<br><br>
-            <strong>This asymmetry is why protecting capital is the #1 priority.</strong>
-          </div>
-          <div style="margin-top:16px;display:flex;flex-direction:column;gap:10px">
-            <div class="card card-sm">
-              <strong style="font-size:0.875rem">Peak-to-Trough Decline</strong>
-              <p style="font-size:0.82rem;color:var(--text-secondary);margin-top:4px">The maximum percentage drop from the highest point to the lowest subsequent point before a new high is reached. This is "maximum drawdown."</p>
-            </div>
-            <div class="card card-sm">
-              <strong style="font-size:0.875rem">Drawdown Duration</strong>
-              <p style="font-size:0.82rem;color:var(--text-secondary);margin-top:4px">How long the account was below its previous peak. A 3% drawdown lasting 6 months is psychologically harder than a 10% drawdown lasting 2 weeks.</p>
-            </div>
-            <div class="card card-sm">
-              <strong style="font-size:0.875rem">Recovery Time</strong>
-              <p style="font-size:0.82rem;color:var(--text-secondary);margin-top:4px">The time from the trough back to a new equity peak. Shorter recovery times indicate a more robust strategy.</p>
-            </div>
-          </div>
-        </div>
-        <div>
-          <h2 class="section-title">Drawdown Statistics</h2>
-          <div class="grid grid-2" style="gap:12px;margin-bottom:20px">
-            <div class="card" style="text-align:center;border-color:rgba(255,71,87,0.2)">
-              <div style="font-size:0.7rem;color:var(--text-muted)">Max Drawdown</div>
-              <div style="font-size:1.5rem;font-weight:800;color:var(--red)">-14.8%</div>
-              <div style="font-size:0.75rem;color:var(--text-muted)">($14,800)</div>
-            </div>
-            <div class="card" style="text-align:center">
-              <div style="font-size:0.7rem;color:var(--text-muted)">Avg Drawdown</div>
-              <div style="font-size:1.5rem;font-weight:800;color:var(--gold)">-5.2%</div>
-              <div style="font-size:0.75rem;color:var(--text-muted)">Per drawdown episode</div>
-            </div>
-            <div class="card" style="text-align:center">
-              <div style="font-size:0.7rem;color:var(--text-muted)">Avg Recovery</div>
-              <div style="font-size:1.5rem;font-weight:800;color:var(--blue)">18 days</div>
-              <div style="font-size:0.75rem;color:var(--text-muted)">Back to new high</div>
-            </div>
-            <div class="card" style="text-align:center">
-              <div style="font-size:0.7rem;color:var(--text-muted)">Total Episodes</div>
-              <div style="font-size:1.5rem;font-weight:800">8</div>
-              <div style="font-size:0.75rem;color:var(--text-muted)">Drawdown periods</div>
-            </div>
-          </div>
-
-          <h3 style="font-size:0.9rem;font-weight:700;margin-bottom:12px">Drawdown Psychology Scale</h3>
-          <div style="display:flex;flex-direction:column;gap:6px">
-            <div style="display:flex;align-items:center;gap:12px">
-              <span style="width:48px;text-align:right;font-size:0.78rem;font-family:var(--font-mono);color:var(--green)">0-5%</span>
-              <div class="progress-bar" style="flex:1"><div class="progress-fill green" style="width:20%"></div></div>
-              <span style="font-size:0.75rem;color:var(--text-secondary)">Normal, manageable</span>
-            </div>
-            <div style="display:flex;align-items:center;gap:12px">
-              <span style="width:48px;text-align:right;font-size:0.78rem;font-family:var(--font-mono);color:var(--cyan)">5-10%</span>
-              <div class="progress-bar" style="flex:1"><div class="progress-fill" style="width:40%;background:var(--cyan)"></div></div>
-              <span style="font-size:0.75rem;color:var(--text-secondary)">Uncomfortable, review</span>
-            </div>
-            <div style="display:flex;align-items:center;gap:12px">
-              <span style="width:48px;text-align:right;font-size:0.78rem;font-family:var(--font-mono);color:var(--gold)">10-20%</span>
-              <div class="progress-bar" style="flex:1"><div class="progress-fill gold" style="width:60%"></div></div>
-              <span style="font-size:0.75rem;color:var(--text-secondary)">Stressful, reduce size</span>
-            </div>
-            <div style="display:flex;align-items:center;gap:12px">
-              <span style="width:48px;text-align:right;font-size:0.78rem;font-family:var(--font-mono);color:var(--red)">20-30%</span>
-              <div class="progress-bar" style="flex:1"><div class="progress-fill red" style="width:80%"></div></div>
-              <span style="font-size:0.75rem;color:var(--text-secondary)">Critical, stop trading</span>
-            </div>
-            <div style="display:flex;align-items:center;gap:12px">
-              <span style="width:48px;text-align:right;font-size:0.78rem;font-family:var(--font-mono);color:var(--red)">30%+</span>
-              <div class="progress-bar" style="flex:1"><div class="progress-fill red" style="width:100%"></div></div>
-              <span style="font-size:0.75rem;color:var(--red)">Account crisis</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- RULES -->
-      <div class="chart-box">
-        <h3 class="card-title" style="margin-bottom:16px">Rules for Managing Drawdowns</h3>
-        <div class="grid grid-3" style="gap:16px">
-          <div class="card card-sm">
-            <div style="font-size:1.3rem;margin-bottom:8px">📏</div>
-            <strong style="font-size:0.875rem">Pre-Define Your Max Drawdown Limit</strong>
-            <p style="font-size:0.82rem;color:var(--text-secondary);margin-top:6px">Before you start trading, decide: "If I lose X%, I will stop and review." Common levels are 10%, 15%, or 20%. This forces objectivity when emotions run high.</p>
-          </div>
-          <div class="card card-sm">
-            <div style="font-size:1.3rem;margin-bottom:8px">📉</div>
-            <strong style="font-size:0.875rem">Reduce Size During Drawdowns</strong>
-            <p style="font-size:0.82rem;color:var(--text-secondary);margin-top:6px">When in a drawdown, cut your position sizes in half. This slows further losses and buys time to diagnose the problem without destroying the account.</p>
-          </div>
-          <div class="card card-sm">
-            <div style="font-size:1.3rem;margin-bottom:8px">🔍</div>
-            <strong style="font-size:0.875rem">Analyze the Cause</strong>
-            <p style="font-size:0.82rem;color:var(--text-secondary);margin-top:6px">Every drawdown has a cause: market regime change, overtrading, revenge trading, poor risk management. Identify it before returning to full size.</p>
-          </div>
-        </div>
-      </div>
-
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:40px;padding-top:24px;border-top:1px solid var(--border)">
-        <a href="trade-distribution.html" class="btn btn-outline">← Previous</a>
-        <a href="../module5/glossary.html" class="btn btn-primary">Module 5: Resources →</a>
-      </div>
-    </div>
+  <div class="lnav">
+    <a href="trade-distribution.html" class="btn btn-outline">← Previous</a>
+    <a href="../module5/glossary.html" class="btn btn-blue">Module 5: Resources →</a>
   </div>
-</div>
+</div></div>
 
 <script>
-// Generate equity data
-let eq = 100000;
-const eqData = [eq];
-for (let i = 1; i <= 150; i++) {
-  eq += (Math.random() - 0.44) * 900;
-  eqData.push(Math.max(78000, +eq.toFixed(0)));
-}
-const labels = eqData.map((_, i) => `D${i + 1}`);
+window.addEventListener('load', () => {
+  const N=30; let e=100000; const eqD=[e];
+  for(let i=1;i<N;i++){e+=(Math.random()-.42)*2400;eqD.push(Math.max(85000,+e.toFixed(0)));}
 
-// Compute drawdown series
-function computeDD(equity) {
-  let peak = equity[0];
-  return equity.map(v => {
-    if (v > peak) peak = v;
-    return +(((v - peak) / peak) * 100).toFixed(2);
-  });
-}
-const ddData = computeDD(eqData);
-
-// Equity chart
-const eqCtx = document.getElementById('equityWithDD').getContext('2d');
-const eqGrad = eqCtx.createLinearGradient(0, 0, 0, 240);
-eqGrad.addColorStop(0, 'rgba(59,130,246,0.2)');
-eqGrad.addColorStop(1, 'rgba(59,130,246,0)');
-new Chart(eqCtx, {
-  type: 'line',
-  data: {
-    labels,
-    datasets: [
-      {
-        data: eqData,
-        borderColor: '#3b82f6', backgroundColor: eqGrad, fill: true,
-        tension: 0.3, borderWidth: 2, pointRadius: 0,
-      }
-    ]
-  },
-  options: {
-    responsive: true, maintainAspectRatio: false,
-    plugins: { legend: { display: false }, tooltip: { mode: 'index', intersect: false,
-      callbacks: { label: ctx => ` Equity: $${ctx.parsed.y.toLocaleString()}` }
-    }},
-    scales: {
-      x: { grid: { display: false }, ticks: { maxTicksLimit: 10 } },
-      y: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { callback: v => '$' + (v/1000).toFixed(0) + 'K' } }
-    }
+  function drawLine(cvId, data, color, fillColor, H, yFmt) {
+    const cv=document.getElementById(cvId); cv.width=cv.parentElement.clientWidth;
+    cv.height=H; const ctx=cv.getContext('2d'),W=cv.width;
+    const pad={t:12,r:8,b:16,l:46},cW=W-pad.l-pad.r,cH=H-pad.t-pad.b;
+    const minY=Math.min(...data)*.998,maxY=Math.max(...data)*1.002,rng=maxY-minY;
+    const toX=i=>pad.l+(i/(data.length-1))*cW,toY=v=>pad.t+cH*(1-(v-minY)/rng);
+    ctx.clearRect(0,0,W,H);
+    ctx.strokeStyle='rgba(255,255,255,0.04)';ctx.lineWidth=1;
+    for(let i=0;i<=3;i++){const y=pad.t+(cH/3)*i;ctx.beginPath();ctx.moveTo(pad.l,y);ctx.lineTo(W-pad.r,y);ctx.stroke();const v=maxY-(rng/3)*i;ctx.fillStyle='#7a8fa8';ctx.font='9px monospace';ctx.textAlign='right';ctx.fillText(yFmt?yFmt(v):v.toFixed(0),pad.l-2,y+3);}
+    ctx.beginPath();ctx.moveTo(toX(0),toY(data[0]));data.forEach((_,i)=>ctx.lineTo(toX(i),toY(data[i])));ctx.lineTo(toX(data.length-1),pad.t+cH);ctx.lineTo(pad.l,pad.t+cH);ctx.closePath();
+    const g=ctx.createLinearGradient(0,pad.t,0,pad.t+cH);g.addColorStop(0,fillColor);g.addColorStop(1,fillColor.replace(/[\d.]+\)$/,'0)'));ctx.fillStyle=g;ctx.fill();
+    ctx.strokeStyle=color;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(toX(0),toY(data[0]));data.forEach((_,i)=>ctx.lineTo(toX(i),toY(data[i])));ctx.stroke();
   }
-});
 
-// Drawdown chart
-const ddCtx = document.getElementById('ddChart').getContext('2d');
-const ddGrad = ddCtx.createLinearGradient(0, 0, 0, 180);
-ddGrad.addColorStop(0, 'rgba(255,71,87,0.4)');
-ddGrad.addColorStop(1, 'rgba(255,71,87,0.05)');
-new Chart(ddCtx, {
-  type: 'line',
-  data: {
-    labels,
-    datasets: [{
-      data: ddData,
-      borderColor: '#ff4757', backgroundColor: ddGrad, fill: true,
-      tension: 0.2, borderWidth: 2, pointRadius: 0,
-    }]
-  },
-  options: {
-    responsive: true, maintainAspectRatio: false,
-    plugins: { legend: { display: false }, tooltip: { mode: 'index', intersect: false,
-      callbacks: { label: ctx => ` Drawdown: ${ctx.parsed.y.toFixed(2)}%` }
-    }},
-    scales: {
-      x: { grid: { display: false }, ticks: { maxTicksLimit: 10 } },
-      y: { max: 0, grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { callback: v => v + '%' } }
-    }
-  }
+  drawLine('eq',eqD,'#00d4aa','rgba(0,212,170,.25)',200,v=>'$'+(v/1000).toFixed(0)+'K');
+
+  let pk=eqD[0]; const ddD=eqD.map(v=>{if(v>pk)pk=v;return((v-pk)/pk)*100;});
+  drawLine('dd',ddD,'#ff4757','rgba(255,71,87,.2)',130,v=>v.toFixed(1)+'%');
 });
 </script>
-</body>
-</html>
+</body></html>

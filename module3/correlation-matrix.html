@@ -1,236 +1,55 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Correlation Matrix — TradeX Academy</title>
 <link rel="stylesheet" href="../css/styles.css">
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>.cc{aspect-ratio:1;display:flex;align-items:center;justify-content:center;border-radius:4px;font-size:.78rem;font-weight:bold;cursor:default}</style>
 </head>
 <body>
-<script src="../js/main.js"></script>
-<script>buildNav('module3');</script>
+<script src="../js/main.js"></script><script>buildNav('module3');</script>
+<div class="pg-top"><div class="wrap"><p class="crumb"><a href="../index.html">Home</a> › Module 3</p>
+  <h1>Correlation Matrix</h1>
+  <p>Visualizing how different assets move together or apart — the foundation of diversification strategy.</p>
+</div></div>
 
-<div class="page-wrap">
-  <div class="page-hero">
-    <div class="container">
-      <div class="breadcrumb"><a href="../index.html">Home</a> › Module 3 › Correlation Matrix</div>
-      <span class="badge badge-purple">Module 3 · Lesson 5</span>
-      <h1>Correlation Matrix</h1>
-      <p>Visualizing how different assets move together or apart — the foundation of diversification and macro trading strategy.</p>
+<div class="section"><div class="wrap">
+  <div class="cols-2" style="gap:24px;margin-bottom:20px">
+    <div>
+      <h2>What is Correlation?</h2>
+      <p>Correlation measures how consistently two assets move in the same direction. Expressed as a value between -1 and +1.</p>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-top:12px">
+        <div class="box" style="padding:10px;border-color:rgba(0,212,170,.2)"><div style="display:flex;justify-content:space-between"><strong style="color:#00d4aa">+1.0 = Perfect Positive</strong><span class="mono" style="color:#00d4aa">+1.0</span></div><p style="font-size:.82rem;margin:4px 0 0">When one goes up 1%, the other ALWAYS goes up 1%.</p></div>
+        <div class="box" style="padding:10px"><div style="display:flex;justify-content:space-between"><strong style="color:#06b6d4">0.0 = No Correlation</strong><span class="mono" style="color:#06b6d4">0.0</span></div><p style="font-size:.82rem;margin:4px 0 0">The two assets move completely independently.</p></div>
+        <div class="box" style="padding:10px;border-color:rgba(255,71,87,.2)"><div style="display:flex;justify-content:space-between"><strong style="color:#ff4757">-1.0 = Perfect Negative</strong><span class="mono" style="color:#ff4757">-1.0</span></div><p style="font-size:.82rem;margin:4px 0 0">When one rises, the other ALWAYS falls. A perfect hedge.</p></div>
+      </div>
+      <div class="note gold" style="margin-top:12px"><strong>Why it matters:</strong> Holding highly correlated assets gives you the ILLUSION of diversification. AAPL and MSFT both drop when tech sells off.</div>
+    </div>
+    <div>
+      <h2 style="margin-bottom:12px">Correlation Matrix — Major Assets</h2>
+      <div id="matrix"></div>
+      <div class="cols-3" style="gap:10px;margin-top:14px">
+        <div class="box" style="padding:10px"><strong>Diversification</strong><p style="font-size:.82rem;margin:4px 0 0">Find assets with LOW correlation (r &lt; 0.3).</p></div>
+        <div class="box" style="padding:10px"><strong>Hedging</strong><p style="font-size:.82rem;margin:4px 0 0">Find assets with NEGATIVE correlation.</p></div>
+        <div class="box" style="padding:10px"><strong>Concentration Risk</strong><p style="font-size:.82rem;margin:4px 0 0">If all positions r &gt; 0.8, a sector selloff hits everything.</p></div>
+      </div>
     </div>
   </div>
 
-  <div class="section">
-    <div class="container">
-
-      <!-- WHAT IS CORRELATION -->
-      <div class="grid grid-2" style="gap:40px;align-items:start;margin-bottom:48px">
-        <div>
-          <h2 class="section-title">What is Correlation?</h2>
-          <p style="color:var(--text-secondary);margin-bottom:16px">Correlation measures how consistently two assets move in the same direction. It's expressed as a value between -1 and +1.</p>
-          <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:20px">
-            <div style="padding:14px;border-radius:var(--r);background:var(--green-dim);border:1px solid rgba(0,212,170,0.2)">
-              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
-                <strong style="color:var(--green)">+1.0 = Perfect Positive Correlation</strong>
-                <span style="font-family:var(--font-mono);font-size:1rem;color:var(--green)">+1.0</span>
-              </div>
-              <p style="font-size:0.82rem;color:var(--text-secondary)">When one asset goes up 1%, the other ALWAYS goes up 1%. They move in perfect lockstep. Example: An ETF and its underlying index.</p>
-            </div>
-            <div style="padding:14px;border-radius:var(--r);background:var(--bg-surface)">
-              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
-                <strong style="color:var(--cyan)">0.0 = No Correlation</strong>
-                <span style="font-family:var(--font-mono);font-size:1rem;color:var(--cyan)">0.0</span>
-              </div>
-              <p style="font-size:0.82rem;color:var(--text-secondary)">The two assets move completely independently of each other. No statistical relationship. Adding uncorrelated assets reduces portfolio risk.</p>
-            </div>
-            <div style="padding:14px;border-radius:var(--r);background:var(--red-dim);border:1px solid rgba(255,71,87,0.2)">
-              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
-                <strong style="color:var(--red)">-1.0 = Perfect Negative Correlation</strong>
-                <span style="font-family:var(--font-mono);font-size:1rem;color:var(--red)">-1.0</span>
-              </div>
-              <p style="font-size:0.82rem;color:var(--text-secondary)">When one asset rises, the other ALWAYS falls by the same amount. Perfect hedge. Example: VIX (fear index) vs S&P 500.</p>
-            </div>
-          </div>
-          <div class="callout gold">
-            <strong>Why it matters for traders:</strong> Holding highly correlated assets gives you the ILLUSION of diversification. If AAPL and MSFT both drop when tech sells off, owning both doesn't protect you.
-          </div>
-        </div>
-        <div class="chart-box">
-          <div class="chart-box-header"><span class="chart-box-title">Correlation Scatter Plots</span></div>
-          <div class="tabs">
-            <button class="tab-btn active" data-tab="sc-pos">Positive</button>
-            <button class="tab-btn" data-tab="sc-neg">Negative</button>
-            <button class="tab-btn" data-tab="sc-none">None</button>
-          </div>
-          <div class="tab-pane active" id="sc-pos"><canvas id="scatter1" height="200"></canvas><p style="font-size:0.78rem;color:var(--text-secondary);margin-top:8px;text-align:center">BTC vs ETH (correlation ≈ +0.87) — they tend to rise and fall together</p></div>
-          <div class="tab-pane" id="sc-neg"><canvas id="scatter2" height="200"></canvas><p style="font-size:0.78rem;color:var(--text-secondary);margin-top:8px;text-align:center">Gold vs US Dollar (correlation ≈ -0.72) — when dollar rises, gold tends to fall</p></div>
-          <div class="tab-pane" id="sc-none"><canvas id="scatter3" height="200"></canvas><p style="font-size:0.78rem;color:var(--text-secondary);margin-top:8px;text-align:center">AAPL vs Crude Oil (correlation ≈ +0.08) — effectively no relationship</p></div>
-        </div>
-      </div>
-
-      <!-- CORRELATION MATRIX -->
-      <h2 class="section-title">Asset Correlation Matrix</h2>
-      <p class="section-sub">Each cell shows the correlation between two assets. Green = moves together. Red = moves opposite. White = no relationship.</p>
-
-      <div class="chart-box" style="margin-bottom:40px">
-        <div id="corrMatrix" style="overflow-x:auto"></div>
-        <div style="display:flex;align-items:center;gap:12px;margin-top:16px;flex-wrap:wrap">
-          <span style="font-size:0.78rem;color:var(--text-secondary)">Correlation Scale:</span>
-          <div style="display:flex;gap:3px;align-items:center">
-            <span style="display:inline-block;width:20px;height:14px;background:#b34040;border-radius:2px"></span>
-            <span style="display:inline-block;width:20px;height:14px;background:#6b2020;border-radius:2px"></span>
-            <span style="display:inline-block;width:20px;height:14px;background:#2a2a2a;border-radius:2px"></span>
-            <span style="display:inline-block;width:20px;height:14px;background:#1e3a2a;border-radius:2px"></span>
-            <span style="display:inline-block;width:20px;height:14px;background:#00a86b;border-radius:2px"></span>
-          </div>
-          <span style="font-size:0.75rem;color:var(--red)">-1.0 (Negative)</span>
-          <span>→</span>
-          <span style="font-size:0.75rem;color:var(--text-muted)">0 (None)</span>
-          <span>→</span>
-          <span style="font-size:0.75rem;color:var(--green)">+1.0 (Positive)</span>
-        </div>
-      </div>
-
-      <!-- KEY CORRELATIONS -->
-      <h2 class="section-title">Famous Market Correlations</h2>
-      <div class="grid grid-2" style="gap:20px;margin-bottom:40px">
-        <div class="card">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-            <h3 style="font-size:0.9rem;font-weight:700">Gold vs US Dollar Index</h3>
-            <span style="font-family:var(--font-mono);font-size:1.1rem;font-weight:700;color:var(--red)">-0.72</span>
-          </div>
-          <div class="ch ch-120"><canvas id="goldDxy"></canvas></div>
-          <p style="font-size:0.82rem;color:var(--text-secondary);margin-top:10px">Gold is priced in US dollars. When the dollar strengthens, gold becomes more expensive for foreign buyers → demand falls → price falls. This inverse relationship is one of the most reliable in markets.</p>
-        </div>
-        <div class="card">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-            <h3 style="font-size:0.9rem;font-weight:700">S&P 500 vs VIX (Fear Index)</h3>
-            <span style="font-family:var(--font-mono);font-size:1.1rem;font-weight:700;color:var(--red)">-0.88</span>
-          </div>
-          <div class="ch ch-120"><canvas id="spxVix"></canvas></div>
-          <p style="font-size:0.82rem;color:var(--text-secondary);margin-top:10px">The VIX measures market fear. When stocks sell off (S&P falls), fear spikes (VIX rises). This is one of the strongest negative correlations in all of finance. Traders use VIX spikes to identify panic bottoms.</p>
-        </div>
-        <div class="card">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-            <h3 style="font-size:0.9rem;font-weight:700">BTC vs ETH</h3>
-            <span style="font-family:var(--font-mono);font-size:1.1rem;font-weight:700;color:var(--green)">+0.87</span>
-          </div>
-          <div class="ch ch-120"><canvas id="btcEth"></canvas></div>
-          <p style="font-size:0.82rem;color:var(--text-secondary);margin-top:10px">Bitcoin and Ethereum move together most of the time. Owning both doesn't provide much diversification. During crypto market downturns, both fall simultaneously. Correlation increases during crises.</p>
-        </div>
-        <div class="card">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-            <h3 style="font-size:0.9rem;font-weight:700">Oil vs Airlines (XLE vs JETS)</h3>
-            <span style="font-family:var(--font-mono);font-size:1.1rem;font-weight:700;color:var(--red)">-0.65</span>
-          </div>
-          <div class="ch ch-120"><canvas id="oilAir"></canvas></div>
-          <p style="font-size:0.82rem;color:var(--text-secondary);margin-top:10px">Jet fuel is one of airlines' biggest costs. When oil prices rise, airline profit margins shrink. This creates a reliably negative correlation — and a potential pair-trade opportunity for advanced traders.</p>
-        </div>
-      </div>
-
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:40px;padding-top:24px;border-top:1px solid var(--border)">
-        <a href="sector-heatmaps.html" class="btn btn-outline">← Previous</a>
-        <a href="../module4/equity-curve.html" class="btn btn-primary">Module 4: Performance Analytics →</a>
-      </div>
-    </div>
+  <div class="lnav">
+    <a href="sector-heatmaps.html" class="btn btn-outline">← Previous</a>
+    <a href="../module4/equity-curve.html" class="btn btn-blue">Module 4: Performance Analytics →</a>
   </div>
-</div>
+</div></div>
 
 <script>
-const ASSETS = ['SPY','QQQ','BTC','ETH','GOLD','OIL','DXY','VIX','TLT','AAPL'];
-const CORR = [
-  [1.00, 0.92, 0.54, 0.51, 0.18,-0.10,-0.45,-0.88, 0.22, 0.85],
-  [0.92, 1.00, 0.60, 0.58, 0.15,-0.08,-0.42,-0.82, 0.18, 0.90],
-  [0.54, 0.60, 1.00, 0.87, 0.22, 0.30,-0.35,-0.52, 0.10, 0.52],
-  [0.51, 0.58, 0.87, 1.00, 0.20, 0.28,-0.32,-0.48, 0.08, 0.50],
-  [0.18, 0.15, 0.22, 0.20, 1.00,-0.15,-0.72,-0.24, 0.60, 0.12],
-  [-0.10,-0.08, 0.30, 0.28,-0.15, 1.00,-0.40,-0.20,-0.08,-0.12],
-  [-0.45,-0.42,-0.35,-0.32,-0.72,-0.40, 1.00, 0.38,-0.50,-0.40],
-  [-0.88,-0.82,-0.52,-0.48,-0.24,-0.20, 0.38, 1.00,-0.30,-0.80],
-  [0.22, 0.18, 0.10, 0.08, 0.60,-0.08,-0.50,-0.30, 1.00, 0.16],
-  [0.85, 0.90, 0.52, 0.50, 0.12,-0.12,-0.40,-0.80, 0.16, 1.00],
-];
-
-function corrColor(v) {
-  if (v > 0.7) return { bg: '#004d30', text: '#00d4aa' };
-  if (v > 0.3) return { bg: '#1e3a2a', text: '#00a86b' };
-  if (v > 0.1) return { bg: '#1e2d20', text: '#7a8fa8' };
-  if (v > -0.1) return { bg: '#1a1a1a', text: '#7a8fa8' };
-  if (v > -0.3) return { bg: '#2d1e1e', text: '#7a8fa8' };
-  if (v > -0.7) return { bg: '#6b2020', text: '#ff8080' };
-  return { bg: '#b34040', text: '#fff' };
-}
-
-const cm = document.getElementById('corrMatrix');
-const sz = 46;
-let html = `<div style="display:grid;grid-template-columns:60px ${ASSETS.map(() => `${sz}px`).join(' ')};gap:2px;min-width:${60 + ASSETS.length * (sz+2)}px">`;
-html += `<div></div>` + ASSETS.map(a => `<div style="text-align:center;font-size:0.72rem;font-weight:700;color:var(--text-muted);padding:4px 0">${a}</div>`).join('');
-CORR.forEach((row, i) => {
-  html += `<div style="font-size:0.72rem;font-weight:700;color:var(--text-muted);display:flex;align-items:center;padding-right:6px">${ASSETS[i]}</div>`;
-  row.forEach((v, j) => {
-    const c = corrColor(v);
-    const diag = i === j;
-    html += `<div style="width:${sz}px;height:${sz}px;background:${diag ? '#3b82f620' : c.bg};border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;color:${diag ? '#3b82f6' : c.text};cursor:default;transition:all .2s" title="${ASSETS[i]} vs ${ASSETS[j]}: ${v.toFixed(2)}">${v.toFixed(2)}</div>`;
-  });
-});
-html += '</div>';
-cm.innerHTML = html;
-
-// Scatter plots
-function makeScatter(id, corrVal) {
-  const ctx = document.getElementById(id);
-  if (!ctx) return;
-  const data = Array.from({length: 50}, () => {
-    const x = (Math.random() - 0.5) * 10;
-    const noise = (Math.random() - 0.5) * Math.sqrt(1 - corrVal * corrVal) * 6;
-    const y = corrVal * x + noise;
-    return { x: +x.toFixed(2), y: +y.toFixed(2) };
-  });
-  new Chart(ctx.getContext('2d'), {
-    type: 'scatter',
-    data: { datasets: [{ data, backgroundColor: 'rgba(59,130,246,0.5)', pointRadius: 4 }] },
-    options: {
-      responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { display: false } },
-      scales: {
-        x: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { callback: v => v + '%' } },
-        y: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { callback: v => v + '%' } }
-      }
-    }
-  });
-}
-makeScatter('scatter1', 0.87);
-makeScatter('scatter2', -0.72);
-makeScatter('scatter3', 0.08);
-
-// Dual-line charts
-function makeDualLine(id, corr, colors) {
-  const ctx = document.getElementById(id);
-  if (!ctx) return;
-  const prices = generatePrices(30, 100, 3);
-  const correlated = prices.map((p, i) => +(p * corr + (Math.random() - 0.5) * Math.abs(1 - corr) * 8).toFixed(2));
-  const labels = Array.from({length: 30}, (_, i) => `D${i+1}`);
-  new Chart(ctx.getContext('2d'), {
-    type: 'line',
-    data: {
-      labels,
-      datasets: [
-        { data: prices, borderColor: colors[0], fill: false, tension: 0.3, borderWidth: 2, pointRadius: 0 },
-        { data: correlated, borderColor: colors[1], fill: false, tension: 0.3, borderWidth: 2, pointRadius: 0 },
-      ]
-    },
-    options: {
-      responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { display: false } },
-      scales: { x: { display: false }, y: { display: false } }
-    }
-  });
-}
-makeDualLine('goldDxy', -0.72, ['#f59e0b', '#3b82f6']);
-makeDualLine('spxVix', -0.88, ['#00d4aa', '#ff4757']);
-makeDualLine('btcEth', 0.87, ['#f59e0b', '#8b5cf6']);
-makeDualLine('oilAir', -0.65, ['#ff4757', '#06b6d4']);
+const assets=['SPY','QQQ','BTC','GLD','TLT','VIX'];
+const data=[[1.00,.92,.45,.08,-.35,-.75],[.92,1.00,.50,.05,-.30,-.72],[.45,.50,1.00,.22,-.15,-.30],[.08,.05,.22,1.00,.18,-.05],[-.35,-.30,-.15,.18,1.00,.55],[-.75,-.72,-.30,-.05,.55,1.00]];
+function corrColor(v){const a=Math.abs(v);if(v>.6)return`rgba(0,212,170,${.2+a*.6})`;if(v>.1)return`rgba(59,130,246,${.1+a*.4})`;if(v<-.6)return`rgba(255,71,87,${.2+a*.6})`;if(v<-.1)return`rgba(255,71,87,${.1+a*.3})`;return'rgba(255,255,255,0.05)';}
+const sz=Math.floor(Math.min(340,window.innerWidth-100)/6);
+let html=`<div style="display:grid;grid-template-columns:auto ${Array(6).fill(sz+'px').join(' ')};gap:3px;align-items:center">`;
+html+='<div></div>'+assets.map(a=>`<div style="text-align:center;font-size:.72rem;font-weight:bold;color:#7a8fa8;padding:3px 0">${a}</div>`).join('');
+assets.forEach((row,i)=>{html+=`<div style="font-size:.72rem;font-weight:bold;color:#7a8fa8;padding-right:6px;text-align:right">${row}</div>`;assets.forEach((_,j)=>{const v=data[i][j];html+=`<div class="cc" style="background:${corrColor(v)};height:${sz}px" title="${row} vs ${assets[j]}: ${v.toFixed(2)}">${v===1.00?'1.0':v.toFixed(2)}</div>`;});});
+html+='</div>';
+document.getElementById('matrix').innerHTML=html;
 </script>
-</body>
-</html>
+</body></html>

@@ -1,250 +1,75 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Market Depth & Level 2 — TradeX Academy</title>
-<link rel="stylesheet" href="../css/styles.css">
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-</head>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Market Depth — TradeX Academy</title>
+<link rel="stylesheet" href="../css/styles.css"></head>
 <body>
-<script src="../js/main.js"></script>
-<script>buildNav('module3');</script>
+<script src="../js/main.js"></script><script>buildNav('module3');</script>
+<div class="pg-top"><div class="wrap"><p class="crumb"><a href="../index.html">Home</a> › Module 3</p>
+  <h1>Market Depth & Level 2</h1>
+  <p>Visualizing the Order Book — the real-time list of buy and sell orders that determines where price will go next.</p>
+</div></div>
 
-<div class="page-wrap">
-  <div class="page-hero">
-    <div class="container">
-      <div class="breadcrumb"><a href="../index.html">Home</a> › Module 3 › Market Depth & Level 2</div>
-      <span class="badge badge-purple">Module 3 · Lesson 3</span>
-      <h1>Market Depth & Level 2</h1>
-      <p>Visualizing the "Order Book" — the real-time list of buy and sell orders that determines where price will go next.</p>
+<div class="section"><div class="wrap">
+  <div class="cols-2" style="gap:24px;margin-bottom:20px">
+    <div>
+      <h2>The Order Book (Level 2)</h2>
+      <p>Shows all pending buy (bid) and sell (ask) orders at every price level. This is the raw supply and demand visible in real-time before trades execute.</p>
+      <div class="note" style="margin-bottom:12px"><strong>Level 1</strong> = Best bid + Best ask only<br><strong>Level 2</strong> = ALL pending orders at ALL price levels</div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div class="box" style="padding:10px;border-color:rgba(0,212,170,.2)"><strong style="color:#00d4aa">Bid Side (Buyers)</strong> — Orders to buy below current price. Large bids = strong support.</div>
+        <div class="box" style="padding:10px;border-color:rgba(255,71,87,.2)"><strong style="color:#ff4757">Ask Side (Sellers)</strong> — Orders to sell above current price. Large asks = strong resistance.</div>
+        <div class="box" style="padding:10px;border-color:rgba(245,158,11,.2)"><strong style="color:#f59e0b">Bid-Ask Spread</strong> — Gap between best bid and best ask. Tight spread = liquid market.</div>
+      </div>
+    </div>
+    <div class="box" style="padding:12px">
+      <div style="display:flex;justify-content:space-between;margin-bottom:10px"><strong>Live Order Book — AAPL</strong><span><span class="dot"></span><span style="font-size:.75rem;color:#3d4f66">Simulated</span></span></div>
+      <table id="ob" style="width:100%;font-size:.82rem;font-family:monospace;border-collapse:collapse">
+        <thead><tr><th style="text-align:left;color:#ff4757;padding:3px 6px;border-bottom:1px solid #1e2d45">Ask Price</th><th style="text-align:right;color:#3d4f66;padding:3px 6px;border-bottom:1px solid #1e2d45">Size</th></tr></thead>
+        <tbody id="askR"></tbody>
+        <tr><td colspan="2" style="text-align:center;padding:6px;font-weight:bold;color:#f59e0b;font-size:.88rem" id="sprRow">Spread: $0.04</td></tr>
+        <thead><tr><th style="text-align:left;color:#00d4aa;padding:3px 6px;border-top:1px solid #1e2d45">Bid Price</th><th style="text-align:right;color:#3d4f66;padding:3px 6px;border-top:1px solid #1e2d45">Size</th></tr></thead>
+        <tbody id="bidR"></tbody>
+      </table>
     </div>
   </div>
 
-  <div class="section">
-    <div class="container">
+  <h2 style="margin-bottom:10px">Depth Chart</h2>
+  <p style="margin-bottom:12px">Shows cumulative bid/ask volume at each price level. Where the chart is "deep," there is strong support/resistance.</p>
+  <div class="chart-box" style="margin-bottom:20px"><svg viewBox="0 0 500 180" xmlns="http://www.w3.org/2000/svg">
+    <line x1="50" y1="160" x2="450" y2="160" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+    <line x1="245" y1="20" x2="245" y2="165" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="5,3"/>
+    <text x="248" y="30" fill="#f59e0b" font-size="9">$189.24 (Mid)</text>
+    <polygon points="50,160 100,160 130,148 160,132 190,115 220,95 245,75 245,160" fill="rgba(0,212,170,0.2)"/>
+    <polyline points="50,160 100,160 130,148 160,132 190,115 220,95 245,75" fill="none" stroke="#00d4aa" stroke-width="2"/>
+    <polygon points="245,75 270,95 300,115 330,132 360,148 400,158 450,160 450,160 245,160" fill="rgba(255,71,87,0.2)"/>
+    <polyline points="245,75 270,95 300,115 330,132 360,148 400,158 450,160" fill="none" stroke="#ff4757" stroke-width="2"/>
+    <text x="80" y="128" fill="#00d4aa" font-size="9">Cumulative Bids</text>
+    <text x="290" y="128" fill="#ff4757" font-size="9">Cumulative Asks</text>
+    <text x="50" y="174" fill="#7a8fa8" font-size="9">$185</text>
+    <text x="215" y="174" fill="#7a8fa8" font-size="9">$189</text>
+    <text x="395" y="174" fill="#7a8fa8" font-size="9">$193</text>
+  </svg></div>
 
-      <!-- LIVE ORDER BOOK -->
-      <div class="grid grid-2" style="gap:28px;margin-bottom:40px">
-        <div>
-          <h2 class="section-title">The Order Book (Level 2)</h2>
-          <p style="color:var(--text-secondary);margin-bottom:16px">The order book shows all pending buy (bid) and sell (ask) orders at every price level. This is the real "supply and demand" visible in real-time before a trade executes.</p>
-          <div class="callout" style="margin-bottom:16px">
-            <strong>Level 1</strong> = Best bid + Best ask (what most retail traders see)<br>
-            <strong>Level 2</strong> = ALL pending orders at ALL price levels (the full order book)
-          </div>
-          <div style="display:flex;flex-direction:column;gap:10px">
-            <div class="card card-sm" style="border-color:rgba(0,212,170,0.2)">
-              <strong style="color:var(--green)">Bid Side (Buyers)</strong>
-              <p style="font-size:0.82rem;color:var(--text-secondary);margin-top:4px">Orders to BUY below the current market price. Buyers are willing to pay up to their bid price. Large bids create strong support levels.</p>
-            </div>
-            <div class="card card-sm" style="border-color:rgba(255,71,87,0.2)">
-              <strong style="color:var(--red)">Ask Side (Sellers)</strong>
-              <p style="font-size:0.82rem;color:var(--text-secondary);margin-top:4px">Orders to SELL above the current market price. Sellers won't accept less than their ask price. Large asks create strong resistance levels.</p>
-            </div>
-            <div class="card card-sm" style="border-color:rgba(245,158,11,0.3)">
-              <strong style="color:var(--gold)">The Bid-Ask Spread</strong>
-              <p style="font-size:0.82rem;color:var(--text-secondary);margin-top:4px">The gap between the best bid and best ask. This is the transaction cost for a market order. Tight spreads = liquid market.</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="chart-box">
-          <div class="chart-box-header">
-            <span class="chart-box-title">Live Order Book — AAPL</span>
-            <span class="live-dot"></span>
-          </div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px">
-            <!-- Asks -->
-            <div>
-              <div style="display:grid;grid-template-columns:1fr 1fr 1fr;padding:6px 8px;font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--text-muted);background:var(--bg-surface);border-radius:var(--r) var(--r) 0 0">
-                <span>Size</span><span style="text-align:right">Price</span><span style="text-align:right">Total</span>
-              </div>
-              <div id="askBook"></div>
-            </div>
-            <!-- Bids -->
-            <div>
-              <div style="display:grid;grid-template-columns:1fr 1fr 1fr;padding:6px 8px;font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--text-muted);background:var(--bg-surface);border-radius:var(--r) var(--r) 0 0">
-                <span>Price</span><span style="text-align:right">Size</span><span style="text-align:right">Total</span>
-              </div>
-              <div id="bidBook"></div>
-            </div>
-          </div>
-          <div style="text-align:center;padding:10px;background:var(--bg-secondary);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
-            <span id="spread" style="font-size:0.82rem;font-family:var(--font-mono);font-weight:700">Spread: $0.02 (0.011%)</span>
-          </div>
-          <canvas id="depthChart" height="180"></canvas>
-        </div>
-      </div>
-
-      <!-- HOW TO READ L2 -->
-      <h2 class="section-title">How to Read the Order Book</h2>
-      <p class="section-sub">The order book reveals hidden supply and demand that standard price charts don't show</p>
-      <div class="grid grid-3" style="gap:16px;margin-bottom:40px">
-        <div class="card">
-          <div style="font-size:1.5rem;margin-bottom:10px">🐳</div>
-          <h3 class="card-title">Identifying "Whales"</h3>
-          <p style="font-size:0.85rem;color:var(--text-secondary)">A single order that's 10× larger than surrounding orders is called a "wall." A large bid wall at $185 means a big buyer is there. This acts as strong support — price often stops there.</p>
-        </div>
-        <div class="card">
-          <div style="font-size:1.5rem;margin-bottom:10px">💨</div>
-          <h3 class="card-title">Order Absorption</h3>
-          <p style="font-size:0.85rem;color:var(--text-secondary)">When a large sell order "disappears" without price moving up (it got absorbed by buyers), it's bullish. Buyers soaked up all the supply. Watch for the next move up.</p>
-        </div>
-        <div class="card">
-          <div style="font-size:1.5rem;margin-bottom:10px">🎭</div>
-          <h3 class="card-title">Order Spoofing (Warning)</h3>
-          <p style="font-size:0.85rem;color:var(--text-secondary)">Large orders can be placed and cancelled before execution — a manipulative tactic. Large orders that appear and disappear quickly without execution should be treated with skepticism.</p>
-        </div>
-        <div class="card">
-          <div style="font-size:1.5rem;margin-bottom:10px">📊</div>
-          <h3 class="card-title">Bid-Ask Imbalance</h3>
-          <p style="font-size:0.85rem;color:var(--text-secondary)">If there's 10× more volume on the bid side vs the ask side, buyers are dominant — bullish signal. The reverse (heavy asks) means sellers are in control.</p>
-        </div>
-        <div class="card">
-          <div style="font-size:1.5rem;margin-bottom:10px">⚡</div>
-          <h3 class="card-title">Market Momentum (Tape)</h3>
-          <p style="font-size:0.85rem;color:var(--text-secondary)">The "Time & Sales" tape shows every executed trade in real-time. Large trades at the ask price = aggressive buyers. Large trades at the bid = aggressive sellers.</p>
-        </div>
-        <div class="card">
-          <div style="font-size:1.5rem;margin-bottom:10px">🌊</div>
-          <h3 class="card-title">Liquidity Gaps</h3>
-          <p style="font-size:0.85rem;color:var(--text-secondary)">Price levels with very few orders in the book are "liquidity gaps." When price reaches these zones, it tends to move through them quickly — like a hot knife through butter.</p>
-        </div>
-      </div>
-
-      <!-- MARKET DEPTH CHART -->
-      <div class="chart-box">
-        <div class="chart-box-header">
-          <span class="chart-box-title">Market Depth Visualization</span>
-          <span style="font-size:0.78rem;color:var(--text-secondary)">Cumulative buy/sell orders at each price level</span>
-        </div>
-        <canvas id="marketDepthFull" height="220"></canvas>
-        <div style="display:flex;justify-content:center;gap:24px;margin-top:10px;font-size:0.78rem">
-          <span style="color:var(--green)">■ Cumulative Bids (Buyers)</span>
-          <span style="color:var(--red)">■ Cumulative Asks (Sellers)</span>
-          <span style="color:var(--gold)">| Current Price</span>
-        </div>
-      </div>
-
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:40px;padding-top:24px;border-top:1px solid var(--border)">
-        <a href="chart-patterns.html" class="btn btn-outline">← Previous</a>
-        <a href="sector-heatmaps.html" class="btn btn-primary">Next: Sector Heatmaps →</a>
-      </div>
-    </div>
+  <div class="lnav">
+    <a href="chart-patterns.html" class="btn btn-outline">← Previous</a>
+    <a href="sector-heatmaps.html" class="btn btn-blue">Next: Sector Heatmaps →</a>
   </div>
-</div>
+</div></div>
 
 <script>
-const MID_PRICE = 189.42;
-let askOrders = [], bidOrders = [];
-
-function generateBook() {
-  askOrders = [];
-  bidOrders = [];
-  for (let i = 1; i <= 10; i++) {
-    const price = MID_PRICE + i * 0.01 + (Math.random() - 0.5) * 0.005;
-    const size  = Math.round(100 + Math.random() * 2000);
-    askOrders.push({ price: +price.toFixed(2), size });
-  }
-  for (let i = 1; i <= 10; i++) {
-    const price = MID_PRICE - i * 0.01 - (Math.random() - 0.5) * 0.005;
-    const size  = Math.round(100 + Math.random() * 2000);
-    bidOrders.push({ price: +price.toFixed(2), size });
-  }
-  askOrders.sort((a, b) => a.price - b.price);
-  bidOrders.sort((a, b) => b.price - a.price);
+let mid = 189.24;
+function renderOB() {
+  const asks=[], bids=[];
+  for(let i=5;i>=1;i--) asks.push({p:(mid+i*.08+(Math.random()-.5)*.02).toFixed(2),s:Math.round(50+Math.random()*500)});
+  for(let i=1;i<=5;i++) bids.push({p:(mid-i*.08+(Math.random()-.5)*.02).toFixed(2),s:Math.round(50+Math.random()*500)});
+  const max=Math.max(...asks.map(a=>a.s),...bids.map(b=>b.s));
+  const mkRow=(item,isAsk)=>{const pct=(item.s/max)*100,bg=isAsk?`rgba(255,71,87,${pct/200})`:`rgba(0,212,170,${pct/200})`;return`<tr style="background:linear-gradient(${isAsk?'to left':'to right'},${bg} ${pct}%,transparent ${pct}%)"><td style="padding:3px 6px;color:${isAsk?'#ff4757':'#00d4aa'}">${item.p}</td><td style="padding:3px 6px;text-align:right;color:#7a8fa8">${item.s}</td></tr>`;};
+  document.getElementById('askR').innerHTML=asks.map(a=>mkRow(a,true)).join('');
+  document.getElementById('bidR').innerHTML=bids.map(b=>mkRow(b,false)).join('');
+  document.getElementById('sprRow').textContent=`Spread: $${(asks[asks.length-1].p-bids[0].p).toFixed(2)} | Mid: $${mid.toFixed(2)}`;
 }
-
-function renderBook() {
-  generateBook();
-  const maxSize = Math.max(...askOrders.map(o=>o.size), ...bidOrders.map(o=>o.size));
-  let askCum = 0, bidCum = 0;
-
-  document.getElementById('askBook').innerHTML = askOrders.map(o => {
-    askCum += o.size;
-    const pct = (o.size / maxSize * 100).toFixed(0);
-    return `<div style="position:relative;display:grid;grid-template-columns:1fr 1fr 1fr;padding:4px 8px;font-size:0.78rem;font-family:var(--font-mono)">
-      <div style="position:absolute;right:0;top:0;bottom:0;width:${pct}%;background:rgba(255,71,87,0.12);pointer-events:none"></div>
-      <span style="color:var(--text-muted)">${o.size}</span>
-      <span style="text-align:right;color:var(--red);font-weight:600">${o.price.toFixed(2)}</span>
-      <span style="text-align:right;color:var(--text-muted)">${askCum.toLocaleString()}</span>
-    </div>`;
-  }).join('');
-
-  document.getElementById('bidBook').innerHTML = bidOrders.map(o => {
-    bidCum += o.size;
-    const pct = (o.size / maxSize * 100).toFixed(0);
-    return `<div style="position:relative;display:grid;grid-template-columns:1fr 1fr 1fr;padding:4px 8px;font-size:0.78rem;font-family:var(--font-mono)">
-      <div style="position:absolute;left:0;top:0;bottom:0;width:${pct}%;background:rgba(0,212,170,0.12);pointer-events:none"></div>
-      <span style="color:var(--green);font-weight:600">${o.price.toFixed(2)}</span>
-      <span style="text-align:right;color:var(--text-muted)">${o.size}</span>
-      <span style="text-align:right;color:var(--text-muted)">${bidCum.toLocaleString()}</span>
-    </div>`;
-  }).join('');
-
-  // Depth chart
-  const spread = askOrders[0].price - bidOrders[0].price;
-  document.getElementById('spread').textContent = `Spread: $${spread.toFixed(2)} (${(spread/MID_PRICE*100).toFixed(3)}%)`;
-}
-
-renderBook();
-setInterval(renderBook, 2500);
-
-// Market Depth Full Chart
-(function() {
-  const ctx = document.getElementById('marketDepthFull').getContext('2d');
-  const prices = [], bids = [], asks = [];
-  let cumBid = 0, cumAsk = 0;
-
-  for (let i = 20; i >= 1; i--) {
-    prices.push((MID_PRICE - i * 0.05).toFixed(2));
-    cumBid += Math.round(200 + Math.random() * 3000);
-    bids.push(cumBid);
-    asks.push(null);
-  }
-  prices.push(MID_PRICE.toFixed(2));
-  bids.push(cumBid);
-  asks.push(0);
-
-  for (let i = 1; i <= 20; i++) {
-    prices.push((MID_PRICE + i * 0.05).toFixed(2));
-    bids.push(null);
-    cumAsk += Math.round(200 + Math.random() * 3000);
-    asks.push(cumAsk);
-  }
-
-  new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: prices,
-      datasets: [
-        {
-          label: 'Bids',
-          data: bids,
-          borderColor: '#00d4aa',
-          backgroundColor: 'rgba(0,212,170,0.15)',
-          fill: true, stepped: true, borderWidth: 2, pointRadius: 0,
-        },
-        {
-          label: 'Asks',
-          data: asks,
-          borderColor: '#ff4757',
-          backgroundColor: 'rgba(255,71,87,0.15)',
-          fill: true, stepped: true, borderWidth: 2, pointRadius: 0,
-        }
-      ]
-    },
-    options: {
-      responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { display: false }, tooltip: { mode: 'index', intersect: false } },
-      scales: {
-        x: { grid: { display: false }, ticks: { maxTicksLimit: 8 } },
-        y: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { callback: v => v.toLocaleString() } }
-      }
-    }
-  });
-})();
+renderOB();
+setInterval(()=>{mid=+(mid+(Math.random()-.5)*.08).toFixed(2);renderOB();},1500);
 </script>
-</body>
-</html>
+</body></html>
