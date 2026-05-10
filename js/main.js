@@ -90,7 +90,7 @@ function buildNav(base = '') {
         ${ddLinks}
       </ul>
       <div class="nav-actions">
-        <a href="${prefix}module2/virtual-terminal.html" class="btn btn-primary btn-sm">Start Trading</a>
+        <a href="${prefix}signin.html" class="btn btn-primary btn-sm">Start Trading</a>
       </div>
       <button class="nav-burger" id="burger" aria-label="Menu">
         <span></span><span></span><span></span>
@@ -100,7 +100,7 @@ function buildNav(base = '') {
   <div class="mobile-nav" id="mobileNav">
     <a href="${prefix}index.html" style="font-weight:700;color:var(--text-primary)">🏠 Home</a>
     ${mobileNav}
-    <a href="${prefix}module2/virtual-terminal.html" class="btn btn-primary" style="margin-top:12px">Start Paper Trading</a>
+    <a href="${prefix}signin.html" class="btn btn-primary" style="margin-top:12px">Start Paper Trading</a>
   </div>`;
 
   document.body.insertAdjacentHTML('afterbegin', html);

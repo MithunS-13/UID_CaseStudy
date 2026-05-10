@@ -4,6 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Virtual Trading Terminal — TradeX Academy</title>
+<!-- Auth guard: redirect to sign-in if not authenticated -->
+<script>
+  if (sessionStorage.getItem('tradex_auth') !== '1') {
+    window.location.replace('../signin.html');
+  }
+</script>
 <link rel="stylesheet" href="../css/styles.css">
 <script src="https://unpkg.com/lightweight-charts@4.1.3/dist/lightweight-charts.standalone.production.js"></script>
 <style>
@@ -40,12 +46,13 @@
           <h1 style="font-size:1.5rem;font-weight:700">📟 Paper Trading Terminal</h1>
           <p style="font-size:0.85rem;color:var(--text-secondary)">Simulated live market — your trades have zero real-world effect</p>
         </div>
-        <div style="display:flex;gap:10px;align-items:center">
+        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
           <span class="badge badge-green"><span class="live-dot"></span> Simulated Live</span>
           <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r);padding:8px 14px;text-align:right">
-            <div style="font-size:0.7rem;color:var(--text-muted)">Account Value</div>
+            <div style="font-size:0.7rem;color:var(--text-muted)">Signed in as <span id="userLabel" style="color:var(--blue)"></span></div>
             <div style="font-size:1.1rem;font-weight:700;color:var(--green);font-family:var(--font-mono)" id="accountValue">$100,000.00</div>
           </div>
+          <button onclick="signOut()" class="btn btn-sm btn-outline" style="font-size:0.78rem">Sign Out</button>
         </div>
       </div>
     </div>
@@ -215,6 +222,18 @@
 </div>
 
 <script>
+// ---- Auth ----
+const _rawUser = sessionStorage.getItem('tradex_user') || '';
+const _user = _rawUser.includes('@') ? _rawUser.split('@')[0] : (_rawUser || 'Trader');
+const _userLabel = document.getElementById('userLabel');
+if (_userLabel) _userLabel.textContent = _user;
+
+function signOut() {
+  sessionStorage.removeItem('tradex_auth');
+  sessionStorage.removeItem('tradex_user');
+  window.location.href = '../signin.html';
+}
+
 // ---- State ----
 const PRICES = { BTC: 67842, AAPL: 189.24, TSLA: 242.50, NVDA: 875.60, SPY: 521.30 };
 let currentSide = 'buy';

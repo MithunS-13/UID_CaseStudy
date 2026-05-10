@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign In — TradeX Academy</title>
+<link rel="stylesheet" href="css/styles.css">
+<style>
+  /* ---- Full-page sign-in layout ---- */
+  body { overflow: hidden; }
+
+  .signin-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-primary);
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Subtle radial glow behind the card */
+  .signin-page::before {
+    content: '';
+    position: absolute;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(59,130,246,0.08) 0%, transparent 70%);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+
+  .signin-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--rx);
+    padding: 44px 40px;
+    width: 100%;
+    max-width: 420px;
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.6);
+  }
+
+  .signin-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 32px;
+    text-decoration: none;
+    color: var(--text-primary);
+    font-weight: 700;
+    font-size: 1.1rem;
+  }
+  .signin-logo .logo-icon {
+    width: 36px; height: 36px;
+    background: linear-gradient(135deg, var(--blue), var(--green));
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem;
+  }
+  .signin-logo span { color: var(--green); }
+
+  .signin-card h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .signin-card p.sub {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    margin-bottom: 28px;
+  }
+
+  /* Error message */
+  .error-msg {
+    display: none;
+    background: var(--red-dim);
+    border: 1px solid rgba(255,71,87,0.3);
+    border-radius: var(--r);
+    padding: 10px 14px;
+    font-size: 0.82rem;
+    color: var(--red);
+    margin-bottom: 16px;
+  }
+  .error-msg.show { display: block; }
+
+  /* Shake animation on bad login */
+  @keyframes shake {
+    0%,100% { transform: translateX(0); }
+    20%      { transform: translateX(-8px); }
+    40%      { transform: translateX( 8px); }
+    60%      { transform: translateX(-5px); }
+    80%      { transform: translateX( 5px); }
+  }
+  .signin-card.shake { animation: shake 0.4s ease; }
+
+  /* Input icons */
+  .input-wrap {
+    position: relative;
+  }
+  .input-wrap .icon {
+    position: absolute;
+    left: 12px; top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.9rem;
+    pointer-events: none;
+    color: var(--text-muted);
+  }
+  .input-wrap input {
+    padding-left: 38px;
+  }
+
+  /* Password toggle */
+  .toggle-pw {
+    position: absolute;
+    right: 12px; top: 50%;
+    transform: translateY(-50%);
+    background: none; border: none;
+    cursor: pointer; color: var(--text-muted);
+    font-size: 0.85rem; padding: 2px 4px;
+    transition: var(--ease);
+  }
+  .toggle-pw:hover { color: var(--text-secondary); }
+
+  /* Submit button loading state */
+  .btn-signin {
+    width: 100%;
+    justify-content: center;
+    padding: 13px;
+    font-size: 0.95rem;
+    margin-top: 8px;
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-signin .spinner {
+    display: none;
+    width: 16px; height: 16px;
+    border: 2px solid rgba(0,0,0,0.3);
+    border-top-color: #000;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+  }
+  .btn-signin.loading .spinner { display: inline-block; }
+  .btn-signin.loading .btn-text { opacity: 0; }
+
+  .divider {
+    display: flex; align-items: center; gap: 12px;
+    margin: 24px 0;
+    color: var(--text-muted); font-size: 0.78rem;
+  }
+  .divider::before, .divider::after {
+    content: ''; flex: 1;
+    height: 1px; background: var(--border);
+  }
+
+  .hint-box {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    padding: 12px 16px;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+  }
+  .hint-box strong { color: var(--text-primary); }
+
+  .back-link {
+    display: block;
+    text-align: center;
+    margin-top: 24px;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+  }
+  .back-link a { color: var(--blue); }
+
+  /* Floating chart lines background decoration */
+  .bg-lines {
+    position: absolute; inset: 0; overflow: hidden; pointer-events: none;
+  }
+  .bg-lines svg { width: 100%; height: 100%; opacity: 0.04; }
+</style>
+</head>
+<body>
+
+<div class="signin-page">
+
+  <!-- Decorative background lines -->
+  <div class="bg-lines">
+    <svg viewBox="0 0 1200 800" preserveAspectRatio="none">
+      <polyline points="0,600 150,520 300,540 450,420 600,460 750,340 900,380 1050,260 1200,300"
+        fill="none" stroke="#3b82f6" stroke-width="2"/>
+      <polyline points="0,650 200,570 380,590 520,470 680,510 820,390 980,430 1100,310 1200,350"
+        fill="none" stroke="#00d4aa" stroke-width="1.5"/>
+    </svg>
+  </div>
+
+  <div class="signin-card" id="signinCard">
+
+    <!-- Logo -->
+    <a href="index.html" class="signin-logo">
+      <div class="logo-icon">📈</div>
+      Trade<span>X</span> Academy
+    </a>
+
+    <h1>Sign in to Trade</h1>
+    <p class="sub">Access your paper trading account — $100K virtual capital ready to deploy.</p>
+
+    <!-- Error message -->
+    <div class="error-msg" id="errorMsg">
+      Please fix the errors above and try again.
+    </div>
+
+    <!-- Form -->
+    <form id="signinForm" novalidate>
+
+      <div class="form-group">
+        <label class="form-label" for="email">Email address</label>
+        <div class="input-wrap">
+          <span class="icon">✉️</span>
+          <input
+            type="email"
+            id="email"
+            class="form-input"
+            placeholder="you@example.com"
+            autocomplete="email"
+            spellcheck="false"
+            inputmode="email"
+          >
+        </div>
+        <div id="emailErr" style="font-size:0.75rem;color:var(--red);margin-top:4px;display:none">
+          Please enter a valid email address (e.g. you@example.com).
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="password">Password</label>
+        <div class="input-wrap">
+          <span class="icon">🔒</span>
+          <input
+            type="password"
+            id="password"
+            class="form-input"
+            placeholder="Minimum 8 characters"
+            autocomplete="current-password"
+          >
+          <button type="button" class="toggle-pw" id="togglePw" aria-label="Show password">👁</button>
+        </div>
+        <div id="passwordErr" style="font-size:0.75rem;color:var(--red);margin-top:4px;display:none">
+          Password must be at least 8 characters.
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-green btn-signin" id="submitBtn">
+        <span class="btn-text">Sign In & Open Terminal</span>
+        <span class="spinner"></span>
+      </button>
+
+    </form>
+
+    <div class="divider">demo credentials</div>
+
+    <div class="hint-box">
+      Enter any <strong>valid email</strong> and a password of <strong>8+ characters</strong> to sign in.<br>
+      No data is stored — this is a simulation environment.
+    </div>
+
+    <a href="index.html" class="back-link">← Back to Home</a>
+  </div>
+</div>
+
+<script>
+// ---- Validation helpers ----
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+const PASSWORD_MIN = 8;
+
+function isValidEmail(val) { return EMAIL_RE.test(val.trim()); }
+function isValidPassword(val) { return val.length >= PASSWORD_MIN; }
+
+const form      = document.getElementById('signinForm');
+const card      = document.getElementById('signinCard');
+const errorMsg  = document.getElementById('errorMsg');
+const emailEl   = document.getElementById('email');
+const passwordEl = document.getElementById('password');
+const submitBtn = document.getElementById('submitBtn');
+const togglePw  = document.getElementById('togglePw');
+
+// ---- Show/hide password ----
+togglePw.addEventListener('click', () => {
+  const isText = passwordEl.type === 'text';
+  passwordEl.type = isText ? 'password' : 'text';
+  togglePw.textContent = isText ? '👁' : '🙈';
+});
+
+// ---- Clear field errors as the user types ----
+emailEl.addEventListener('input', () => {
+  document.getElementById('emailErr').style.display = 'none';
+  emailEl.style.borderColor = '';
+  errorMsg.classList.remove('show');
+});
+passwordEl.addEventListener('input', () => {
+  document.getElementById('passwordErr').style.display = 'none';
+  passwordEl.style.borderColor = '';
+  errorMsg.classList.remove('show');
+});
+
+// ---- Field-level validation: returns true only if all fields pass ----
+function validateFields() {
+  let valid = true;
+
+  if (!isValidEmail(emailEl.value)) {
+    document.getElementById('emailErr').style.display = 'block';
+    emailEl.style.borderColor = 'var(--red)';
+    emailEl.focus();
+    valid = false;
+  }
+
+  if (!isValidPassword(passwordEl.value)) {
+    document.getElementById('passwordErr').style.display = 'block';
+    passwordEl.style.borderColor = 'var(--red)';
+    if (valid) passwordEl.focus(); // focus first failing field
+    valid = false;
+  }
+
+  return valid;
+}
+
+// ---- Shake animation helper ----
+function shakeCard() {
+  card.classList.remove('shake');
+  void card.offsetWidth; // reflow to restart animation
+  card.classList.add('shake');
+  card.addEventListener('animationend', () => card.classList.remove('shake'), { once: true });
+}
+
+// ---- Form submit ----
+form.addEventListener('submit', e => {
+  e.preventDefault();
+
+  if (!validateFields()) {
+    errorMsg.classList.add('show');
+    shakeCard();
+    return;
+  }
+
+  // Brief loading state for realism
+  submitBtn.classList.add('loading');
+  submitBtn.disabled = true;
+
+  setTimeout(() => {
+    // Both fields passed validation — grant access
+    sessionStorage.setItem('tradex_auth', '1');
+    sessionStorage.setItem('tradex_user', emailEl.value.trim());
+    window.location.href = 'module2/virtual-terminal.html';
+  }, 700);
+});
+
+// ---- Enter key support ----
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter') form.requestSubmit();
+});
+
+// ---- If already signed in, skip to terminal ----
+if (sessionStorage.getItem('tradex_auth') === '1') {
+  window.location.replace('module2/virtual-terminal.html');
+}
+</script>
+</body>
+</html>
