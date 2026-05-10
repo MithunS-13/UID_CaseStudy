@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Equity Curve — TradeX Academy</title>
+<link rel="stylesheet" href="../css/styles.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+<script src="../js/main.js"></script>
+<script>buildNav('module4');</script>
+
+<div class="page-wrap">
+  <div class="page-hero">
+    <div class="container">
+      <div class="breadcrumb"><a href="../index.html">Home</a> › Module 4 › The Equity Curve</div>
+      <span class="badge badge-gold">Module 4 · Lesson 1</span>
+      <h1>The Equity Curve</h1>
+      <p>Visualizing account growth (or decay) over time — the single most important chart a trader should look at about their own trading.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="container">
+
+      <!-- MAIN EQUITY CHART -->
+      <div class="chart-box" style="margin-bottom:32px">
+        <div class="chart-box-header">
+          <div>
+            <span class="chart-box-title">Your Equity Curve vs SPY Benchmark</span>
+            <div style="font-size:0.78rem;color:var(--text-secondary);margin-top:2px">$100,000 starting capital — 6 months of paper trading</div>
+          </div>
+          <div style="display:flex;gap:14px;font-size:0.78rem;flex-wrap:wrap">
+            <span style="color:var(--green)">— Your Account</span>
+            <span style="color:var(--blue)">-- SPY Benchmark</span>
+          </div>
+        </div>
+        <canvas id="equityChart" height="300"></canvas>
+        <div class="grid grid-4" style="gap:12px;margin-top:16px">
+          <div style="text-align:center;padding:12px;background:var(--bg-surface);border-radius:var(--r)">
+            <div style="font-size:0.7rem;color:var(--text-muted)">Total Return</div>
+            <div style="font-size:1.3rem;font-weight:800;color:var(--green)">+23.4%</div>
+          </div>
+          <div style="text-align:center;padding:12px;background:var(--bg-surface);border-radius:var(--r)">
+            <div style="font-size:0.7rem;color:var(--text-muted)">vs Benchmark</div>
+            <div style="font-size:1.3rem;font-weight:800;color:var(--green)">+8.9%</div>
+          </div>
+          <div style="text-align:center;padding:12px;background:var(--bg-surface);border-radius:var(--r)">
+            <div style="font-size:0.7rem;color:var(--text-muted)">Max Drawdown</div>
+            <div style="font-size:1.3rem;font-weight:800;color:var(--red)">-12.3%</div>
+          </div>
+          <div style="text-align:center;padding:12px;background:var(--bg-surface);border-radius:var(--r)">
+            <div style="font-size:0.7rem;color:var(--text-muted)">Sharpe Ratio</div>
+            <div style="font-size:1.3rem;font-weight:800;color:var(--gold)">1.42</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-2" style="gap:28px;margin-bottom:40px">
+        <div>
+          <h2 class="section-title">Reading Your Equity Curve</h2>
+          <p style="color:var(--text-secondary);margin-bottom:20px">The equity curve is the visual autobiography of your trading system. Its shape tells you everything about your strategy's health.</p>
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <div class="card card-sm" style="border-color:rgba(0,212,170,0.2)">
+              <strong style="color:var(--green)">Ideal: Smooth, Rising Curve</strong>
+              <p style="font-size:0.82rem;color:var(--text-secondary);margin-top:4px">A gently sloping upward curve with small pullbacks indicates a consistent, robust strategy. This is what every trader strives for.</p>
+            </div>
+            <div class="card card-sm" style="border-color:rgba(255,71,87,0.2)">
+              <strong style="color:var(--red)">Warning: Volatile, Jagged Curve</strong>
+              <p style="font-size:0.82rem;color:var(--text-secondary);margin-top:4px">Large swings up and down indicate inconsistency. Even if profitable overall, this pattern suggests poor risk management and will be psychologically devastating.</p>
+            </div>
+            <div class="card card-sm">
+              <strong style="color:var(--gold)">Flat Periods = Drawdown Phases</strong>
+              <p style="font-size:0.82rem;color:var(--text-secondary);margin-top:4px">Extended flat or declining periods on the curve are drawdowns. Every strategy has them. The key is their depth and duration.</p>
+            </div>
+            <div class="card card-sm">
+              <strong style="color:var(--blue)">Always Compare to a Benchmark</strong>
+              <p style="font-size:0.82rem;color:var(--text-secondary);margin-top:4px">If your equity curve barely beats the S&P 500, why take the risk of active trading? Your goal is meaningful alpha — outperformance above the benchmark.</p>
+            </div>
+          </div>
+        </div>
+        <div class="chart-box">
+          <div class="chart-box-header"><span class="chart-box-title">3 Equity Curve Shapes</span></div>
+          <canvas id="shapeChart" height="260"></canvas>
+          <div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:10px;font-size:0.75rem">
+            <span style="color:var(--green)">— Ideal Strategy</span>
+            <span style="color:var(--gold)">— Average Trader</span>
+            <span style="color:var(--red)">— Losing Strategy</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- PERFORMANCE STATS -->
+      <h2 class="section-title">Key Performance Metrics</h2>
+      <p class="section-sub">The numbers that professional traders and fund managers use to evaluate any strategy</p>
+      <div class="grid grid-3" style="gap:16px;margin-bottom:40px">
+        <div class="card">
+          <h3 class="card-title">📊 Sharpe Ratio</h3>
+          <p style="font-size:0.82rem;color:var(--text-secondary);margin-bottom:12px">Measures return per unit of risk (volatility). Higher is better. A Sharpe above 1.0 is good; above 2.0 is excellent.</p>
+          <div style="font-family:var(--font-mono);font-size:0.78rem;background:var(--bg-surface);padding:10px;border-radius:var(--r)">
+            Sharpe = (Return − Risk-Free Rate) / Std Dev<br>
+            <span style="color:var(--gold)">Your Sharpe: 1.42 (Good)</span>
+          </div>
+        </div>
+        <div class="card">
+          <h3 class="card-title">📉 Max Drawdown</h3>
+          <p style="font-size:0.82rem;color:var(--text-secondary);margin-bottom:12px">The largest peak-to-trough decline in your equity curve. This tells you the worst-case scenario for your strategy from any starting point.</p>
+          <div style="background:var(--bg-surface);padding:10px;border-radius:var(--r)">
+            <div class="progress-bar"><div class="progress-fill red" style="width:12.3%"></div></div>
+            <div style="font-size:0.78rem;color:var(--red);margin-top:6px;font-family:var(--font-mono)">Max DD: -12.3% ($12,300)</div>
+          </div>
+        </div>
+        <div class="card">
+          <h3 class="card-title">📈 Calmar Ratio</h3>
+          <p style="font-size:0.82rem;color:var(--text-secondary);margin-bottom:12px">Annual return divided by maximum drawdown. Measures return per unit of drawdown risk. Above 1.0 is considered reasonable.</p>
+          <div style="font-family:var(--font-mono);font-size:0.78rem;background:var(--bg-surface);padding:10px;border-radius:var(--r)">
+            Calmar = Annual Return / Max Drawdown<br>
+            <span style="color:var(--green)">Your Calmar: 46.8% / 12.3% = 3.8</span>
+          </div>
+        </div>
+        <div class="card">
+          <h3 class="card-title">🎯 Win Rate</h3>
+          <p style="font-size:0.82rem;color:var(--text-secondary);margin-bottom:12px">Percentage of trades that are profitable. A 50% win rate with 2:1 reward-to-risk is highly profitable. Win rate alone means nothing without knowing the R:R ratio.</p>
+          <div class="ch ch-100"><canvas id="winRateChart"></canvas></div>
+        </div>
+        <div class="card">
+          <h3 class="card-title">💹 Profit Factor</h3>
+          <p style="font-size:0.82rem;color:var(--text-secondary);margin-bottom:12px">Total gross profit divided by total gross losses. Must be above 1.0 to be profitable. Above 1.5 is good; above 2.0 is excellent.</p>
+          <div style="font-family:var(--font-mono);font-size:0.78rem;background:var(--bg-surface);padding:10px;border-radius:var(--r)">
+            Profit Factor = Gross Wins / Gross Losses<br>
+            <span style="color:var(--green)">Your PF: $28,400 / $14,200 = 2.0</span>
+          </div>
+        </div>
+        <div class="card">
+          <h3 class="card-title">⏱️ Recovery Factor</h3>
+          <p style="font-size:0.82rem;color:var(--text-secondary);margin-bottom:12px">Net profit divided by maximum drawdown. Tells you how efficiently your strategy recovers from losses. Higher = more resilient strategy.</p>
+          <div style="font-family:var(--font-mono);font-size:0.78rem;background:var(--bg-surface);padding:10px;border-radius:var(--r)">
+            Recovery = Net Profit / Max Drawdown<br>
+            <span style="color:var(--green)">Your RF: $23,400 / $12,300 = 1.9</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:40px;padding-top:24px;border-top:1px solid var(--border)">
+        <a href="../module3/correlation-matrix.html" class="btn btn-outline">← Module 3</a>
+        <a href="risk-reward.html" class="btn btn-primary">Next: Risk vs Reward →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Main equity curve
+const labels = [];
+const start = new Date(2025, 9, 1);
+for (let i = 0; i <= 130; i++) {
+  const d = new Date(start); d.setDate(d.getDate() + i);
+  if (d.getDay() !== 0 && d.getDay() !== 6) labels.push(d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }));
+}
+
+let eq = 100000, spy = 100000;
+const eqData = [eq], spyData = [spy];
+for (let i = 1; i < labels.length; i++) {
+  eq += (Math.random() - 0.44) * 1200;
+  spy += (Math.random() - 0.46) * 600;
+  eqData.push(Math.max(80000, +eq.toFixed(0)));
+  spyData.push(Math.max(90000, +spy.toFixed(0)));
+}
+
+const eqCtx = document.getElementById('equityChart').getContext('2d');
+const eqGrad = eqCtx.createLinearGradient(0, 0, 0, 300);
+eqGrad.addColorStop(0, 'rgba(0,212,170,0.2)');
+eqGrad.addColorStop(1, 'rgba(0,212,170,0)');
+new Chart(eqCtx, {
+  type: 'line',
+  data: {
+    labels,
+    datasets: [
+      { data: eqData, borderColor: '#00d4aa', backgroundColor: eqGrad, fill: true, tension: 0.3, borderWidth: 2.5, pointRadius: 0, label: 'Account' },
+      { data: spyData, borderColor: '#3b82f6', fill: false, tension: 0.3, borderWidth: 1.5, pointRadius: 0, borderDash: [5, 3], label: 'SPY' },
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false }, tooltip: { mode: 'index', intersect: false,
+      callbacks: { label: ctx => `${ctx.dataset.label}: $${ctx.parsed.y.toLocaleString()}` }
+    }},
+    scales: {
+      x: { grid: { display: false }, ticks: { maxTicksLimit: 8 } },
+      y: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { callback: v => '$' + (v/1000).toFixed(0) + 'K' } }
+    }
+  }
+});
+
+// Shape chart
+const shapeLabels = Array.from({length: 50}, (_,i) => `T${i+1}`);
+let good = 100, avg = 100, bad = 100;
+const goodData = [good], avgData = [avg], badData = [bad];
+for (let i = 1; i < 50; i++) {
+  good += 0.6 + (Math.random() - 0.45) * 2;
+  avg  += (Math.random() - 0.47) * 4;
+  bad  -= 0.3 + (Math.random() - 0.4) * 5;
+  goodData.push(+good.toFixed(1));
+  avgData.push(+avg.toFixed(1));
+  badData.push(+bad.toFixed(1));
+}
+const shCtx = document.getElementById('shapeChart').getContext('2d');
+new Chart(shCtx, {
+  type: 'line',
+  data: {
+    labels: shapeLabels,
+    datasets: [
+      { data: goodData, borderColor: '#00d4aa', fill: false, tension: 0.3, borderWidth: 2, pointRadius: 0 },
+      { data: avgData,  borderColor: '#f59e0b', fill: false, tension: 0.3, borderWidth: 2, pointRadius: 0 },
+      { data: badData,  borderColor: '#ff4757', fill: false, tension: 0.3, borderWidth: 2, pointRadius: 0 },
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { display: false },
+      y: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { callback: v => v.toFixed(0) } }
+    }
+  }
+});
+
+// Win rate donut
+const wrCtx = document.getElementById('winRateChart').getContext('2d');
+new Chart(wrCtx, {
+  type: 'doughnut',
+  data: {
+    labels: ['Wins', 'Losses'],
+    datasets: [{ data: [58, 42], backgroundColor: ['#00d4aa', '#ff4757'], borderColor: '#0d1525', borderWidth: 2 }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: true, labels: { color: '#7a8fa8', font: { size: 10 }, boxWidth: 10 } },
+      tooltip: { callbacks: { label: ctx => ` ${ctx.label}: ${ctx.parsed}%` } }
+    }
+  }
+});
+</script>
+</body>
+</html>

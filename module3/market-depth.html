@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Market Depth & Level 2 — TradeX Academy</title>
+<link rel="stylesheet" href="../css/styles.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+<script src="../js/main.js"></script>
+<script>buildNav('module3');</script>
+
+<div class="page-wrap">
+  <div class="page-hero">
+    <div class="container">
+      <div class="breadcrumb"><a href="../index.html">Home</a> › Module 3 › Market Depth & Level 2</div>
+      <span class="badge badge-purple">Module 3 · Lesson 3</span>
+      <h1>Market Depth & Level 2</h1>
+      <p>Visualizing the "Order Book" — the real-time list of buy and sell orders that determines where price will go next.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="container">
+
+      <!-- LIVE ORDER BOOK -->
+      <div class="grid grid-2" style="gap:28px;margin-bottom:40px">
+        <div>
+          <h2 class="section-title">The Order Book (Level 2)</h2>
+          <p style="color:var(--text-secondary);margin-bottom:16px">The order book shows all pending buy (bid) and sell (ask) orders at every price level. This is the real "supply and demand" visible in real-time before a trade executes.</p>
+          <div class="callout" style="margin-bottom:16px">
+            <strong>Level 1</strong> = Best bid + Best ask (what most retail traders see)<br>
+            <strong>Level 2</strong> = ALL pending orders at ALL price levels (the full order book)
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div class="card card-sm" style="border-color:rgba(0,212,170,0.2)">
+              <strong style="color:var(--green)">Bid Side (Buyers)</strong>
+              <p style="font-size:0.82rem;color:var(--text-secondary);margin-top:4px">Orders to BUY below the current market price. Buyers are willing to pay up to their bid price. Large bids create strong support levels.</p>
+            </div>
+            <div class="card card-sm" style="border-color:rgba(255,71,87,0.2)">
+              <strong style="color:var(--red)">Ask Side (Sellers)</strong>
+              <p style="font-size:0.82rem;color:var(--text-secondary);margin-top:4px">Orders to SELL above the current market price. Sellers won't accept less than their ask price. Large asks create strong resistance levels.</p>
+            </div>
+            <div class="card card-sm" style="border-color:rgba(245,158,11,0.3)">
+              <strong style="color:var(--gold)">The Bid-Ask Spread</strong>
+              <p style="font-size:0.82rem;color:var(--text-secondary);margin-top:4px">The gap between the best bid and best ask. This is the transaction cost for a market order. Tight spreads = liquid market.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="chart-box">
+          <div class="chart-box-header">
+            <span class="chart-box-title">Live Order Book — AAPL</span>
+            <span class="live-dot"></span>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px">
+            <!-- Asks -->
+            <div>
+              <div style="display:grid;grid-template-columns:1fr 1fr 1fr;padding:6px 8px;font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--text-muted);background:var(--bg-surface);border-radius:var(--r) var(--r) 0 0">
+                <span>Size</span><span style="text-align:right">Price</span><span style="text-align:right">Total</span>
+              </div>
+              <div id="askBook"></div>
+            </div>
+            <!-- Bids -->
+            <div>
+              <div style="display:grid;grid-template-columns:1fr 1fr 1fr;padding:6px 8px;font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--text-muted);background:var(--bg-surface);border-radius:var(--r) var(--r) 0 0">
+                <span>Price</span><span style="text-align:right">Size</span><span style="text-align:right">Total</span>
+              </div>
+              <div id="bidBook"></div>
+            </div>
+          </div>
+          <div style="text-align:center;padding:10px;background:var(--bg-secondary);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+            <span id="spread" style="font-size:0.82rem;font-family:var(--font-mono);font-weight:700">Spread: $0.02 (0.011%)</span>
+          </div>
+          <canvas id="depthChart" height="180"></canvas>
+        </div>
+      </div>
+
+      <!-- HOW TO READ L2 -->
+      <h2 class="section-title">How to Read the Order Book</h2>
+      <p class="section-sub">The order book reveals hidden supply and demand that standard price charts don't show</p>
+      <div class="grid grid-3" style="gap:16px;margin-bottom:40px">
+        <div class="card">
+          <div style="font-size:1.5rem;margin-bottom:10px">🐳</div>
+          <h3 class="card-title">Identifying "Whales"</h3>
+          <p style="font-size:0.85rem;color:var(--text-secondary)">A single order that's 10× larger than surrounding orders is called a "wall." A large bid wall at $185 means a big buyer is there. This acts as strong support — price often stops there.</p>
+        </div>
+        <div class="card">
+          <div style="font-size:1.5rem;margin-bottom:10px">💨</div>
+          <h3 class="card-title">Order Absorption</h3>
+          <p style="font-size:0.85rem;color:var(--text-secondary)">When a large sell order "disappears" without price moving up (it got absorbed by buyers), it's bullish. Buyers soaked up all the supply. Watch for the next move up.</p>
+        </div>
+        <div class="card">
+          <div style="font-size:1.5rem;margin-bottom:10px">🎭</div>
+          <h3 class="card-title">Order Spoofing (Warning)</h3>
+          <p style="font-size:0.85rem;color:var(--text-secondary)">Large orders can be placed and cancelled before execution — a manipulative tactic. Large orders that appear and disappear quickly without execution should be treated with skepticism.</p>
+        </div>
+        <div class="card">
+          <div style="font-size:1.5rem;margin-bottom:10px">📊</div>
+          <h3 class="card-title">Bid-Ask Imbalance</h3>
+          <p style="font-size:0.85rem;color:var(--text-secondary)">If there's 10× more volume on the bid side vs the ask side, buyers are dominant — bullish signal. The reverse (heavy asks) means sellers are in control.</p>
+        </div>
+        <div class="card">
+          <div style="font-size:1.5rem;margin-bottom:10px">⚡</div>
+          <h3 class="card-title">Market Momentum (Tape)</h3>
+          <p style="font-size:0.85rem;color:var(--text-secondary)">The "Time & Sales" tape shows every executed trade in real-time. Large trades at the ask price = aggressive buyers. Large trades at the bid = aggressive sellers.</p>
+        </div>
+        <div class="card">
+          <div style="font-size:1.5rem;margin-bottom:10px">🌊</div>
+          <h3 class="card-title">Liquidity Gaps</h3>
+          <p style="font-size:0.85rem;color:var(--text-secondary)">Price levels with very few orders in the book are "liquidity gaps." When price reaches these zones, it tends to move through them quickly — like a hot knife through butter.</p>
+        </div>
+      </div>
+
+      <!-- MARKET DEPTH CHART -->
+      <div class="chart-box">
+        <div class="chart-box-header">
+          <span class="chart-box-title">Market Depth Visualization</span>
+          <span style="font-size:0.78rem;color:var(--text-secondary)">Cumulative buy/sell orders at each price level</span>
+        </div>
+        <canvas id="marketDepthFull" height="220"></canvas>
+        <div style="display:flex;justify-content:center;gap:24px;margin-top:10px;font-size:0.78rem">
+          <span style="color:var(--green)">■ Cumulative Bids (Buyers)</span>
+          <span style="color:var(--red)">■ Cumulative Asks (Sellers)</span>
+          <span style="color:var(--gold)">| Current Price</span>
+        </div>
+      </div>
+
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:40px;padding-top:24px;border-top:1px solid var(--border)">
+        <a href="chart-patterns.html" class="btn btn-outline">← Previous</a>
+        <a href="sector-heatmaps.html" class="btn btn-primary">Next: Sector Heatmaps →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const MID_PRICE = 189.42;
+let askOrders = [], bidOrders = [];
+
+function generateBook() {
+  askOrders = [];
+  bidOrders = [];
+  for (let i = 1; i <= 10; i++) {
+    const price = MID_PRICE + i * 0.01 + (Math.random() - 0.5) * 0.005;
+    const size  = Math.round(100 + Math.random() * 2000);
+    askOrders.push({ price: +price.toFixed(2), size });
+  }
+  for (let i = 1; i <= 10; i++) {
+    const price = MID_PRICE - i * 0.01 - (Math.random() - 0.5) * 0.005;
+    const size  = Math.round(100 + Math.random() * 2000);
+    bidOrders.push({ price: +price.toFixed(2), size });
+  }
+  askOrders.sort((a, b) => a.price - b.price);
+  bidOrders.sort((a, b) => b.price - a.price);
+}
+
+function renderBook() {
+  generateBook();
+  const maxSize = Math.max(...askOrders.map(o=>o.size), ...bidOrders.map(o=>o.size));
+  let askCum = 0, bidCum = 0;
+
+  document.getElementById('askBook').innerHTML = askOrders.map(o => {
+    askCum += o.size;
+    const pct = (o.size / maxSize * 100).toFixed(0);
+    return `<div style="position:relative;display:grid;grid-template-columns:1fr 1fr 1fr;padding:4px 8px;font-size:0.78rem;font-family:var(--font-mono)">
+      <div style="position:absolute;right:0;top:0;bottom:0;width:${pct}%;background:rgba(255,71,87,0.12);pointer-events:none"></div>
+      <span style="color:var(--text-muted)">${o.size}</span>
+      <span style="text-align:right;color:var(--red);font-weight:600">${o.price.toFixed(2)}</span>
+      <span style="text-align:right;color:var(--text-muted)">${askCum.toLocaleString()}</span>
+    </div>`;
+  }).join('');
+
+  document.getElementById('bidBook').innerHTML = bidOrders.map(o => {
+    bidCum += o.size;
+    const pct = (o.size / maxSize * 100).toFixed(0);
+    return `<div style="position:relative;display:grid;grid-template-columns:1fr 1fr 1fr;padding:4px 8px;font-size:0.78rem;font-family:var(--font-mono)">
+      <div style="position:absolute;left:0;top:0;bottom:0;width:${pct}%;background:rgba(0,212,170,0.12);pointer-events:none"></div>
+      <span style="color:var(--green);font-weight:600">${o.price.toFixed(2)}</span>
+      <span style="text-align:right;color:var(--text-muted)">${o.size}</span>
+      <span style="text-align:right;color:var(--text-muted)">${bidCum.toLocaleString()}</span>
+    </div>`;
+  }).join('');
+
+  // Depth chart
+  const spread = askOrders[0].price - bidOrders[0].price;
+  document.getElementById('spread').textContent = `Spread: $${spread.toFixed(2)} (${(spread/MID_PRICE*100).toFixed(3)}%)`;
+}
+
+renderBook();
+setInterval(renderBook, 2500);
+
+// Market Depth Full Chart
+(function() {
+  const ctx = document.getElementById('marketDepthFull').getContext('2d');
+  const prices = [], bids = [], asks = [];
+  let cumBid = 0, cumAsk = 0;
+
+  for (let i = 20; i >= 1; i--) {
+    prices.push((MID_PRICE - i * 0.05).toFixed(2));
+    cumBid += Math.round(200 + Math.random() * 3000);
+    bids.push(cumBid);
+    asks.push(null);
+  }
+  prices.push(MID_PRICE.toFixed(2));
+  bids.push(cumBid);
+  asks.push(0);
+
+  for (let i = 1; i <= 20; i++) {
+    prices.push((MID_PRICE + i * 0.05).toFixed(2));
+    bids.push(null);
+    cumAsk += Math.round(200 + Math.random() * 3000);
+    asks.push(cumAsk);
+  }
+
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: prices,
+      datasets: [
+        {
+          label: 'Bids',
+          data: bids,
+          borderColor: '#00d4aa',
+          backgroundColor: 'rgba(0,212,170,0.15)',
+          fill: true, stepped: true, borderWidth: 2, pointRadius: 0,
+        },
+        {
+          label: 'Asks',
+          data: asks,
+          borderColor: '#ff4757',
+          backgroundColor: 'rgba(255,71,87,0.15)',
+          fill: true, stepped: true, borderWidth: 2, pointRadius: 0,
+        }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { mode: 'index', intersect: false } },
+      scales: {
+        x: { grid: { display: false }, ticks: { maxTicksLimit: 8 } },
+        y: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { callback: v => v.toLocaleString() } }
+      }
+    }
+  });
+})();
+</script>
+</body>
+</html>

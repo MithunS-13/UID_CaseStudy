@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Geometric Chart Patterns — TradeX Academy</title>
+<link rel="stylesheet" href="../css/styles.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+<script src="../js/main.js"></script>
+<script>buildNav('module3');</script>
+
+<div class="page-wrap">
+  <div class="page-hero">
+    <div class="container">
+      <div class="breadcrumb"><a href="../index.html">Home</a> › Module 3 › Geometric Chart Patterns</div>
+      <span class="badge badge-purple">Module 3 · Lesson 2</span>
+      <h1>Geometric Chart Patterns</h1>
+      <p>A visual guide to Triangles, Wedges, and Head-and-Shoulders — the recurring formations that signal major price moves.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="container">
+
+      <div class="tabs">
+        <button class="tab-btn active" data-tab="tab-triangles">Triangles</button>
+        <button class="tab-btn" data-tab="tab-wedges">Wedges</button>
+        <button class="tab-btn" data-tab="tab-hns">Head & Shoulders</button>
+        <button class="tab-btn" data-tab="tab-flags">Flags & Pennants</button>
+      </div>
+
+      <!-- TRIANGLES -->
+      <div class="tab-pane active" id="tab-triangles">
+        <h2 class="section-title">Triangle Patterns</h2>
+        <p class="section-sub">Triangles form when price makes lower highs AND higher lows — a compression of volatility that precedes a breakout</p>
+        <div class="grid grid-3" style="gap:20px;margin-bottom:32px">
+          <div class="card">
+            <canvas id="symtri" height="160"></canvas>
+            <h3 style="font-size:0.9rem;font-weight:700;margin-top:12px">Symmetrical Triangle</h3>
+            <p style="font-size:0.82rem;color:var(--text-secondary);margin-top:6px">Both lines converge at equal angles. Neutral — can break either direction. Wait for the breakout and trade in that direction. Volume typically dries up as it forms.</p>
+            <div class="callout" style="margin-top:10px"><strong>Target:</strong> Height of the first wave, projected from the breakout point.</div>
+          </div>
+          <div class="card">
+            <canvas id="asctri" height="160"></canvas>
+            <h3 style="font-size:0.9rem;font-weight:700;margin-top:12px;color:var(--green)">Ascending Triangle</h3>
+            <p style="font-size:0.82rem;color:var(--text-secondary);margin-top:6px">Flat top (resistance) + rising lows (demand). Buyers are getting progressively more eager. Bullish bias — usually breaks upward. Very reliable pattern.</p>
+            <div class="callout green" style="margin-top:10px"><strong>Signal:</strong> Breakout above flat resistance with expanding volume = strong buy signal.</div>
+          </div>
+          <div class="card">
+            <canvas id="desctri" height="160"></canvas>
+            <h3 style="font-size:0.9rem;font-weight:700;margin-top:12px;color:var(--red)">Descending Triangle</h3>
+            <p style="font-size:0.82rem;color:var(--text-secondary);margin-top:6px">Flat bottom (support) + falling highs (supply). Sellers are getting progressively more aggressive. Bearish bias — usually breaks downward.</p>
+            <div class="callout red" style="margin-top:10px"><strong>Signal:</strong> Breakdown below flat support with expanding volume = strong sell signal.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- WEDGES -->
+      <div class="tab-pane" id="tab-wedges">
+        <h2 class="section-title">Wedge Patterns</h2>
+        <p class="section-sub">Unlike triangles, both lines in a wedge move in the SAME direction — creating a sloping range that signals exhaustion</p>
+        <div class="grid grid-2" style="gap:28px;margin-bottom:32px">
+          <div class="card">
+            <canvas id="risingwedge" height="180"></canvas>
+            <div style="display:flex;align-items:center;gap:10px;margin-top:12px;margin-bottom:8px">
+              <span class="tag tag-sell">BEARISH</span>
+              <h3 style="font-size:0.9rem;font-weight:700">Rising Wedge</h3>
+            </div>
+            <p style="font-size:0.85rem;color:var(--text-secondary)">Price rises but the highs and lows both converge upward. Despite the rising price, momentum is weakening. This is a "tired rally." Usually breaks DOWN.</p>
+            <div class="callout red" style="margin-top:10px"><strong>Entry:</strong> Short when price breaks below the lower trendline of the wedge. Stop above the last high.</div>
+          </div>
+          <div class="card">
+            <canvas id="fallingwedge" height="180"></canvas>
+            <div style="display:flex;align-items:center;gap:10px;margin-top:12px;margin-bottom:8px">
+              <span class="tag tag-buy">BULLISH</span>
+              <h3 style="font-size:0.9rem;font-weight:700">Falling Wedge</h3>
+            </div>
+            <p style="font-size:0.85rem;color:var(--text-secondary)">Price declines but both highs and lows converge downward. The selling is losing steam — sellers are weakening. Usually breaks UP.</p>
+            <div class="callout green" style="margin-top:10px"><strong>Entry:</strong> Buy when price breaks above the upper trendline. Stop below the last low.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- HEAD AND SHOULDERS -->
+      <div class="tab-pane" id="tab-hns">
+        <h2 class="section-title">Head & Shoulders Pattern</h2>
+        <p class="section-sub">One of the most reliable reversal patterns in all of technical analysis</p>
+        <div class="grid grid-2" style="gap:40px;align-items:start;margin-bottom:32px">
+          <div class="chart-box">
+            <div class="chart-box-header">
+              <span class="chart-box-title">Head & Shoulders (Bearish Reversal)</span>
+            </div>
+            <canvas id="hnsCanvas" height="260"></canvas>
+          </div>
+          <div>
+            <div style="display:flex;flex-direction:column;gap:14px">
+              <div class="card card-sm">
+                <strong style="color:var(--blue)">Left Shoulder</strong>
+                <p style="font-size:0.82rem;color:var(--text-secondary);margin-top:4px">Price rallies to a new high, then pulls back to a support level (the "neckline"). The first peak.</p>
+              </div>
+              <div class="card card-sm">
+                <strong style="color:var(--purple)">The Head</strong>
+                <p style="font-size:0.82rem;color:var(--text-secondary);margin-top:4px">Price rallies ABOVE the left shoulder to a higher new high, then falls back to the neckline again. The highest peak.</p>
+              </div>
+              <div class="card card-sm">
+                <strong style="color:var(--blue)">Right Shoulder</strong>
+                <p style="font-size:0.82rem;color:var(--text-secondary);margin-top:4px">Price rallies again but FAILS to reach the head height. Falls back to the neckline. The pattern is now complete.</p>
+              </div>
+              <div class="card card-sm" style="border-color:rgba(255,71,87,0.3)">
+                <strong style="color:var(--red)">Neckline Break — The Signal</strong>
+                <p style="font-size:0.82rem;color:var(--text-secondary);margin-top:4px">When price breaks below the neckline on high volume, the pattern is confirmed. <strong style="color:var(--red)">Short entry!</strong></p>
+              </div>
+              <div class="callout gold">
+                <strong>Measured Move Target:</strong> Project the height of the head (from neckline to top) downward from the breakout point. This is your minimum target.
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card" style="background:var(--bg-secondary)">
+          <h3 style="font-size:0.9rem;font-weight:700;margin-bottom:10px">Inverse Head & Shoulders (Bullish Reversal)</h3>
+          <p style="font-size:0.85rem;color:var(--text-secondary)">The exact mirror image — three lows, with the middle low (head) deeper than the shoulders. When price breaks ABOVE the neckline, it's a powerful bullish reversal signal. Often appears at market bottoms.</p>
+        </div>
+      </div>
+
+      <!-- FLAGS -->
+      <div class="tab-pane" id="tab-flags">
+        <h2 class="section-title">Flags & Pennants</h2>
+        <p class="section-sub">Continuation patterns — brief pauses in a strong trend before the move resumes</p>
+        <div class="grid grid-2" style="gap:28px">
+          <div class="card">
+            <canvas id="flagCanvas" height="180"></canvas>
+            <h3 style="font-size:0.9rem;font-weight:700;margin-top:12px">Bull Flag</h3>
+            <p style="font-size:0.85rem;color:var(--text-secondary);margin-top:6px">A sharp rally (the "pole") followed by a sideways-to-downward consolidation (the "flag"). This is a brief rest before the rally continues. Volume drops during the flag and surges on the breakout.</p>
+            <div class="callout green" style="margin-top:10px"><strong>Strategy:</strong> Buy the breakout above the flag's upper boundary. Target = the length of the pole.</div>
+          </div>
+          <div class="card">
+            <canvas id="pennantCanvas" height="180"></canvas>
+            <h3 style="font-size:0.9rem;font-weight:700;margin-top:12px">Pennant</h3>
+            <p style="font-size:0.85rem;color:var(--text-secondary);margin-top:6px">Like a flag, but the consolidation forms a symmetrical triangle (pennant shape) rather than a parallel channel. Very tight pattern — the breakout is usually explosive.</p>
+            <div class="callout" style="margin-top:10px"><strong>Key:</strong> The tighter and shorter the pennant, the more powerful the continuation move tends to be.</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:40px;padding-top:24px;border-top:1px solid var(--border)">
+        <a href="trendlines-channels.html" class="btn btn-outline">← Previous</a>
+        <a href="market-depth.html" class="btn btn-primary">Next: Market Depth & Level 2 →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function drawPattern(id, fn) {
+  const c = document.getElementById(id);
+  if (!c) return;
+  const ctx = c.getContext('2d');
+  ctx.clearRect(0, 0, c.width, c.height);
+  fn(ctx, c.width, c.height);
+}
+
+// Symmetrical Triangle
+drawPattern('symtri', (ctx, W, H) => {
+  const mid = H / 2, L = 20, R = W - 20;
+  ctx.strokeStyle = '#4a6080'; ctx.lineWidth = 1;
+  // Mini candles
+  for (let i = 0; i < 10; i++) {
+    const x = L + (R - L) * i / 10 + 5;
+    const range = (H - 40) * (1 - i / 10) * 0.5;
+    ctx.strokeStyle = Math.random() > 0.5 ? '#00d4aa' : '#ff4757';
+    ctx.lineWidth = 1.5;
+    ctx.strokeRect(x, mid - range * 0.6, 8, range * 1.2);
+  }
+  ctx.strokeStyle = '#f59e0b'; ctx.lineWidth = 2;
+  // Upper line: from high left to mid right
+  ctx.beginPath(); ctx.moveTo(L, 20); ctx.lineTo(R, mid - 5); ctx.stroke();
+  // Lower line
+  ctx.beginPath(); ctx.moveTo(L, H - 20); ctx.lineTo(R, mid + 5); ctx.stroke();
+  ctx.fillStyle = '#f59e0b'; ctx.font = '10px sans-serif'; ctx.textAlign = 'right';
+  ctx.fillText('Breakout ↗', R, mid - 18);
+});
+
+// Ascending Triangle
+drawPattern('asctri', (ctx, W, H) => {
+  const L = 20, R = W - 20, top = 30;
+  ctx.strokeStyle = '#00d4aa'; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.moveTo(L, top); ctx.lineTo(R, top); ctx.stroke();
+  ctx.strokeStyle = '#3b82f6';
+  ctx.beginPath(); ctx.moveTo(L, H - 20); ctx.lineTo(R, top + 10); ctx.stroke();
+  ctx.fillStyle = 'rgba(0,212,170,0.08)';
+  ctx.fillRect(L, top, R - L, H - 20 - top);
+  ctx.fillStyle = '#00d4aa'; ctx.font = '10px sans-serif'; ctx.textAlign = 'left';
+  ctx.fillText('Flat Resistance', L + 4, top - 4);
+  ctx.fillStyle = '#3b82f6'; ctx.textAlign = 'right';
+  ctx.fillText('Rising Support ↗', R, H - 8);
+});
+
+// Descending Triangle
+drawPattern('desctri', (ctx, W, H) => {
+  const L = 20, R = W - 20, bot = H - 30;
+  ctx.strokeStyle = '#ff4757'; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.moveTo(L, bot); ctx.lineTo(R, bot); ctx.stroke();
+  ctx.strokeStyle = '#8b5cf6';
+  ctx.beginPath(); ctx.moveTo(L, 20); ctx.lineTo(R, bot - 10); ctx.stroke();
+  ctx.fillStyle = 'rgba(255,71,87,0.08)';
+  ctx.fillRect(L, 20, R - L, bot - 20);
+  ctx.fillStyle = '#ff4757'; ctx.font = '10px sans-serif'; ctx.textAlign = 'left';
+  ctx.fillText('Flat Support', L + 4, bot + 14);
+  ctx.fillStyle = '#8b5cf6'; ctx.textAlign = 'right';
+  ctx.fillText('Falling Resistance ↘', R, 18);
+});
+
+// Rising Wedge
+drawPattern('risingwedge', (ctx, W, H) => {
+  const L = 20, R = W - 20;
+  ctx.strokeStyle = '#ff4757'; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.moveTo(L, H - 40); ctx.lineTo(R, 30); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(L, H - 20); ctx.lineTo(R, 80); ctx.stroke();
+  ctx.fillStyle = 'rgba(255,71,87,0.08)';
+  ctx.beginPath();
+  ctx.moveTo(L, H - 40); ctx.lineTo(R, 30); ctx.lineTo(R, 80); ctx.lineTo(L, H - 20);
+  ctx.closePath(); ctx.fill();
+  ctx.fillStyle = '#ff4757'; ctx.font = '11px sans-serif'; ctx.textAlign = 'center';
+  ctx.fillText('↘ BREAKS DOWN', W/2, H/2);
+});
+
+// Falling Wedge
+drawPattern('fallingwedge', (ctx, W, H) => {
+  const L = 20, R = W - 20;
+  ctx.strokeStyle = '#00d4aa'; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.moveTo(L, 30); ctx.lineTo(R, H - 60); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(L, 60); ctx.lineTo(R, H - 30); ctx.stroke();
+  ctx.fillStyle = 'rgba(0,212,170,0.08)';
+  ctx.beginPath();
+  ctx.moveTo(L, 30); ctx.lineTo(R, H - 60); ctx.lineTo(R, H - 30); ctx.lineTo(L, 60);
+  ctx.closePath(); ctx.fill();
+  ctx.fillStyle = '#00d4aa'; ctx.font = '11px sans-serif'; ctx.textAlign = 'center';
+  ctx.fillText('↗ BREAKS UP', W/2, H/2);
+});
+
+// H&S
+(function() {
+  const c = document.getElementById('hnsCanvas');
+  c.width = c.parentElement.clientWidth || 500;
+  const ctx = c.getContext('2d');
+  const W = c.width, H = 260;
+  const points = [
+    {x:0.05, y:0.7}, {x:0.15, y:0.3}, {x:0.25, y:0.6}, // Left shoulder
+    {x:0.4, y:0.05}, // Head
+    {x:0.55, y:0.6}, {x:0.65, y:0.3}, {x:0.75, y:0.65}, // Right shoulder
+    {x:0.95, y:0.85} // After breakdown
+  ];
+  const pts = points.map(p => ({ x: p.x * W, y: p.y * H }));
+
+  // Neckline
+  ctx.strokeStyle = 'rgba(255,71,87,0.6)'; ctx.lineWidth = 1.5; ctx.setLineDash([4,3]);
+  ctx.beginPath(); ctx.moveTo(pts[2].x, pts[2].y); ctx.lineTo(pts[4].x, pts[4].y); ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Price path
+  ctx.strokeStyle = '#3b82f6'; ctx.lineWidth = 2.5;
+  ctx.beginPath(); ctx.moveTo(pts[0].x, pts[0].y);
+  pts.forEach(p => ctx.lineTo(p.x, p.y));
+  ctx.stroke();
+
+  // Labels
+  const labels = [
+    { pt: pts[1], text: 'Left Shoulder', color: '#3b82f6' },
+    { pt: pts[3], text: 'Head', color: '#8b5cf6' },
+    { pt: pts[5], text: 'Right Shoulder', color: '#3b82f6' },
+  ];
+  labels.forEach(l => {
+    ctx.fillStyle = l.color; ctx.font = 'bold 10px sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText(l.text, l.pt.x, l.pt.y - 8);
+    ctx.beginPath(); ctx.arc(l.pt.x, l.pt.y, 4, 0, Math.PI * 2);
+    ctx.fillStyle = l.color; ctx.fill();
+  });
+
+  // Breakdown arrow
+  ctx.fillStyle = '#ff4757'; ctx.font = 'bold 11px sans-serif'; ctx.textAlign = 'center';
+  ctx.fillText('⬇ BREAKDOWN', pts[6].x + 40, pts[6].y + 20);
+  ctx.fillStyle = '#ff4757'; ctx.font = '10px sans-serif';
+  ctx.fillText('Neckline', (pts[2].x + pts[4].x) / 2, pts[2].y - 8);
+})();
+
+// Flag
+drawPattern('flagCanvas', (ctx, W, H) => {
+  const poleX = W * 0.35;
+  ctx.strokeStyle = '#00d4aa'; ctx.lineWidth = 3;
+  ctx.beginPath(); ctx.moveTo(W * 0.1, H - 20); ctx.lineTo(poleX, 20); ctx.stroke();
+  ctx.strokeStyle = '#00d4aa'; ctx.lineWidth = 1.5;
+  ctx.beginPath(); ctx.moveTo(poleX, 20); ctx.lineTo(W * 0.75, 45); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(poleX, 55); ctx.lineTo(W * 0.75, 75); ctx.stroke();
+  ctx.fillStyle = 'rgba(0,212,170,0.08)';
+  ctx.fillRect(poleX, 20, W * 0.4, 55);
+  ctx.strokeStyle = '#00d4aa'; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.moveTo(W * 0.75, 45); ctx.lineTo(W - 15, 20); ctx.stroke();
+  ctx.fillStyle = '#00d4aa'; ctx.font = '10px sans-serif'; ctx.textAlign = 'center';
+  ctx.fillText('Pole', W * 0.2, H / 2);
+  ctx.fillText('Flag', poleX + W * 0.2, 80);
+  ctx.fillText('↗ Breakout', W - 20, 18);
+});
+
+// Pennant
+drawPattern('pennantCanvas', (ctx, W, H) => {
+  const poleX = W * 0.35;
+  ctx.strokeStyle = '#8b5cf6'; ctx.lineWidth = 3;
+  ctx.beginPath(); ctx.moveTo(W * 0.1, H - 20); ctx.lineTo(poleX, 20); ctx.stroke();
+  const midY = H / 2;
+  ctx.strokeStyle = '#8b5cf6'; ctx.lineWidth = 1.5;
+  ctx.beginPath(); ctx.moveTo(poleX, 20); ctx.lineTo(W * 0.72, midY); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(poleX, H - 30); ctx.lineTo(W * 0.72, midY); ctx.stroke();
+  ctx.fillStyle = 'rgba(139,92,246,0.08)';
+  ctx.beginPath(); ctx.moveTo(poleX, 20); ctx.lineTo(W * 0.72, midY); ctx.lineTo(poleX, H-30); ctx.closePath(); ctx.fill();
+  ctx.strokeStyle = '#8b5cf6'; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.moveTo(W * 0.72, midY); ctx.lineTo(W - 15, 25); ctx.stroke();
+  ctx.fillStyle = '#8b5cf6'; ctx.font = '10px sans-serif'; ctx.textAlign = 'center';
+  ctx.fillText('Pennant', poleX + W * 0.18, midY);
+});
+</script>
+</body>
+</html>

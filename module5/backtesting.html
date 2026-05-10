@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Backtesting vs Paper Trading — TradeX Academy</title>
+<link rel="stylesheet" href="../css/styles.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+<script src="../js/main.js"></script>
+<script>buildNav('module5');</script>
+
+<div class="page-wrap">
+  <div class="page-hero">
+    <div class="container">
+      <div class="breadcrumb"><a href="../index.html">Home</a> › Module 5 › Backtesting vs Paper Trading</div>
+      <span class="badge badge-red">Module 5 · Lesson 2</span>
+      <h1>Backtesting vs. Paper Trading</h1>
+      <p>The critical difference between testing historical data and forward-testing in real-time — and why you need BOTH.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="container">
+
+      <!-- COMPARISON -->
+      <div class="grid grid-2" style="gap:24px;margin-bottom:48px">
+        <div class="card" style="border-color:rgba(59,130,246,0.3)">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
+            <div style="width:48px;height:48px;border-radius:var(--rl);background:var(--blue-dim);display:flex;align-items:center;justify-content:center;font-size:1.5rem">⏪</div>
+            <div><div style="font-size:0.7rem;color:var(--blue);font-weight:700;text-transform:uppercase">Historical Testing</div><h2 style="font-size:1.2rem;font-weight:700">Backtesting</h2></div>
+          </div>
+          <p style="font-size:0.875rem;color:var(--text-secondary);margin-bottom:16px">Backtesting applies your trading rules to historical price data to see how the strategy would have performed in the past. It's done on computers, often testing years of data in seconds.</p>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div style="display:flex;gap:10px;font-size:0.85rem"><span style="color:var(--green)">✓</span> Tests years of data instantly</div>
+            <div style="display:flex;gap:10px;font-size:0.85rem"><span style="color:var(--green)">✓</span> Reveals strategy statistics objectively</div>
+            <div style="display:flex;gap:10px;font-size:0.85rem"><span style="color:var(--green)">✓</span> Can optimize parameters across datasets</div>
+            <div style="display:flex;gap:10px;font-size:0.85rem"><span style="color:var(--red)">✗</span> Prone to "curve fitting" to past data</div>
+            <div style="display:flex;gap:10px;font-size:0.85rem"><span style="color:var(--red)">✗</span> Past performance ≠ future performance</div>
+            <div style="display:flex;gap:10px;font-size:0.85rem"><span style="color:var(--red)">✗</span> Doesn't test emotional execution</div>
+          </div>
+        </div>
+        <div class="card" style="border-color:rgba(0,212,170,0.3)">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
+            <div style="width:48px;height:48px;border-radius:var(--rl);background:var(--green-dim);display:flex;align-items:center;justify-content:center;font-size:1.5rem">▶️</div>
+            <div><div style="font-size:0.7rem;color:var(--green);font-weight:700;text-transform:uppercase">Forward Testing</div><h2 style="font-size:1.2rem;font-weight:700">Paper Trading</h2></div>
+          </div>
+          <p style="font-size:0.875rem;color:var(--text-secondary);margin-bottom:16px">Paper trading applies your strategy to live, real-time market conditions using virtual money. You make decisions as if real money is at stake, but with no financial risk.</p>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div style="display:flex;gap:10px;font-size:0.85rem"><span style="color:var(--green)">✓</span> Tests in real, unfolding market conditions</div>
+            <div style="display:flex;gap:10px;font-size:0.85rem"><span style="color:var(--green)">✓</span> Includes execution psychology and timing</div>
+            <div style="display:flex;gap:10px;font-size:0.85rem"><span style="color:var(--green)">✓</span> Builds real-time decision-making skills</div>
+            <div style="display:flex;gap:10px;font-size:0.85rem"><span style="color:var(--red)">✗</span> Slow — takes months to gather data</div>
+            <div style="display:flex;gap:10px;font-size:0.85rem"><span style="color:var(--red)">✗</span> Missing emotional stakes of real money</div>
+            <div style="display:flex;gap:10px;font-size:0.85rem"><span style="color:var(--red)">✗</span> Market regimes change; limited sample</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VISUAL COMPARISON CHART -->
+      <div class="chart-box" style="margin-bottom:40px">
+        <div class="chart-box-header">
+          <span class="chart-box-title">The Strategy Development Pipeline</span>
+        </div>
+        <canvas id="pipelineChart" height="220"></canvas>
+        <div style="display:flex;justify-content:center;gap:24px;margin-top:12px;font-size:0.78rem">
+          <span style="color:var(--blue)">— Backtest Results</span>
+          <span style="color:var(--gold)">— Paper Trading Results</span>
+          <span style="color:var(--green)">— Live Trading Results</span>
+        </div>
+      </div>
+
+      <!-- OVERFITTING -->
+      <div style="background:var(--bg-secondary);border-radius:var(--rx);border:1px solid var(--border);padding:36px;margin-bottom:40px">
+        <h2 class="section-title">The #1 Backtesting Danger: Curve Fitting</h2>
+        <div class="grid grid-2" style="gap:40px;align-items:center">
+          <div>
+            <p style="color:var(--text-secondary);margin-bottom:16px">Curve fitting (or "overfitting") occurs when you optimize your strategy parameters to work perfectly on historical data — but the strategy fails in live markets because it was tuned to the past, not the future.</p>
+            <div class="callout red">
+              <strong>The Trap:</strong> A backtest showing 85% win rate and 500% returns sounds incredible. But if those numbers came from optimizing 20+ parameters on 3 years of data, the strategy is likely memorizing the past rather than identifying a genuine market edge.
+            </div>
+            <div style="margin-top:16px;display:flex;flex-direction:column;gap:8px">
+              <div class="card card-sm"><strong style="font-size:0.875rem">Guard #1: Out-of-Sample Testing</strong><p style="font-size:0.82rem;color:var(--text-secondary);margin-top:4px">Optimize on 60% of data. Test on the remaining 40% that the strategy has never "seen." If results collapse on unseen data, it's overfitted.</p></div>
+              <div class="card card-sm"><strong style="font-size:0.875rem">Guard #2: Walk-Forward Analysis</strong><p style="font-size:0.82rem;color:var(--text-secondary);margin-top:4px">Roll your optimization window forward in time, continuously testing on new out-of-sample data. More computationally intensive but far more reliable.</p></div>
+              <div class="card card-sm"><strong style="font-size:0.875rem">Guard #3: Fewer Parameters</strong><p style="font-size:0.82rem;color:var(--text-secondary);margin-top:4px">The simpler the strategy, the less prone to overfitting. A strategy with 2 rules that works across multiple markets is far more robust than one with 15 specialized rules.</p></div>
+            </div>
+          </div>
+          <div class="chart-box">
+            <div class="chart-box-header"><span class="chart-box-title">Backtest vs Live Performance Gap</span></div>
+            <canvas id="gapChart" height="260"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- RECOMMENDED PROCESS -->
+      <h2 class="section-title">The Professional Strategy Development Process</h2>
+      <div class="steps">
+        <div class="step"><div class="step-num" style="background:var(--purple)">1</div><div class="step-content"><div class="step-title">Form a Hypothesis</div><div class="step-desc">Start with a logical reason why the strategy should work (not just "it worked in the past"). Example: "Strong momentum stocks tend to continue rising in the short term."</div></div></div>
+        <div class="step"><div class="step-num" style="background:var(--blue)">2</div><div class="step-content"><div class="step-title">Define Exact Rules</div><div class="step-desc">Quantify everything: entry condition, exit condition, position size, stop-loss. No ambiguity. If you can't code it, you can't test it properly.</div></div></div>
+        <div class="step"><div class="step-num" style="background:var(--gold)">3</div><div class="step-content"><div class="step-title">Backtest on In-Sample Data</div><div class="step-desc">Test on 60% of your historical data. Optimize parameters conservatively. Don't tweak until the numbers look great — you're looking for robustness, not perfection.</div></div></div>
+        <div class="step"><div class="step-num" style="background:var(--cyan)">4</div><div class="step-content"><div class="step-title">Validate on Out-of-Sample Data</div><div class="step-desc">Run the EXACT same rules on the 40% of data you haven't touched. If performance degrades significantly, the strategy is overfitted. Go back to step 1.</div></div></div>
+        <div class="step"><div class="step-num" style="background:var(--green)">5</div><div class="step-content"><div class="step-title">Paper Trade for 30–90 Days</div><div class="step-desc">Apply the strategy in real-time with virtual money. This forward test reveals execution challenges, market regime changes, and psychological factors that backtests miss.</div></div></div>
+        <div class="step"><div class="step-num" style="background:var(--red)">6</div><div class="step-content"><div class="step-title">Live Trade (Small Size First)</div><div class="step-desc">If paper trading results are consistent with backtesting, begin trading live with a small fraction of intended capital. Scale up only after consistent live results.</div></div></div>
+      </div>
+
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:40px;padding-top:24px;border-top:1px solid var(--border)">
+        <a href="glossary.html" class="btn btn-outline">← Previous</a>
+        <a href="beginner-strategies.html" class="btn btn-primary">Next: Top 5 Beginner Strategies →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Pipeline chart
+const labels = Array.from({length: 60}, (_, i) => `M${i + 1}`);
+let bt = 100, pt = 100, lt = 100;
+const btData = [bt], ptData = Array(20).fill(null), ltData = Array(40).fill(null);
+for (let i = 1; i <= 20; i++) { bt += 3 + (Math.random() - 0.3) * 4; btData.push(+bt.toFixed(1)); ptData[i] = null; }
+for (let i = 21; i <= 40; i++) { bt += 2.5 + (Math.random() - 0.4) * 4; btData.push(+bt.toFixed(1)); pt += 1.8 + (Math.random() - 0.44) * 5; ptData.push(+pt.toFixed(1)); ltData[i] = null; }
+for (let i = 41; i <= 59; i++) { bt += 2 + (Math.random() - 0.45) * 3; btData.push(+bt.toFixed(1)); pt += 1.5 + (Math.random() - 0.46) * 5; ptData.push(+pt.toFixed(1)); lt += 1.2 + (Math.random() - 0.47) * 5; ltData.push(+lt.toFixed(1)); }
+
+const pCtx = document.getElementById('pipelineChart').getContext('2d');
+new Chart(pCtx, {
+  type: 'line',
+  data: {
+    labels,
+    datasets: [
+      { data: btData, borderColor: '#3b82f6', fill: false, tension: 0.3, borderWidth: 2, pointRadius: 0 },
+      { data: ptData, borderColor: '#f59e0b', fill: false, tension: 0.3, borderWidth: 2, pointRadius: 0 },
+      { data: ltData, borderColor: '#00d4aa', fill: false, tension: 0.3, borderWidth: 2, pointRadius: 0 },
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { grid: { display: false }, ticks: { maxTicksLimit: 10 } },
+      y: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { callback: v => v + '%' } }
+    }
+  }
+});
+
+// Gap chart
+const gapLabels = Array.from({length: 40}, (_, i) => i < 20 ? `BT-${i+1}` : `Live-${i-19}`);
+let btg = 100, livg = 100;
+const btgData = [100], livgData = Array(20).fill(null);
+for (let i = 1; i < 20; i++) { btg += 3.5 + Math.random() * 2; btgData.push(+btg.toFixed(1)); }
+for (let i = 20; i < 40; i++) { btg += 3.5 + Math.random() * 2; btgData.push(+btg.toFixed(1)); livg += 0.8 + (Math.random() - 0.44) * 4; livgData.push(+livg.toFixed(1)); }
+
+const gCtx = document.getElementById('gapChart').getContext('2d');
+new Chart(gCtx, {
+  type: 'line',
+  data: {
+    labels: gapLabels,
+    datasets: [
+      { data: btgData, borderColor: '#3b82f6', fill: false, tension: 0.3, borderWidth: 2, pointRadius: 0, borderDash: [5,3] },
+      { data: livgData, borderColor: '#00d4aa', fill: false, tension: 0.3, borderWidth: 2, pointRadius: 0 },
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false },
+      annotation: {
+        annotations: [{
+          type: 'line', xMin: 20, xMax: 20,
+          borderColor: 'rgba(245,158,11,0.5)', borderWidth: 1.5,
+          label: { content: 'Go Live', display: true, color: '#f59e0b', backgroundColor: 'transparent', font: { size: 11 } }
+        }]
+      }
+    },
+    scales: {
+      x: { grid: { display: false }, ticks: { maxTicksLimit: 8 } },
+      y: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { callback: v => v.toFixed(0) + '%' } }
+    }
+  }
+});
+</script>
+</body>
+</html>

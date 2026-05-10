@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Intro to Financial Data Visualization — TradeX Academy</title>
+<link rel="stylesheet" href="../css/styles.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+<script src="../js/main.js"></script>
+<script>buildNav('module1');</script>
+
+<div class="page-wrap">
+  <div class="page-hero">
+    <div class="container">
+      <div class="breadcrumb"><a href="../index.html">Home</a> › <a href="#">Module 1</a> › Intro to Financial Data Visualization</div>
+      <span class="badge badge-blue">Module 1 · Lesson 1</span>
+      <h1>Intro to Financial Data Visualization</h1>
+      <p>Why professional traders use charts instead of spreadsheets — and how visual patterns reveal what numbers alone cannot.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="container">
+
+      <!-- WHY CHARTS -->
+      <div class="grid grid-2" style="gap:40px;align-items:start;margin-bottom:48px">
+        <div>
+          <h2 class="section-title">Why Visualization Matters</h2>
+          <p style="color:var(--text-secondary);margin-bottom:16px">A spreadsheet of stock prices can contain thousands of rows of numbers. Your brain cannot spot a "head and shoulders" pattern in a column of numbers — but it can identify it in 3 seconds on a chart.</p>
+          <p style="color:var(--text-secondary);margin-bottom:16px">Financial data visualization transforms raw OHLCV data (Open, High, Low, Close, Volume) into visual stories your brain is already wired to understand: trends, reversals, momentum, and volatility.</p>
+          <div class="callout green">
+            <strong>The Human Visual System</strong> processes images 60,000× faster than text. A chart communicates in milliseconds what a spreadsheet takes minutes to convey.
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px;margin-top:20px">
+            <div style="display:flex;align-items:center;gap:12px;padding:12px 16px;background:var(--bg-surface);border-radius:var(--r)">
+              <span style="font-size:1.2rem">📊</span>
+              <div><strong style="font-size:0.875rem">Pattern Recognition</strong><br><span style="font-size:0.8rem;color:var(--text-secondary)">Charts reveal trends, support/resistance, and reversals that are invisible in raw data.</span></div>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;padding:12px 16px;background:var(--bg-surface);border-radius:var(--r)">
+              <span style="font-size:1.2rem">⏱️</span>
+              <div><strong style="font-size:0.875rem">Speed of Decision</strong><br><span style="font-size:0.8rem;color:var(--text-secondary)">Markets move fast. Visualizations let you assess a situation in seconds, not minutes.</span></div>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;padding:12px 16px;background:var(--bg-surface);border-radius:var(--r)">
+              <span style="font-size:1.2rem">🔗</span>
+              <div><strong style="font-size:0.875rem">Context & Comparison</strong><br><span style="font-size:0.8rem;color:var(--text-secondary)">Charts show how a price compares to its history — the most critical context in trading.</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="chart-box">
+          <div class="chart-box-header">
+            <span class="chart-box-title">The Same Data — Two Ways</span>
+            <div class="chart-controls">
+              <button class="chart-btn active" onclick="showTable()">📋 Table</button>
+              <button class="chart-btn" onclick="showChart()">📈 Chart</button>
+            </div>
+          </div>
+          <div id="tableView">
+            <table class="data-table" style="font-family:var(--font-mono)">
+              <thead><tr><th>Date</th><th>Close</th><th>Change</th></tr></thead>
+              <tbody id="tableBody"></tbody>
+            </table>
+            <p style="margin-top:12px;font-size:0.78rem;color:var(--text-muted)">Can you spot the trend? It's hard with numbers alone.</p>
+          </div>
+          <div id="chartView" style="display:none">
+            <canvas id="compChart" height="260"></canvas>
+            <p style="margin-top:12px;font-size:0.78rem;color:var(--text-muted)">The same data as a chart. The uptrend is immediately obvious.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5 PRINCIPLES -->
+      <h2 class="section-title">5 Principles of Financial Visualization</h2>
+      <p class="section-sub">These rules guide every professional charting platform</p>
+      <div class="grid grid-3" style="gap:16px;margin-bottom:48px">
+        <div class="card">
+          <div style="font-size:2rem;margin-bottom:12px">1️⃣</div>
+          <h3 class="card-title">Time on the X-Axis</h3>
+          <p style="font-size:0.85rem;color:var(--text-secondary)">Price is always plotted over time. The left is the past; the right is the present. This is the fundamental contract every chart makes with the reader.</p>
+        </div>
+        <div class="card">
+          <div style="font-size:2rem;margin-bottom:12px">2️⃣</div>
+          <h3 class="card-title">Price on the Y-Axis</h3>
+          <p style="font-size:0.85rem;color:var(--text-secondary)">The vertical axis shows price. Higher = more expensive. The scale can be linear (equal spacing) or logarithmic (percentage-based), each telling a different story.</p>
+        </div>
+        <div class="card">
+          <div style="font-size:2rem;margin-bottom:12px">3️⃣</div>
+          <h3 class="card-title">Timeframe = Perspective</h3>
+          <p style="font-size:0.85rem;color:var(--text-secondary)">A 1-minute chart shows noise; a weekly chart shows structure. The same asset can look bullish on one timeframe and bearish on another.</p>
+        </div>
+        <div class="card">
+          <div style="font-size:2rem;margin-bottom:12px">4️⃣</div>
+          <h3 class="card-title">Color Encodes Direction</h3>
+          <p style="font-size:0.85rem;color:var(--text-secondary)">Green/white = price closed higher than it opened. Red/black = it closed lower. This color convention is universal and instantly communicates market sentiment.</p>
+        </div>
+        <div class="card">
+          <div style="font-size:2rem;margin-bottom:12px">5️⃣</div>
+          <h3 class="card-title">Volume Confirms Price</h3>
+          <p style="font-size:0.85rem;color:var(--text-secondary)">Price moves on high volume are more meaningful than moves on low volume. Volume is always displayed below the price chart as a separate histogram.</p>
+        </div>
+        <div class="card" style="background:linear-gradient(135deg,var(--blue-dim),var(--purple-dim));border-color:rgba(139,92,246,0.2)">
+          <div style="font-size:2rem;margin-bottom:12px">🎯</div>
+          <h3 class="card-title">The Goal of Every Chart</h3>
+          <p style="font-size:0.85rem;color:var(--text-secondary)">To answer one question: <em>"Is this asset in an uptrend, downtrend, or sideways range — and where is it likely to go next?"</em></p>
+        </div>
+      </div>
+
+      <!-- CHART TYPES PREVIEW -->
+      <div class="chart-box">
+        <div class="chart-box-header">
+          <span class="chart-box-title">The 4 Most Common Chart Types — At a Glance</span>
+        </div>
+        <div class="grid grid-4" style="gap:12px">
+          <a href="chart-types.html" class="card card-sm" style="text-decoration:none;color:inherit;text-align:center">
+            <div style="font-size:1.5rem;margin-bottom:6px">📈</div>
+            <div style="font-size:0.85rem;font-weight:600">Line Chart</div>
+            <div style="font-size:0.75rem;color:var(--text-secondary)">Simplest. Connects closing prices.</div>
+          </a>
+          <a href="chart-types.html" class="card card-sm" style="text-decoration:none;color:inherit;text-align:center">
+            <div style="font-size:1.5rem;margin-bottom:6px">📊</div>
+            <div style="font-size:0.85rem;font-weight:600">Bar Chart</div>
+            <div style="font-size:0.75rem;color:var(--text-secondary)">Shows OHLC as vertical bars.</div>
+          </a>
+          <a href="candlestick-anatomy.html" class="card card-sm" style="text-decoration:none;color:inherit;text-align:center">
+            <div style="font-size:1.5rem;margin-bottom:6px">🕯️</div>
+            <div style="font-size:0.85rem;font-weight:600">Candlestick</div>
+            <div style="font-size:0.75rem;color:var(--text-secondary)">Most popular. OHLC with color bodies.</div>
+          </a>
+          <a href="exotic-charts.html" class="card card-sm" style="text-decoration:none;color:inherit;text-align:center">
+            <div style="font-size:1.5rem;margin-bottom:6px">🔮</div>
+            <div style="font-size:0.85rem;font-weight:600">Heikin-Ashi</div>
+            <div style="font-size:0.75rem;color:var(--text-secondary)">Smoothed candles. Filters noise.</div>
+          </a>
+        </div>
+      </div>
+
+      <!-- NEXT LESSON -->
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:40px;padding-top:24px;border-top:1px solid var(--border)">
+        <span style="font-size:0.85rem;color:var(--text-muted)">Lesson 1 of 6 in Module 1</span>
+        <a href="candlestick-anatomy.html" class="btn btn-primary">Next: Anatomy of a Candlestick →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const rawData = [
+  {date:'Jan 2',  close:148.20}, {date:'Jan 3',  close:145.80}, {date:'Jan 4',  close:150.40},
+  {date:'Jan 5',  close:152.10}, {date:'Jan 6',  close:149.90}, {date:'Jan 9',  close:155.30},
+  {date:'Jan 10', close:157.80}, {date:'Jan 11', close:156.20}, {date:'Jan 12', close:160.50},
+  {date:'Jan 13', close:162.30},
+];
+
+// Build table
+const tbody = document.getElementById('tableBody');
+rawData.forEach((d, i) => {
+  const prev = i > 0 ? rawData[i-1].close : d.close;
+  const ch = +(d.close - prev).toFixed(2);
+  tbody.innerHTML += `<tr>
+    <td>${d.date}</td>
+    <td style="font-weight:600">$${d.close}</td>
+    <td class="${ch >= 0 ? 'up' : 'down'}">${ch >= 0 ? '+' : ''}${ch}</td>
+  </tr>`;
+});
+
+// Build chart
+const ctx = document.getElementById('compChart').getContext('2d');
+const grad = ctx.createLinearGradient(0, 0, 0, 260);
+grad.addColorStop(0, 'rgba(59,130,246,0.3)');
+grad.addColorStop(1, 'rgba(59,130,246,0)');
+new Chart(ctx, {
+  type: 'line',
+  data: {
+    labels: rawData.map(d => d.date),
+    datasets: [{
+      data: rawData.map(d => d.close),
+      borderColor: '#3b82f6', backgroundColor: grad,
+      borderWidth: 2.5, fill: true, tension: 0.3, pointRadius: 4,
+      pointBackgroundColor: '#3b82f6',
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { grid: { display: false } },
+      y: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { callback: v => '$' + v } }
+    }
+  }
+});
+
+function showTable() {
+  document.getElementById('tableView').style.display = '';
+  document.getElementById('chartView').style.display = 'none';
+  document.querySelectorAll('.chart-btn')[0].classList.add('active');
+  document.querySelectorAll('.chart-btn')[1].classList.remove('active');
+}
+function showChart() {
+  document.getElementById('tableView').style.display = 'none';
+  document.getElementById('chartView').style.display = '';
+  document.querySelectorAll('.chart-btn')[0].classList.remove('active');
+  document.querySelectorAll('.chart-btn')[1].classList.add('active');
+}
+</script>
+</body>
+</html>

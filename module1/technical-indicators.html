@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Technical Indicators 101 — TradeX Academy</title>
+<link rel="stylesheet" href="../css/styles.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+<script src="../js/main.js"></script>
+<script>buildNav('module1');</script>
+
+<div class="page-wrap">
+  <div class="page-hero">
+    <div class="container">
+      <div class="breadcrumb"><a href="../index.html">Home</a> › Module 1 › Technical Indicators 101</div>
+      <span class="badge badge-gold">Module 1 · Lesson 6</span>
+      <h1>Technical Indicators 101</h1>
+      <p>Overlay Moving Averages, Bollinger Bands, and the Ichimoku Cloud on price charts to reveal momentum, volatility, and trend strength.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="container">
+
+      <div class="tabs">
+        <button class="tab-btn active" data-tab="tab-ma">Moving Averages</button>
+        <button class="tab-btn" data-tab="tab-bb">Bollinger Bands</button>
+        <button class="tab-btn" data-tab="tab-ichi">Ichimoku Cloud</button>
+        <button class="tab-btn" data-tab="tab-rsi">RSI</button>
+      </div>
+
+      <!-- MOVING AVERAGES -->
+      <div class="tab-pane active" id="tab-ma">
+        <div class="grid grid-2" style="gap:40px;align-items:start;margin-bottom:32px">
+          <div>
+            <h2 class="section-title">Moving Averages (MA)</h2>
+            <p style="color:var(--text-secondary);margin-bottom:16px">A Moving Average smooths out price data by creating a constantly updated average price. It removes short-term fluctuations to reveal the underlying trend direction.</p>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <div style="padding:12px;border-radius:var(--r);background:var(--bg-surface);display:flex;align-items:center;gap:10px">
+                <span style="display:inline-block;width:24px;height:3px;background:#3b82f6;border-radius:2px"></span>
+                <div><strong style="font-size:0.875rem">SMA 20 (Fast)</strong><span style="font-size:0.8rem;color:var(--text-secondary)"> — Average of last 20 closing prices. Sensitive to recent moves.</span></div>
+              </div>
+              <div style="padding:12px;border-radius:var(--r);background:var(--bg-surface);display:flex;align-items:center;gap:10px">
+                <span style="display:inline-block;width:24px;height:3px;background:#f59e0b;border-radius:2px"></span>
+                <div><strong style="font-size:0.875rem">SMA 50 (Slow)</strong><span style="font-size:0.8rem;color:var(--text-secondary)"> — Average of last 50 prices. Captures the medium-term trend.</span></div>
+              </div>
+              <div style="padding:12px;border-radius:var(--r);background:var(--bg-surface);display:flex;align-items:center;gap:10px">
+                <span style="display:inline-block;width:24px;height:3px;background:#8b5cf6;border-radius:2px;border-style:dashed"></span>
+                <div><strong style="font-size:0.875rem">SMA 200 (Trend)</strong><span style="font-size:0.8rem;color:var(--text-secondary)"> — The "golden" baseline. Above = bull market; below = bear market.</span></div>
+              </div>
+            </div>
+            <div class="callout" style="margin-top:16px">
+              <strong>Golden Cross:</strong> When SMA 20 crosses <span class="up">above</span> SMA 50 → bullish signal.<br>
+              <strong>Death Cross:</strong> When SMA 20 crosses <span class="down">below</span> SMA 50 → bearish signal.
+            </div>
+          </div>
+          <div class="chart-box">
+            <div class="chart-box-header">
+              <span class="chart-box-title">Price with Moving Averages</span>
+              <div style="display:flex;gap:10px;font-size:0.75rem">
+                <span style="color:#3b82f6">— SMA 20</span>
+                <span style="color:#f59e0b">— SMA 50</span>
+              </div>
+            </div>
+            <canvas id="maChart" height="280"></canvas>
+          </div>
+        </div>
+        <div class="card" style="background:var(--bg-secondary)">
+          <h3 style="font-size:0.95rem;font-weight:700;margin-bottom:12px">SMA vs EMA: What's the Difference?</h3>
+          <div class="grid grid-2" style="gap:16px">
+            <div><strong style="font-size:0.85rem;color:var(--blue)">Simple Moving Average (SMA)</strong><p style="font-size:0.82rem;color:var(--text-secondary);margin-top:6px">Treats all periods equally. Slower to react to new data. Better for identifying long-term trends. Less prone to "whipsaws."</p></div>
+            <div><strong style="font-size:0.85rem;color:var(--green)">Exponential Moving Average (EMA)</strong><p style="font-size:0.82rem;color:var(--text-secondary);margin-top:6px">Gives more weight to recent prices. Faster to react. Generates earlier signals. But also generates more false signals.</p></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BOLLINGER BANDS -->
+      <div class="tab-pane" id="tab-bb">
+        <div class="grid grid-2" style="gap:40px;align-items:start;margin-bottom:32px">
+          <div>
+            <h2 class="section-title">Bollinger Bands</h2>
+            <p style="color:var(--text-secondary);margin-bottom:16px">Created by John Bollinger, Bollinger Bands consist of a middle SMA (usually 20-period) plus two "bands" plotted 2 standard deviations above and below. They measure volatility dynamically.</p>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <div style="padding:12px;border-radius:var(--r);background:var(--bg-surface)">
+                <strong style="font-size:0.85rem;color:var(--blue)">Upper Band</strong>
+                <p style="font-size:0.8rem;color:var(--text-secondary);margin-top:4px">SMA(20) + 2σ. When price tags the upper band in a strong trend, it's a sign of STRENGTH, not weakness.</p>
+              </div>
+              <div style="padding:12px;border-radius:var(--r);background:var(--bg-surface)">
+                <strong style="font-size:0.85rem;color:var(--green)">Middle Band</strong>
+                <p style="font-size:0.8rem;color:var(--text-secondary);margin-top:4px">The 20-period SMA. Acts as support in uptrends and resistance in downtrends.</p>
+              </div>
+              <div style="padding:12px;border-radius:var(--r);background:var(--bg-surface)">
+                <strong style="font-size:0.85rem;color:var(--purple)">Lower Band</strong>
+                <p style="font-size:0.8rem;color:var(--text-secondary);margin-top:4px">SMA(20) − 2σ. Price touching the lower band can signal oversold conditions.</p>
+              </div>
+            </div>
+            <div class="callout gold" style="margin-top:16px">
+              <strong>The Squeeze:</strong> When the bands contract (narrow), it signals low volatility and a BIG move is coming. When they expand rapidly, volatility has returned.
+            </div>
+          </div>
+          <div class="chart-box">
+            <div class="chart-box-header">
+              <span class="chart-box-title">Bollinger Bands</span>
+              <div style="display:flex;gap:10px;font-size:0.75rem">
+                <span style="color:#3b82f6">— Middle</span>
+                <span style="color:rgba(139,92,246,0.6)">⊟ Bands</span>
+              </div>
+            </div>
+            <canvas id="bbChart" height="280"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- ICHIMOKU -->
+      <div class="tab-pane" id="tab-ichi">
+        <div class="grid grid-2" style="gap:40px;align-items:start;margin-bottom:32px">
+          <div>
+            <h2 class="section-title">Ichimoku Cloud</h2>
+            <p style="color:var(--text-secondary);margin-bottom:16px">Developed in Japan in the 1960s, the Ichimoku Cloud is a comprehensive indicator that shows trend, momentum, support/resistance, and future price projections — all in one chart.</p>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <div style="padding:10px 14px;border-radius:var(--r);background:var(--bg-surface);border-left:3px solid #3b82f6">
+                <strong style="font-size:0.82rem">Tenkan-sen (Conversion)</strong>
+                <p style="font-size:0.78rem;color:var(--text-secondary);margin-top:2px">(9-high + 9-low) / 2. Fast trend line. Like a 9-period MA of the midpoint.</p>
+              </div>
+              <div style="padding:10px 14px;border-radius:var(--r);background:var(--bg-surface);border-left:3px solid #f59e0b">
+                <strong style="font-size:0.82rem">Kijun-sen (Base)</strong>
+                <p style="font-size:0.78rem;color:var(--text-secondary);margin-top:2px">(26-high + 26-low) / 2. Slow trend line. Key support/resistance.</p>
+              </div>
+              <div style="padding:10px 14px;border-radius:var(--r);background:var(--bg-surface);border-left:3px solid #00d4aa">
+                <strong style="font-size:0.82rem">Senkou Span A (Cloud edge)</strong>
+                <p style="font-size:0.78rem;color:var(--text-secondary);margin-top:2px">(Tenkan + Kijun) / 2, plotted 26 periods AHEAD.</p>
+              </div>
+              <div style="padding:10px 14px;border-radius:var(--r);background:var(--bg-surface);border-left:3px solid #8b5cf6">
+                <strong style="font-size:0.82rem">Senkou Span B (Cloud edge)</strong>
+                <p style="font-size:0.78rem;color:var(--text-secondary);margin-top:2px">(52-high + 52-low) / 2, plotted 26 periods ahead.</p>
+              </div>
+              <div style="padding:10px 14px;border-radius:var(--r);background:var(--bg-surface);border-left:3px solid #ff4757">
+                <strong style="font-size:0.82rem">Chikou Span (Lagging)</strong>
+                <p style="font-size:0.78rem;color:var(--text-secondary);margin-top:2px">Current close plotted 26 periods BEHIND. Confirms signal direction.</p>
+              </div>
+            </div>
+          </div>
+          <div class="chart-box">
+            <div class="chart-box-header">
+              <span class="chart-box-title">Ichimoku Cloud</span>
+              <div style="display:flex;gap:10px;font-size:0.75rem">
+                <span style="color:rgba(0,212,170,0.4)">■ Bull Cloud</span>
+                <span style="color:rgba(255,71,87,0.4)">■ Bear Cloud</span>
+              </div>
+            </div>
+            <canvas id="ichiChart" height="280"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- RSI -->
+      <div class="tab-pane" id="tab-rsi">
+        <div class="grid grid-2" style="gap:40px;align-items:start">
+          <div>
+            <h2 class="section-title">Relative Strength Index (RSI)</h2>
+            <p style="color:var(--text-secondary);margin-bottom:16px">RSI is a momentum oscillator that measures the speed and magnitude of price changes. It oscillates between 0 and 100, revealing overbought and oversold conditions.</p>
+            <div class="card card-sm" style="margin-bottom:12px;border-color:rgba(255,71,87,0.3)">
+              <strong style="color:var(--red)">Above 70 = Overbought</strong>
+              <p style="font-size:0.82rem;color:var(--text-secondary);margin-top:6px">Asset has rallied too fast. Potential reversal or pullback zone. Consider taking profits.</p>
+            </div>
+            <div class="card card-sm" style="margin-bottom:12px">
+              <strong style="color:var(--cyan)">40–60 = Neutral Zone</strong>
+              <p style="font-size:0.82rem;color:var(--text-secondary);margin-top:6px">Neither overbought nor oversold. Wait for the RSI to reach an extreme before acting.</p>
+            </div>
+            <div class="card card-sm" style="border-color:rgba(0,212,170,0.3)">
+              <strong style="color:var(--green)">Below 30 = Oversold</strong>
+              <p style="font-size:0.82rem;color:var(--text-secondary);margin-top:6px">Asset has sold off too aggressively. Potential bounce or reversal. Look for buying opportunities.</p>
+            </div>
+            <div class="callout" style="margin-top:16px">
+              <strong>RSI Divergence:</strong> Price makes a new high but RSI makes a lower high = <span class="down">bearish divergence</span>. A powerful reversal signal.
+            </div>
+          </div>
+          <div class="chart-box">
+            <div class="chart-box-header"><span class="chart-box-title">RSI Indicator (14-period)</span></div>
+            <canvas id="rsiPriceChart" height="160"></canvas>
+            <div style="height:12px"></div>
+            <canvas id="rsiChart" height="100"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:40px;padding-top:24px;border-top:1px solid var(--border)">
+        <a href="volume-power.html" class="btn btn-outline">← Previous</a>
+        <a href="../module2/paper-trading-intro.html" class="btn btn-primary">Module 2: Paper Trading →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const BARS = generateOHLC(80, 200, 5);
+const labels = BARS.map((_, i) => `D${i+1}`);
+const closes = BARS.map(b => b.close);
+
+function sma(data, period) {
+  return data.map((_, i) => i < period - 1 ? null : data.slice(i - period + 1, i + 1).reduce((a, b) => a + b, 0) / period);
+}
+
+function stddev(data, period) {
+  return data.map((_, i) => {
+    if (i < period - 1) return null;
+    const slice = data.slice(i - period + 1, i + 1);
+    const mean = slice.reduce((a,b) => a + b, 0) / period;
+    return Math.sqrt(slice.reduce((a, b) => a + (b - mean) ** 2, 0) / period);
+  });
+}
+
+function rsi(data, period = 14) {
+  const result = Array(period).fill(null);
+  for (let i = period; i < data.length; i++) {
+    const slice = data.slice(i - period, i + 1);
+    let gains = 0, losses = 0;
+    slice.forEach((v, j) => {
+      if (j === 0) return;
+      const diff = v - slice[j-1];
+      if (diff > 0) gains += diff; else losses -= diff;
+    });
+    const avgGain = gains / period;
+    const avgLoss = losses / period;
+    const rs = avgLoss === 0 ? 100 : avgGain / avgLoss;
+    result.push(+(100 - 100 / (1 + rs)).toFixed(2));
+  }
+  return result;
+}
+
+// MA Chart
+const ma20 = sma(closes, 20);
+const ma50 = sma(closes, 50);
+const maCtx = document.getElementById('maChart').getContext('2d');
+new Chart(maCtx, {
+  type: 'line',
+  data: {
+    labels,
+    datasets: [
+      { data: closes, borderColor: 'rgba(255,255,255,0.3)', borderWidth: 1, fill: false, tension: 0.2, pointRadius: 0 },
+      { data: ma20,  borderColor: '#3b82f6', borderWidth: 2, fill: false, tension: 0.3, pointRadius: 0 },
+      { data: ma50,  borderColor: '#f59e0b', borderWidth: 2, fill: false, tension: 0.3, pointRadius: 0, borderDash: [6,3] },
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { grid: { display: false }, ticks: { maxTicksLimit: 8 } },
+      y: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { callback: v => '$' + v.toFixed(0) } }
+    }
+  }
+});
+
+// Bollinger Bands
+const bb20 = sma(closes, 20);
+const std20 = stddev(closes, 20);
+const upper = bb20.map((v, i) => v === null ? null : v + 2 * std20[i]);
+const lower = bb20.map((v, i) => v === null ? null : v - 2 * std20[i]);
+
+const bbCtx = document.getElementById('bbChart').getContext('2d');
+const bbGrad = bbCtx.createLinearGradient(0, 0, 0, 280);
+bbGrad.addColorStop(0, 'rgba(139,92,246,0.15)');
+bbGrad.addColorStop(1, 'rgba(139,92,246,0.05)');
+
+new Chart(bbCtx, {
+  type: 'line',
+  data: {
+    labels,
+    datasets: [
+      { data: closes, borderColor: 'rgba(255,255,255,0.4)', borderWidth: 1, fill: false, tension: 0.2, pointRadius: 0 },
+      { data: upper,  borderColor: 'rgba(139,92,246,0.6)', borderWidth: 1.5, fill: '+1', backgroundColor: bbGrad, tension: 0.3, pointRadius: 0 },
+      { data: lower,  borderColor: 'rgba(139,92,246,0.6)', borderWidth: 1.5, fill: false, tension: 0.3, pointRadius: 0 },
+      { data: bb20,   borderColor: '#3b82f6', borderWidth: 1.5, fill: false, tension: 0.3, pointRadius: 0 },
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { grid: { display: false }, ticks: { maxTicksLimit: 8 } },
+      y: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { callback: v => '$' + v.toFixed(0) } }
+    }
+  }
+});
+
+// Ichimoku (simplified)
+function midpoint(data, period, offset = 0) {
+  return data.map((_, i) => {
+    const start = i - period + 1;
+    if (start < 0) return null;
+    const highs = BARS.slice(start, i + 1).map(b => b.high);
+    const lows  = BARS.slice(start, i + 1).map(b => b.low);
+    return (Math.max(...highs) + Math.min(...lows)) / 2;
+  });
+}
+
+const tenkan = midpoint(BARS, 9);
+const kijun  = midpoint(BARS, 26);
+const spanA  = tenkan.map((t, i) => t && kijun[i] ? (t + kijun[i]) / 2 : null);
+const spanB  = midpoint(BARS, 52);
+
+const ichiCtx = document.getElementById('ichiChart').getContext('2d');
+new Chart(ichiCtx, {
+  type: 'line',
+  data: {
+    labels,
+    datasets: [
+      { data: closes, borderColor: 'rgba(255,255,255,0.5)', borderWidth: 1, fill: false, tension: 0.2, pointRadius: 0 },
+      { data: tenkan, borderColor: '#3b82f6', borderWidth: 1.5, fill: false, tension: 0.3, pointRadius: 0 },
+      { data: kijun,  borderColor: '#f59e0b', borderWidth: 1.5, fill: false, tension: 0.3, pointRadius: 0 },
+      { data: spanA,  borderColor: 'rgba(0,212,170,0.5)', borderWidth: 1, fill: '+1',
+        backgroundColor: ctx => {
+          const chart = ctx.chart;
+          const {ctx: c, chartArea} = chart;
+          if (!chartArea) return 'transparent';
+          const grad = c.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
+          grad.addColorStop(0, 'rgba(0,212,170,0.2)'); grad.addColorStop(1, 'rgba(255,71,87,0.1)');
+          return grad;
+        },
+        tension: 0.3, pointRadius: 0 },
+      { data: spanB,  borderColor: 'rgba(139,92,246,0.5)', borderWidth: 1, fill: false, tension: 0.3, pointRadius: 0 },
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { grid: { display: false }, ticks: { maxTicksLimit: 8 } },
+      y: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { callback: v => '$' + v.toFixed(0) } }
+    }
+  }
+});
+
+// RSI
+const rsiData = rsi(closes);
+const rsiPriceCtx = document.getElementById('rsiPriceChart').getContext('2d');
+new Chart(rsiPriceCtx, {
+  type: 'line',
+  data: { labels, datasets: [{ data: closes, borderColor: '#3b82f6', borderWidth: 2, fill: false, tension: 0.3, pointRadius: 0 }] },
+  options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } },
+    scales: { x: { display: false }, y: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { callback: v => '$' + v.toFixed(0) } } } }
+});
+
+const rsiCtx = document.getElementById('rsiChart').getContext('2d');
+new Chart(rsiCtx, {
+  type: 'line',
+  data: {
+    labels,
+    datasets: [
+      { data: rsiData, borderColor: '#f59e0b', borderWidth: 2, fill: false, tension: 0.3, pointRadius: 0 },
+      { data: Array(labels.length).fill(70), borderColor: 'rgba(255,71,87,0.5)', borderWidth: 1, fill: false, pointRadius: 0, borderDash: [4,3] },
+      { data: Array(labels.length).fill(30), borderColor: 'rgba(0,212,170,0.5)', borderWidth: 1, fill: false, pointRadius: 0, borderDash: [4,3] },
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { grid: { display: false }, ticks: { maxTicksLimit: 8 } },
+      y: { min: 0, max: 100, grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { callback: v => v } }
+    }
+  }
+});
+</script>
+</body>
+</html>

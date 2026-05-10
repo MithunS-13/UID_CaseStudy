@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Exotic Charting Styles — TradeX Academy</title>
+<link rel="stylesheet" href="../css/styles.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+<script src="../js/main.js"></script>
+<script>buildNav('module1');</script>
+
+<div class="page-wrap">
+  <div class="page-hero">
+    <div class="container">
+      <div class="breadcrumb"><a href="../index.html">Home</a> › Module 1 › Exotic Charting Styles</div>
+      <span class="badge badge-purple">Module 1 · Lesson 4</span>
+      <h1>Exotic Charting Styles</h1>
+      <p>Heikin-Ashi, Renko, and Point & Figure — advanced chart types designed to filter out market noise and reveal the true trend.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="container">
+
+      <!-- HEIKIN ASHI -->
+      <div style="margin-bottom:56px">
+        <div class="grid grid-2" style="gap:40px;align-items:start">
+          <div>
+            <span class="badge badge-purple">Chart Type 1</span>
+            <h2 class="section-title" style="margin-top:8px">Heikin-Ashi</h2>
+            <p style="color:var(--text-secondary);margin-bottom:16px">Heikin-Ashi (Japanese: "average bar") modifies the standard candlestick by averaging the OHLC values. This smooths out price action and makes trends much clearer.</p>
+            <div class="callout">
+              <strong>Formula:</strong><br>
+              HA Close = (Open + High + Low + Close) / 4<br>
+              HA Open = (Previous HA Open + Previous HA Close) / 2<br>
+              HA High = Max(High, HA Open, HA Close)<br>
+              HA Low = Min(Low, HA Open, HA Close)
+            </div>
+            <div style="display:flex;flex-direction:column;gap:10px;margin-top:16px">
+              <div style="padding:12px;background:var(--green-dim);border-radius:var(--r);border:1px solid rgba(0,212,170,0.2)">
+                <strong style="font-size:0.85rem;color:var(--green)">Uptrend Signal</strong>
+                <p style="font-size:0.82rem;color:var(--text-secondary);margin-top:4px">Consecutive green candles with NO lower wicks = strong uptrend. Ride the trend.</p>
+              </div>
+              <div style="padding:12px;background:var(--red-dim);border-radius:var(--r);border:1px solid rgba(255,71,87,0.2)">
+                <strong style="font-size:0.85rem;color:var(--red)">Downtrend Signal</strong>
+                <p style="font-size:0.82rem;color:var(--text-secondary);margin-top:4px">Consecutive red candles with NO upper wicks = strong downtrend. Stay short or flat.</p>
+              </div>
+              <div style="padding:12px;background:var(--gold-dim);border-radius:var(--r);border:1px solid rgba(245,158,11,0.2)">
+                <strong style="font-size:0.85rem;color:var(--gold)">Reversal Signal</strong>
+                <p style="font-size:0.82rem;color:var(--text-secondary);margin-top:4px">Small body with wicks on BOTH sides = indecision. Possible trend reversal ahead.</p>
+              </div>
+            </div>
+          </div>
+          <div class="chart-box">
+            <div class="chart-box-header">
+              <span class="chart-box-title">Heikin-Ashi Chart</span>
+              <div class="chart-controls">
+                <button class="chart-btn active" onclick="showHA('ha')">Heikin-Ashi</button>
+                <button class="chart-btn" onclick="showHA('normal')">Normal</button>
+              </div>
+            </div>
+            <canvas id="haCanvas" width="500" height="280" style="width:100%"></canvas>
+            <p style="font-size:0.78rem;color:var(--text-muted);margin-top:10px" id="haDesc">Notice how the trend is much cleaner and easier to follow with Heikin-Ashi.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- RENKO -->
+      <div style="margin-bottom:56px;padding:36px;background:var(--bg-secondary);border-radius:var(--rx);border:1px solid var(--border)">
+        <div class="grid grid-2" style="gap:40px;align-items:start">
+          <div class="chart-box">
+            <div class="chart-box-header">
+              <span class="chart-box-title">Renko Chart</span>
+              <span class="badge badge-gold">Brick size: $5</span>
+            </div>
+            <canvas id="renkoCanvas" width="500" height="260" style="width:100%"></canvas>
+          </div>
+          <div>
+            <span class="badge badge-gold">Chart Type 2</span>
+            <h2 class="section-title" style="margin-top:8px">Renko Charts</h2>
+            <p style="color:var(--text-secondary);margin-bottom:16px">Renko charts completely ignore TIME. A new brick is only drawn when price moves by a pre-set amount (the "brick size"). This eliminates all time-based noise.</p>
+            <div class="callout gold">
+              <strong>Key Insight:</strong> During a sideways market, a Renko chart draws NOTHING. This is its superpower — you only see meaningful price moves.
+            </div>
+            <div class="grid grid-2" style="gap:12px;margin-top:16px">
+              <div class="card card-sm">
+                <div style="font-size:0.8rem;font-weight:700;color:var(--green);margin-bottom:6px">Renko Advantages</div>
+                <ul style="font-size:0.8rem;color:var(--text-secondary);padding-left:16px;display:flex;flex-direction:column;gap:4px">
+                  <li>Eliminates noise entirely</li>
+                  <li>Trend direction crystal clear</li>
+                  <li>Support/resistance stands out</li>
+                </ul>
+              </div>
+              <div class="card card-sm">
+                <div style="font-size:0.8rem;font-weight:700;color:var(--red);margin-bottom:6px">Renko Limitations</div>
+                <ul style="font-size:0.8rem;color:var(--text-secondary);padding-left:16px;display:flex;flex-direction:column;gap:4px">
+                  <li>No time reference on X-axis</li>
+                  <li>Brick size is subjective</li>
+                  <li>Misses some exact entry points</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- POINT AND FIGURE -->
+      <div style="margin-bottom:40px">
+        <div class="grid grid-2" style="gap:40px;align-items:start">
+          <div>
+            <span class="badge badge-green">Chart Type 3</span>
+            <h2 class="section-title" style="margin-top:8px">Point & Figure</h2>
+            <p style="color:var(--text-secondary);margin-bottom:16px">Point & Figure (P&F) charts date back to the 1800s. They use X's (rising prices) and O's (falling prices) in columns. Like Renko, time is completely ignored.</p>
+            <div class="callout green">
+              <strong>How to Read P&F:</strong><br>
+              A new X is added when price rises by the "box size." A new O is added when price falls by the box size. A reversal to a new column requires price to move (box size × reversal amount) in the opposite direction.
+            </div>
+            <div style="margin-top:20px">
+              <h4 style="font-size:0.9rem;font-weight:600;margin-bottom:12px">Famous P&F Patterns</h4>
+              <div style="display:flex;flex-direction:column;gap:8px">
+                <div style="display:flex;align-items:center;gap:10px;font-size:0.85rem"><span style="color:var(--green);font-weight:700;font-size:1rem">✕</span> A column of X's taller than the previous = <strong>bullish breakout</strong></div>
+                <div style="display:flex;align-items:center;gap:10px;font-size:0.85rem"><span style="color:var(--red);font-weight:700;font-size:1rem">○</span> A column of O's lower than the previous = <strong>bearish breakdown</strong></div>
+                <div style="display:flex;align-items:center;gap:10px;font-size:0.85rem"><span style="color:var(--gold);font-weight:700;font-size:1rem">⟺</span> Alternating columns of similar height = <strong>sideways consolidation</strong></div>
+              </div>
+            </div>
+          </div>
+          <div class="chart-box">
+            <div class="chart-box-header">
+              <span class="chart-box-title">Point & Figure Chart</span>
+              <span class="badge badge-green">Box: $3 | Rev: 3</span>
+            </div>
+            <canvas id="pfCanvas" width="500" height="280" style="width:100%"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- COMPARISON TABLE -->
+      <div class="chart-box">
+        <h3 class="card-title" style="margin-bottom:16px">When to Use Each Chart Type</h3>
+        <table class="data-table">
+          <thead>
+            <tr><th>Chart Type</th><th>Time Axis?</th><th>Noise Level</th><th>Best For</th><th>Timeframe</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Candlestick</strong></td><td class="up">Yes</td><td style="color:var(--gold)">Medium</td><td>Price action patterns, day trading</td><td>Any</td></tr>
+            <tr><td><strong>Heikin-Ashi</strong></td><td class="up">Yes</td><td class="up">Low</td><td>Trend following, swing trading</td><td>4H, Daily, Weekly</td></tr>
+            <tr><td><strong>Renko</strong></td><td class="down">No</td><td class="up">Very Low</td><td>Pure trend identification</td><td>N/A (brick-based)</td></tr>
+            <tr><td><strong>Point & Figure</strong></td><td class="down">No</td><td class="up">Very Low</td><td>Support/resistance, historical analysis</td><td>N/A (box-based)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:40px;padding-top:24px;border-top:1px solid var(--border)">
+        <a href="chart-types.html" class="btn btn-outline">← Previous</a>
+        <a href="volume-power.html" class="btn btn-primary">Next: The Power of Volume →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const rawBars = generateOHLC(35, 180, 6);
+
+// Compute Heikin-Ashi
+function toHA(bars) {
+  const ha = [];
+  bars.forEach((b, i) => {
+    const haClose = (b.open + b.high + b.low + b.close) / 4;
+    const haOpen  = i === 0 ? (b.open + b.close) / 2 : (ha[i-1].open + ha[i-1].close) / 2;
+    const haHigh  = Math.max(b.high, haOpen, haClose);
+    const haLow   = Math.min(b.low,  haOpen, haClose);
+    ha.push({ open: haOpen, high: haHigh, low: haLow, close: haClose });
+  });
+  return ha;
+}
+
+const haBars = toHA(rawBars);
+let showingHA = true;
+
+function showHA(type) {
+  showingHA = type === 'ha';
+  const canvas = document.getElementById('haCanvas');
+  canvas.width = canvas.parentElement.clientWidth || 500;
+  drawCandlesticks(canvas, showingHA ? haBars : rawBars);
+  document.getElementById('haDesc').textContent = showingHA
+    ? 'Notice how the trend is much cleaner and easier to follow with Heikin-Ashi.'
+    : 'Regular candlesticks — more noise, harder to see the overall trend.';
+  document.querySelectorAll('[onclick^="showHA"]').forEach((btn, i) => {
+    btn.classList.toggle('active', (i === 0 && showingHA) || (i === 1 && !showingHA));
+  });
+}
+showHA('ha');
+
+// Renko Chart
+(function() {
+  const canvas = document.getElementById('renkoCanvas');
+  canvas.width = canvas.parentElement.clientWidth || 500;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = 260;
+  const brickSize = 5;
+  const prices = rawBars.map(b => b.close);
+  const bricks = [];
+  let ref = prices[0];
+
+  prices.forEach(p => {
+    while (p >= ref + brickSize) { bricks.push({ y: ref, up: true }); ref += brickSize; }
+    while (p <= ref - brickSize) { ref -= brickSize; bricks.push({ y: ref, up: false }); }
+  });
+
+  const allY = bricks.map(b => [b.y, b.y + brickSize]).flat();
+  const minY = Math.min(...allY), maxY = Math.max(...allY);
+  const range = maxY - minY || 1;
+  const padL = 45, padR = 10, padT = 10, padB = 20;
+  const chartW = W - padL - padR, chartH = H - padT - padB;
+  const brickW = Math.min(20, chartW / (bricks.length + 2));
+
+  const toY = p => padT + chartH * (1 - (p - minY) / range);
+
+  ctx.clearRect(0, 0, W, H);
+
+  // Grid
+  ctx.strokeStyle = 'rgba(255,255,255,0.04)'; ctx.lineWidth = 1;
+  for (let i = 0; i <= 4; i++) {
+    const y = padT + (chartH / 4) * i;
+    ctx.beginPath(); ctx.moveTo(padL, y); ctx.lineTo(W - padR, y); ctx.stroke();
+    const price = maxY - (range / 4) * i;
+    ctx.fillStyle = '#7a8fa8'; ctx.font = '10px monospace'; ctx.textAlign = 'right';
+    ctx.fillText('$' + price.toFixed(0), padL - 4, y + 4);
+  }
+
+  bricks.forEach((b, i) => {
+    const x = padL + i * (brickW + 2);
+    const y1 = toY(b.y + brickSize), y2 = toY(b.y);
+    ctx.fillStyle = b.up ? '#00d4aa' : '#ff4757';
+    ctx.fillRect(x, y1, brickW, y2 - y1);
+    ctx.strokeStyle = 'rgba(0,0,0,0.3)'; ctx.lineWidth = 0.5;
+    ctx.strokeRect(x, y1, brickW, y2 - y1);
+  });
+})();
+
+// Point & Figure
+(function() {
+  const canvas = document.getElementById('pfCanvas');
+  canvas.width = canvas.parentElement.clientWidth || 500;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = 280;
+  const box = 3, rev = 3;
+  const prices = rawBars.map(b => b.close);
+
+  const cols = [];
+  let col = [], dir = null, refPrice = prices[0];
+
+  prices.forEach(p => {
+    if (!dir) {
+      if (p >= refPrice + box) { dir = 'X'; col = [refPrice]; refPrice += box; col.push(refPrice); }
+      else if (p <= refPrice - box) { dir = 'O'; col = [refPrice]; refPrice -= box; col.push(refPrice); }
+      return;
+    }
+    if (dir === 'X') {
+      while (p >= refPrice + box) { refPrice += box; col.push(refPrice); }
+      if (p <= col[0] - box * rev) {
+        cols.push({ dir, prices: col });
+        dir = 'O'; col = [col[0]]; refPrice = col[0] - box; col.push(refPrice);
+      }
+    } else {
+      while (p <= refPrice - box) { refPrice -= box; col.push(refPrice); }
+      if (p >= col[0] + box * rev) {
+        cols.push({ dir, prices: col });
+        dir = 'X'; col = [col[0]]; refPrice = col[0] + box; col.push(refPrice);
+      }
+    }
+  });
+  if (col.length) cols.push({ dir, prices: col });
+
+  const allP = cols.flatMap(c => c.prices);
+  const minP = Math.min(...allP), maxP = Math.max(...allP);
+  const range = maxP - minP || box;
+  const padL = 40, padT = 10, padR = 10, padB = 20;
+  const chartW = W - padL - padR, chartH = H - padT - padB;
+  const colW = Math.min(20, chartW / (cols.length + 1));
+  const rowH = chartH / ((range / box) + 1);
+
+  const toY = p => padT + chartH * (1 - (p - minP) / range);
+
+  ctx.clearRect(0, 0, W, H);
+  ctx.fillStyle = '#7a8fa8'; ctx.font = '10px monospace'; ctx.textAlign = 'right';
+
+  for (let p = minP; p <= maxP; p += box * 2) {
+    const y = toY(p);
+    ctx.fillText('$' + p.toFixed(0), padL - 4, y + 4);
+  }
+
+  cols.forEach((col, ci) => {
+    const x = padL + ci * (colW + 4) + colW / 2;
+    col.prices.forEach(p => {
+      const y = toY(p);
+      ctx.font = 'bold ' + Math.max(9, rowH * 0.8) + 'px monospace';
+      ctx.textAlign = 'center';
+      ctx.fillStyle = col.dir === 'X' ? '#00d4aa' : '#ff4757';
+      ctx.fillText(col.dir, x, y + rowH / 3);
+    });
+  });
+})();
+</script>
+</body>
+</html>

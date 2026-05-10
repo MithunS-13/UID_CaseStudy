@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sector Rotation Heatmaps — TradeX Academy</title>
+<link rel="stylesheet" href="../css/styles.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+<script src="../js/main.js"></script>
+<script>buildNav('module3');</script>
+
+<div class="page-wrap">
+  <div class="page-hero">
+    <div class="container">
+      <div class="breadcrumb"><a href="../index.html">Home</a> › Module 3 › Sector Rotation Heatmaps</div>
+      <span class="badge badge-purple">Module 3 · Lesson 4</span>
+      <h1>Sector Rotation Heatmaps</h1>
+      <p>Using color-coded grids to instantly see where the money is moving across the economy — the macro trader's dashboard.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="container">
+
+      <!-- LIVE HEATMAP -->
+      <div class="chart-box" style="margin-bottom:40px">
+        <div class="chart-box-header">
+          <div>
+            <span class="chart-box-title">S&P 500 Sector Performance Heatmap</span>
+            <div style="font-size:0.78rem;color:var(--text-secondary);margin-top:2px">Cell size = market cap weight. Color = daily performance.</div>
+          </div>
+          <div class="chart-controls">
+            <button class="chart-btn active" onclick="updatePeriod('1D')">1D</button>
+            <button class="chart-btn" onclick="updatePeriod('1W')">1W</button>
+            <button class="chart-btn" onclick="updatePeriod('1M')">1M</button>
+            <button class="chart-btn" onclick="updatePeriod('YTD')">YTD</button>
+          </div>
+        </div>
+        <div id="mainHeatmap" style="display:grid;gap:4px;margin-bottom:12px"></div>
+        <div style="display:flex;align-items:center;gap:12px;font-size:0.75rem">
+          <span>Performance:</span>
+          <div style="display:flex;gap:3px">
+            <span style="display:inline-block;width:24px;height:14px;background:#6b1212;border-radius:2px"></span>
+            <span style="display:inline-block;width:24px;height:14px;background:#8f2222;border-radius:2px"></span>
+            <span style="display:inline-block;width:24px;height:14px;background:#b34040;border-radius:2px"></span>
+            <span style="display:inline-block;width:24px;height:14px;background:#2a2a2a;border-radius:2px"></span>
+            <span style="display:inline-block;width:24px;height:14px;background:#006644;border-radius:2px"></span>
+            <span style="display:inline-block;width:24px;height:14px;background:#008f5a;border-radius:2px"></span>
+            <span style="display:inline-block;width:24px;height:14px;background:#00b074;border-radius:2px"></span>
+          </div>
+          <span style="color:var(--red)">-3%</span>
+          <span>→</span>
+          <span style="color:var(--green)">+3%</span>
+        </div>
+      </div>
+
+      <!-- SECTOR ROTATION CONCEPT -->
+      <div class="grid grid-2" style="gap:40px;align-items:start;margin-bottom:40px">
+        <div>
+          <h2 class="section-title">What is Sector Rotation?</h2>
+          <p style="color:var(--text-secondary);margin-bottom:16px">Sector rotation is the flow of money from one industry sector to another as investors react to changes in the economic cycle. Understanding this flow is how macro traders identify opportunities before the crowd.</p>
+          <div class="callout">
+            <strong>Key Insight:</strong> No sector stays hot forever. When technology is overvalued, money rotates into undervalued sectors like energy or utilities. Heatmaps reveal this rotation in real-time.
+          </div>
+          <div style="margin-top:20px">
+            <h3 style="font-size:0.9rem;font-weight:700;margin-bottom:12px">The Business Cycle & Sector Rotation</h3>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <div style="padding:10px 14px;border-radius:var(--r);background:var(--bg-surface);border-left:3px solid var(--green)">
+                <strong style="font-size:0.85rem;color:var(--green)">Recovery Phase</strong>
+                <p style="font-size:0.78rem;color:var(--text-secondary);margin-top:2px">Financials, Technology, Consumer Discretionary outperform as growth expectations rise.</p>
+              </div>
+              <div style="padding:10px 14px;border-radius:var(--r);background:var(--bg-surface);border-left:3px solid var(--blue)">
+                <strong style="font-size:0.85rem;color:var(--blue)">Expansion Phase</strong>
+                <p style="font-size:0.78rem;color:var(--text-secondary);margin-top:2px">Industrials, Materials, Energy lead as the economy grows and commodities surge.</p>
+              </div>
+              <div style="padding:10px 14px;border-radius:var(--r);background:var(--bg-surface);border-left:3px solid var(--gold)">
+                <strong style="font-size:0.85rem;color:var(--gold)">Peak Phase</strong>
+                <p style="font-size:0.78rem;color:var(--text-secondary);margin-top:2px">Energy and Basic Materials remain strong. Healthcare begins to outperform.</p>
+              </div>
+              <div style="padding:10px 14px;border-radius:var(--r);background:var(--bg-surface);border-left:3px solid var(--red)">
+                <strong style="font-size:0.85rem;color:var(--red)">Recession Phase</strong>
+                <p style="font-size:0.78rem;color:var(--text-secondary);margin-top:2px">Utilities, Healthcare, Consumer Staples (defensive sectors) hold up best as growth slows.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="chart-box">
+          <div class="chart-box-header"><span class="chart-box-title">Sector Performance vs SPY (1 Month)</span></div>
+          <canvas id="sectorBar" height="300"></canvas>
+        </div>
+      </div>
+
+      <!-- INDIVIDUAL STOCKS HEATMAP -->
+      <h2 class="section-title">Top 20 Stocks by Market Cap</h2>
+      <p class="section-sub">Treemap view — larger cells = larger companies</p>
+      <div id="stockHeatmap" style="display:grid;gap:4px;margin-bottom:40px"></div>
+
+      <!-- READING GUIDE -->
+      <div class="card" style="background:var(--bg-secondary)">
+        <h3 style="font-size:0.95rem;font-weight:700;margin-bottom:14px">How to Use Heatmaps in Your Trading</h3>
+        <div class="grid grid-3" style="gap:16px">
+          <div><strong style="font-size:0.875rem;color:var(--green)">Find the Leaders</strong><p style="font-size:0.82rem;color:var(--text-secondary);margin-top:6px">The darkest green sectors are where momentum is strongest. These are the sectors to focus your longs on.</p></div>
+          <div><strong style="font-size:0.875rem;color:var(--red)">Avoid the Laggards</strong><p style="font-size:0.82rem;color:var(--text-secondary);margin-top:6px">Red sectors are seeing distribution. Don't fight the trend — avoid buying into sectors with persistent red heatmaps.</p></div>
+          <div><strong style="font-size:0.875rem;color:var(--gold)">Watch the Rotation</strong><p style="font-size:0.82rem;color:var(--text-secondary);margin-top:6px">When a previously green sector turns red AND a previously red sector turns green, that's a rotation. Early identification = early entry.</p></div>
+        </div>
+      </div>
+
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:40px;padding-top:24px;border-top:1px solid var(--border)">
+        <a href="market-depth.html" class="btn btn-outline">← Previous</a>
+        <a href="correlation-matrix.html" class="btn btn-primary">Next: Correlation Matrix →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const SECTORS = [
+  { name: 'Technology',     ticker: 'XLK',  weight: 3, change1D: 2.34,  change1W: 4.1,  change1M: 8.2,  changeYTD: 14.5 },
+  { name: 'Healthcare',     ticker: 'XLV',  weight: 2, change1D: -0.87, change1W: -1.2, change1M: 2.1,  changeYTD: 3.8 },
+  { name: 'Financials',     ticker: 'XLF',  weight: 2, change1D: 1.12,  change1W: 2.8,  change1M: 5.4,  changeYTD: 9.2 },
+  { name: 'Energy',         ticker: 'XLE',  weight: 1, change1D: -2.45, change1W: -3.8, change1M: -1.2, changeYTD: -2.4 },
+  { name: 'Consumer Disc',  ticker: 'XLY',  weight: 2, change1D: 0.63,  change1W: 1.5,  change1M: 3.8,  changeYTD: 6.1 },
+  { name: 'Utilities',      ticker: 'XLU',  weight: 1, change1D: -1.20, change1W: -2.1, change1M: -3.4, changeYTD: -4.8 },
+  { name: 'Industrials',    ticker: 'XLI',  weight: 1, change1D: 1.85,  change1W: 3.2,  change1M: 6.1,  changeYTD: 10.4 },
+  { name: 'Materials',      ticker: 'XLB',  weight: 1, change1D: -0.33, change1W: 0.8,  change1M: 1.5,  changeYTD: 2.8 },
+  { name: 'Real Estate',    ticker: 'XLRE', weight: 1, change1D: -0.95, change1W: -1.8, change1M: -2.6, changeYTD: -5.2 },
+  { name: 'Comm Services',  ticker: 'XLC',  weight: 2, change1D: 3.10,  change1W: 5.4,  change1M: 9.8,  changeYTD: 16.2 },
+  { name: 'Staples',        ticker: 'XLP',  weight: 1, change1D: 0.22,  change1W: 0.4,  change1M: 1.2,  changeYTD: 1.8 },
+];
+
+function heatColor(v) {
+  if (v > 2.5) return '#004d30';
+  if (v > 1.5) return '#006644';
+  if (v > 0.5) return '#008f5a';
+  if (v > 0)   return '#00a86b';
+  if (v > -0.5) return '#a83232';
+  if (v > -1.5) return '#8f2222';
+  if (v > -2.5) return '#6b1212';
+  return '#4d0000';
+}
+
+let currentPeriod = '1D';
+
+function updatePeriod(p) {
+  currentPeriod = p;
+  document.querySelectorAll('[onclick^="updatePeriod"]').forEach(btn => {
+    btn.classList.toggle('active', btn.textContent === p);
+  });
+  renderHeatmap();
+}
+
+function getChange(s) {
+  return { '1D': s.change1D, '1W': s.change1W, '1M': s.change1M, 'YTD': s.changeYTD }[currentPeriod];
+}
+
+function renderHeatmap() {
+  const hm = document.getElementById('mainHeatmap');
+  const cols = window.innerWidth > 768 ? `repeat(${SECTORS.length}, 1fr)` : 'repeat(4, 1fr)';
+  hm.style.gridTemplateColumns = cols;
+  hm.innerHTML = SECTORS.map(s => {
+    const ch = getChange(s);
+    return `<div class="heat-cell" style="background:${heatColor(ch)};min-height:${80 + s.weight * 20}px;position:relative;cursor:pointer" title="${s.name}: ${ch > 0 ? '+' : ''}${ch}%">
+      <div class="cell-name">${s.name}</div>
+      <div style="font-size:0.7rem;color:rgba(255,255,255,0.7)">${s.ticker}</div>
+      <div class="cell-value">${ch > 0 ? '+' : ''}${ch}%</div>
+    </div>`;
+  }).join('');
+}
+renderHeatmap();
+
+// Sector Bar Chart
+const sectorCtx = document.getElementById('sectorBar').getContext('2d');
+const sortedSectors = [...SECTORS].sort((a, b) => b.change1M - a.change1M);
+new Chart(sectorCtx, {
+  type: 'bar',
+  data: {
+    labels: sortedSectors.map(s => s.ticker),
+    datasets: [{
+      data: sortedSectors.map(s => s.change1M),
+      backgroundColor: sortedSectors.map(s => s.change1M >= 0 ? 'rgba(0,212,170,0.7)' : 'rgba(255,71,87,0.7)'),
+      borderColor: sortedSectors.map(s => s.change1M >= 0 ? '#00d4aa' : '#ff4757'),
+      borderWidth: 1, borderRadius: 4,
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { callback: v => v + '%' } },
+      y: { grid: { display: false } }
+    }
+  }
+});
+
+// Stock heatmap
+const STOCKS = [
+  { name: 'AAPL', change: 0.63, size: 3 }, { name: 'MSFT', change: 1.84, size: 3 },
+  { name: 'NVDA', change: 3.22, size: 2 }, { name: 'GOOGL', change: 2.14, size: 2 },
+  { name: 'AMZN', change: 1.05, size: 2 }, { name: 'META', change: 2.80, size: 2 },
+  { name: 'TSLA', change: -1.24, size: 1 }, { name: 'BRK.B', change: 0.48, size: 2 },
+  { name: 'JPM', change: 1.12, size: 1 }, { name: 'JNJ', change: -0.35, size: 1 },
+  { name: 'V', change: 0.72, size: 1 }, { name: 'UNH', change: -0.88, size: 1 },
+  { name: 'XOM', change: -2.10, size: 1 }, { name: 'WMT', change: 0.24, size: 1 },
+  { name: 'LLY', change: 1.55, size: 1 }, { name: 'HD', change: 0.36, size: 1 },
+  { name: 'PG', change: -0.12, size: 1 }, { name: 'MA', change: 0.95, size: 1 },
+  { name: 'COST', change: 1.22, size: 1 }, { name: 'ABBV', change: -0.64, size: 1 },
+];
+
+const shm = document.getElementById('stockHeatmap');
+shm.style.gridTemplateColumns = 'repeat(auto-fill, minmax(80px, 1fr))';
+shm.innerHTML = STOCKS.map(s => `
+  <div class="heat-cell" style="background:${heatColor(s.change)};min-height:${50 + s.size * 20}px" title="${s.name}: ${s.change > 0 ? '+' : ''}${s.change}%">
+    <div class="cell-name" style="font-size:0.8rem">${s.name}</div>
+    <div class="cell-value">${s.change > 0 ? '+' : ''}${s.change}%</div>
+  </div>`).join('');
+</script>
+</body>
+</html>

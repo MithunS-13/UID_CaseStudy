@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Top 5 Beginner Strategies — TradeX Academy</title>
+<link rel="stylesheet" href="../css/styles.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+<script src="../js/main.js"></script>
+<script>buildNav('module5');</script>
+
+<div class="page-wrap">
+  <div class="page-hero">
+    <div class="container">
+      <div class="breadcrumb"><a href="../index.html">Home</a> › Module 5 › Top 5 Beginner Strategies</div>
+      <span class="badge badge-red">Module 5 · Lesson 3</span>
+      <h1>Top 5 Beginner Strategies</h1>
+      <p>Visual walkthroughs of the simplest, most reliable setups to help you build a positive track record before trading with real money.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="container">
+
+      <div class="callout" style="margin-bottom:32px">
+        <strong>Before You Begin:</strong> These strategies are starting points — not guarantees. Every market is different, every asset has unique characteristics, and no strategy works 100% of the time. The goal is to give you a testable framework, not a "holy grail."
+      </div>
+
+      <!-- STRATEGY 1 -->
+      <div style="margin-bottom:56px">
+        <div style="display:flex;align-items:center;gap:16px;margin-bottom:20px">
+          <div style="width:52px;height:52px;border-radius:var(--rl);background:var(--blue-dim);display:flex;align-items:center;justify-content:center;font-size:1.5rem;font-weight:800;color:var(--blue);flex-shrink:0">1</div>
+          <div>
+            <span class="badge badge-blue">Most Popular</span>
+            <h2 style="font-size:1.3rem;font-weight:700;margin-top:4px">Moving Average Crossover</h2>
+          </div>
+        </div>
+        <div class="grid grid-2" style="gap:32px;align-items:start">
+          <div class="chart-box">
+            <div class="chart-box-header"><span class="chart-box-title">MA Crossover — Golden & Death Crosses</span></div>
+            <canvas id="ma-strat" height="260"></canvas>
+          </div>
+          <div>
+            <p style="color:var(--text-secondary);margin-bottom:16px">The simplest trend-following strategy. When a fast moving average crosses above a slow one (golden cross), buy. When it crosses below (death cross), sell or go short.</p>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <div class="card card-sm" style="border-color:rgba(0,212,170,0.2)"><strong style="color:var(--green)">Entry Signal (BUY)</strong><p style="font-size:0.82rem;color:var(--text-secondary);margin-top:4px">20-day SMA crosses ABOVE the 50-day SMA. Enter at the close of the crossover candle.</p></div>
+              <div class="card card-sm" style="border-color:rgba(255,71,87,0.2)"><strong style="color:var(--red)">Exit Signal (SELL)</strong><p style="font-size:0.82rem;color:var(--text-secondary);margin-top:4px">20-day SMA crosses BELOW the 50-day SMA. Exit the position at the close.</p></div>
+              <div class="card card-sm"><strong>Stop-Loss</strong><p style="font-size:0.82rem;color:var(--text-secondary);margin-top:4px">Place stop below the most recent swing low or below the 50-day SMA.</p></div>
+              <div class="callout gold" style="margin-top:0"><strong>Best timeframe:</strong> Daily charts. Use weekly charts to confirm the overall trend direction first.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STRATEGY 2 -->
+      <div style="margin-bottom:56px;background:var(--bg-secondary);border-radius:var(--rx);border:1px solid var(--border);padding:32px">
+        <div style="display:flex;align-items:center;gap:16px;margin-bottom:20px">
+          <div style="width:52px;height:52px;border-radius:var(--rl);background:var(--gold-dim);display:flex;align-items:center;justify-content:center;font-size:1.5rem;font-weight:800;color:var(--gold);flex-shrink:0">2</div>
+          <div>
+            <span class="badge badge-gold">High Reliability</span>
+            <h2 style="font-size:1.3rem;font-weight:700;margin-top:4px">Support & Resistance Bounce</h2>
+          </div>
+        </div>
+        <div class="grid grid-2" style="gap:32px;align-items:start">
+          <div>
+            <p style="color:var(--text-secondary);margin-bottom:16px">Buy when price pulls back to a well-established support level in an uptrend. Sell at resistance. This strategy leverages the predictable behavior of key price levels.</p>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <div class="card card-sm" style="border-color:rgba(0,212,170,0.2)"><strong style="color:var(--green)">Setup Conditions</strong><ul style="font-size:0.82rem;color:var(--text-secondary);margin-top:4px;padding-left:16px;display:flex;flex-direction:column;gap:2px"><li>Price is in a clear uptrend (higher highs and lows)</li><li>A key support level has been tested 2+ times</li><li>Price pulls back to touch that support level again</li></ul></div>
+              <div class="card card-sm" style="border-color:rgba(0,212,170,0.2)"><strong style="color:var(--green)">Entry</strong><p style="font-size:0.82rem;color:var(--text-secondary);margin-top:4px">Buy when price touches support AND shows a bullish candlestick pattern (e.g., hammer, engulfing). Don't buy the moment price touches support — wait for confirmation.</p></div>
+              <div class="card card-sm" style="border-color:rgba(255,71,87,0.2)"><strong style="color:var(--red)">Stop-Loss</strong><p style="font-size:0.82rem;color:var(--text-secondary);margin-top:4px">Below the support level by a small margin (ATR × 0.5). If price breaks support, your analysis is wrong.</p></div>
+            </div>
+          </div>
+          <div class="chart-box">
+            <div class="chart-box-header"><span class="chart-box-title">S&R Bounce Strategy</span></div>
+            <canvas id="sr-strat" width="500" height="260" style="width:100%"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- STRATEGY 3 -->
+      <div style="margin-bottom:56px">
+        <div style="display:flex;align-items:center;gap:16px;margin-bottom:20px">
+          <div style="width:52px;height:52px;border-radius:var(--rl);background:var(--purple-dim);display:flex;align-items:center;justify-content:center;font-size:1.5rem;font-weight:800;color:var(--purple);flex-shrink:0">3</div>
+          <div>
+            <span class="badge badge-purple">Momentum Based</span>
+            <h2 style="font-size:1.3rem;font-weight:700;margin-top:4px">RSI Oversold Bounce</h2>
+          </div>
+        </div>
+        <div class="grid grid-2" style="gap:32px;align-items:start">
+          <div class="chart-box">
+            <div class="chart-box-header"><span class="chart-box-title">RSI Oversold → Bullish Bounce</span></div>
+            <canvas id="rsi-strat" height="180" style="margin-bottom:8px"></canvas>
+            <canvas id="rsi-indicator" height="80"></canvas>
+          </div>
+          <div>
+            <p style="color:var(--text-secondary);margin-bottom:16px">Buy when the RSI drops below 30 (oversold) and then crosses back ABOVE 30. This signals that selling momentum has exhausted and a bounce is likely.</p>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <div class="card card-sm"><strong>Filter: Only take trades WITH the trend</strong><p style="font-size:0.82rem;color:var(--text-secondary);margin-top:4px">Only buy RSI oversold signals when the overall daily/weekly trend is UP. Don't try to buy oversold in a strong downtrend — it's catching a falling knife.</p></div>
+              <div class="card card-sm" style="border-color:rgba(0,212,170,0.2)"><strong style="color:var(--green)">Entry</strong><p style="font-size:0.82rem;color:var(--text-secondary);margin-top:4px">RSI crosses back above 30 on a 4-hour or daily chart, while the weekly trend is bullish.</p></div>
+              <div class="card card-sm"><strong>Target</strong><p style="font-size:0.82rem;color:var(--text-secondary);margin-top:4px">Exit when RSI reaches 70 (overbought) or at the next key resistance level.</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STRATEGY 4 -->
+      <div style="margin-bottom:56px;background:var(--bg-secondary);border-radius:var(--rx);border:1px solid var(--border);padding:32px">
+        <div style="display:flex;align-items:center;gap:16px;margin-bottom:20px">
+          <div style="width:52px;height:52px;border-radius:var(--rl);background:var(--green-dim);display:flex;align-items:center;justify-content:center;font-size:1.5rem;font-weight:800;color:var(--green);flex-shrink:0">4</div>
+          <div>
+            <span class="badge badge-green">Volume Confirmed</span>
+            <h2 style="font-size:1.3rem;font-weight:700;margin-top:4px">Volume Breakout</h2>
+          </div>
+        </div>
+        <div class="grid grid-2" style="gap:32px;align-items:start">
+          <div>
+            <p style="color:var(--text-secondary);margin-bottom:16px">Buy when price breaks above a key resistance level on significantly higher-than-average volume. Volume confirms the breakout is real and not a "fakeout."</p>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <div class="card card-sm"><strong>What counts as "high volume"?</strong><p style="font-size:0.82rem;color:var(--text-secondary);margin-top:4px">At least 2× the 20-day average volume on the breakout candle. Some traders require 3× for maximum conviction.</p></div>
+              <div class="card card-sm" style="border-color:rgba(0,212,170,0.2)"><strong style="color:var(--green)">Entry</strong><p style="font-size:0.82rem;color:var(--text-secondary);margin-top:4px">Buy at the close of the breakout candle, or on a "retest" of the broken resistance level (which now acts as support).</p></div>
+              <div class="card card-sm" style="border-color:rgba(255,71,87,0.2)"><strong style="color:var(--red)">The Fakeout Risk</strong><p style="font-size:0.82rem;color:var(--text-secondary);margin-top:4px">Breakouts that occur on low volume frequently reverse. Always wait for volume confirmation before entering.</p></div>
+            </div>
+          </div>
+          <div class="chart-box">
+            <div class="chart-box-header"><span class="chart-box-title">Volume Breakout Setup</span></div>
+            <canvas id="vol-strat" height="240"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- STRATEGY 5 -->
+      <div style="margin-bottom:40px">
+        <div style="display:flex;align-items:center;gap:16px;margin-bottom:20px">
+          <div style="width:52px;height:52px;border-radius:var(--rl);background:var(--red-dim);display:flex;align-items:center;justify-content:center;font-size:1.5rem;font-weight:800;color:var(--red);flex-shrink:0">5</div>
+          <div>
+            <span class="badge badge-red">Trend Following</span>
+            <h2 style="font-size:1.3rem;font-weight:700;margin-top:4px">Pullback to Moving Average</h2>
+          </div>
+        </div>
+        <div class="grid grid-2" style="gap:32px;align-items:start">
+          <div class="chart-box">
+            <div class="chart-box-header"><span class="chart-box-title">Pullback to 20-Day SMA</span></div>
+            <canvas id="pb-strat" height="260"></canvas>
+          </div>
+          <div>
+            <p style="color:var(--text-secondary);margin-bottom:16px">In a strong uptrend, price will frequently pull back to test the 20-day or 50-day SMA before resuming higher. These pullbacks offer low-risk entries with the trend.</p>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <div class="card card-sm"><strong>Setup Conditions</strong><ul style="font-size:0.82rem;color:var(--text-secondary);margin-top:4px;padding-left:16px"><li>Price above the 50 SMA (uptrend confirmed)</li><li>Price pulls back to touch the 20 SMA</li><li>Appears in 3-5 candles of consolidation</li></ul></div>
+              <div class="card card-sm" style="border-color:rgba(0,212,170,0.2)"><strong style="color:var(--green)">Entry</strong><p style="font-size:0.82rem;color:var(--text-secondary);margin-top:4px">Buy when price closes back above the 20 SMA after touching it. The MA acts as a "springboard."</p></div>
+              <div class="callout green" style="margin-top:0"><strong>Why this works:</strong> Trend traders who missed the initial move see the pullback as their chance to enter. Their buying pushes price higher.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STRATEGY COMPARISON -->
+      <div class="chart-box">
+        <h3 class="card-title" style="margin-bottom:16px">Strategy Quick Comparison</h3>
+        <table class="data-table">
+          <thead><tr><th>Strategy</th><th>Timeframe</th><th>Typical Hold</th><th>Win Rate*</th><th>Difficulty</th></tr></thead>
+          <tbody>
+            <tr><td><strong>MA Crossover</strong></td><td>Daily</td><td>2–8 weeks</td><td>40–50%</td><td><span style="color:var(--green)">★★☆☆☆</span></td></tr>
+            <tr><td><strong>S&R Bounce</strong></td><td>4H/Daily</td><td>3–10 days</td><td>50–60%</td><td><span style="color:var(--green)">★★★☆☆</span></td></tr>
+            <tr><td><strong>RSI Oversold</strong></td><td>4H/Daily</td><td>2–7 days</td><td>45–55%</td><td><span style="color:var(--gold)">★★★☆☆</span></td></tr>
+            <tr><td><strong>Volume Breakout</strong></td><td>Daily</td><td>1–4 weeks</td><td>35–45%</td><td><span style="color:var(--gold)">★★★★☆</span></td></tr>
+            <tr><td><strong>MA Pullback</strong></td><td>Daily</td><td>1–3 weeks</td><td>50–60%</td><td><span style="color:var(--green)">★★☆☆☆</span></td></tr>
+          </tbody>
+        </table>
+        <p style="font-size:0.75rem;color:var(--text-muted);margin-top:8px">*Win rates are estimates under favorable market conditions. Actual results vary significantly based on market regime, timeframe, and execution quality.</p>
+      </div>
+
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:40px;padding-top:24px;border-top:1px solid var(--border)">
+        <a href="backtesting.html" class="btn btn-outline">← Previous</a>
+        <a href="../index.html" class="btn btn-green">Back to Home →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const BARS50 = generateOHLC(60, 180, 5);
+const labels50 = BARS50.map((_, i) => `D${i+1}`);
+const closes50 = BARS50.map(b => b.close);
+
+function sma(data, p) {
+  return data.map((_, i) => i < p - 1 ? null : data.slice(i - p + 1, i + 1).reduce((a,b) => a + b) / p);
+}
+
+// Strategy 1 - MA Crossover
+const ma20 = sma(closes50, 20), ma50 = sma(closes50, 50);
+const maCtx = document.getElementById('ma-strat').getContext('2d');
+new Chart(maCtx, {
+  type: 'line',
+  data: {
+    labels: labels50,
+    datasets: [
+      { data: closes50, borderColor: 'rgba(255,255,255,0.25)', fill: false, tension: 0.2, borderWidth: 1, pointRadius: 0 },
+      { data: ma20, borderColor: '#3b82f6', fill: false, tension: 0.3, borderWidth: 2, pointRadius: 0 },
+      { data: ma50, borderColor: '#f59e0b', fill: false, tension: 0.3, borderWidth: 2, pointRadius: 0, borderDash: [5,3] },
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { grid: { display: false }, ticks: { maxTicksLimit: 8 } },
+      y: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { callback: v => '$' + v.toFixed(0) } }
+    }
+  }
+});
+
+// Strategy 2 - S&R on canvas
+(function() {
+  const c = document.getElementById('sr-strat');
+  c.width = c.parentElement.clientWidth || 500;
+  drawCandlesticks(c, BARS50.slice(0, 30), { pad: { top: 40, right: 60, bottom: 30, left: 50 } });
+  const ctx = c.getContext('2d');
+  const closes = BARS50.slice(0, 30).map(b => b.low);
+  const support = Math.min(...closes) + 2;
+  const W = c.width, H = c.height;
+  const allP = BARS50.slice(0, 30).flatMap(b => [b.high, b.low]);
+  const minP = Math.min(...allP) * 0.998, maxP = Math.max(...allP) * 1.002;
+  const toY = p => 40 + (H - 70) * (1 - (p - minP) / (maxP - minP));
+  const supportY = toY(support);
+
+  ctx.strokeStyle = '#00d4aa'; ctx.lineWidth = 2; ctx.setLineDash([5,3]);
+  ctx.beginPath(); ctx.moveTo(50, supportY); ctx.lineTo(W - 60, supportY); ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle = '#00d4aa'; ctx.font = 'bold 10px sans-serif'; ctx.textAlign = 'left';
+  ctx.fillText('Support Level', W - 58, supportY + 4);
+
+  // Bounce arrows
+  [8, 18, 27].forEach(i => {
+    const bar = BARS50[i];
+    const y = toY(bar.low);
+    const x = 50 + (i + 0.5) * ((W - 110) / 30);
+    ctx.fillStyle = '#00d4aa'; ctx.font = 'bold 14px sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText('↑', x, y - 5);
+  });
+})();
+
+// Strategy 3 - RSI
+const rsiCloses = BARS50.map(b => b.close);
+const rsiValues = [];
+for (let i = 0; i < rsiCloses.length; i++) {
+  if (i < 14) { rsiValues.push(null); continue; }
+  const slice = rsiCloses.slice(i - 14, i + 1);
+  let gains = 0, losses = 0;
+  slice.forEach((v, j) => { if (!j) return; const d = v - slice[j-1]; d > 0 ? gains += d : losses -= d; });
+  const rs = losses === 0 ? 100 : (gains / 14) / (losses / 14);
+  rsiValues.push(+(100 - 100 / (1 + rs)).toFixed(1));
+}
+
+const rsiPCtx = document.getElementById('rsi-strat').getContext('2d');
+new Chart(rsiPCtx, {
+  type: 'line',
+  data: { labels: labels50, datasets: [{ data: closes50, borderColor: '#3b82f6', fill: false, tension: 0.3, borderWidth: 2, pointRadius: 0 }] },
+  options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } },
+    scales: { x: { display: false }, y: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { callback: v => '$' + v.toFixed(0) } } } }
+});
+
+const rsiICtx = document.getElementById('rsi-indicator').getContext('2d');
+new Chart(rsiICtx, {
+  type: 'line',
+  data: {
+    labels: labels50,
+    datasets: [
+      { data: rsiValues, borderColor: '#f59e0b', fill: false, tension: 0.3, borderWidth: 2, pointRadius: 0 },
+      { data: Array(60).fill(30), borderColor: 'rgba(0,212,170,0.5)', fill: false, borderWidth: 1, borderDash: [4,3], pointRadius: 0 },
+      { data: Array(60).fill(70), borderColor: 'rgba(255,71,87,0.5)', fill: false, borderWidth: 1, borderDash: [4,3], pointRadius: 0 },
+    ]
+  },
+  options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } },
+    scales: {
+      x: { grid: { display: false }, ticks: { maxTicksLimit: 6 } },
+      y: { min: 0, max: 100, grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { callback: v => v } }
+    }
+  }
+});
+
+// Strategy 4 - Volume breakout
+const volBars = generateOHLC(30, 185, 4);
+const volumes = volBars.map((_, i) => i === 22 ? 4800000 : Math.round(800000 + Math.random() * 1200000));
+const volCtx = document.getElementById('vol-strat').getContext('2d');
+const resistY = Math.max(...volBars.slice(0, 20).map(b => b.high));
+new Chart(volCtx, {
+  data: {
+    labels: volBars.map((_, i) => `D${i+1}`),
+    datasets: [
+      { type: 'line', data: volBars.map(b => b.close), borderColor: '#3b82f6', fill: false, tension: 0.3, borderWidth: 2, pointRadius: 0, yAxisID: 'yP' },
+      { type: 'bar', data: volumes, backgroundColor: volumes.map((v,i) => i === 22 ? '#00d4aa' : 'rgba(59,130,246,0.25)'), yAxisID: 'yV' },
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false }, annotation: {
+      annotations: [{ type: 'line', yMin: resistY, yMax: resistY, yScaleID: 'yP', borderColor: 'rgba(255,71,87,0.6)', borderWidth: 1.5, borderDash: [5,3], label: { content: 'Resistance', display: true, color: '#ff4757', backgroundColor: 'transparent', font: { size: 10 } } }]
+    }},
+    scales: {
+      x: { grid: { display: false }, ticks: { maxTicksLimit: 8 } },
+      yP: { position: 'left', grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { callback: v => '$' + v.toFixed(0) } },
+      yV: { position: 'right', grid: { display: false }, max: Math.max(...volumes) * 4, ticks: { callback: v => (v/1e6).toFixed(1) + 'M' } }
+    }
+  }
+});
+
+// Strategy 5 - Pullback to MA
+const pbBars = generateOHLC(40, 175, 3);
+const pbCloses = pbBars.map(b => b.close);
+const pbMa = sma(pbCloses, 20);
+const pbCtx = document.getElementById('pb-strat').getContext('2d');
+const pbGrad = pbCtx.createLinearGradient(0, 0, 0, 260);
+pbGrad.addColorStop(0, 'rgba(59,130,246,0.15)');
+pbGrad.addColorStop(1, 'rgba(59,130,246,0)');
+new Chart(pbCtx, {
+  type: 'line',
+  data: {
+    labels: pbBars.map((_, i) => `D${i+1}`),
+    datasets: [
+      { data: pbCloses, borderColor: 'rgba(255,255,255,0.3)', fill: false, tension: 0.2, borderWidth: 1, pointRadius: 0 },
+      { data: pbMa, borderColor: '#3b82f6', backgroundColor: pbGrad, fill: true, tension: 0.3, borderWidth: 2, pointRadius: 0 },
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { grid: { display: false }, ticks: { maxTicksLimit: 8 } },
+      y: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { callback: v => '$' + v.toFixed(0) } }
+    }
+  }
+});
+</script>
+</body>
+</html>

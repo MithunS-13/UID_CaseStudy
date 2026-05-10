@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trendlines & Channels — TradeX Academy</title>
+<link rel="stylesheet" href="../css/styles.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+<script src="../js/main.js"></script>
+<script>buildNav('module3');</script>
+
+<div class="page-wrap">
+  <div class="page-hero">
+    <div class="container">
+      <div class="breadcrumb"><a href="../index.html">Home</a> › Module 3 › Trendlines & Channels</div>
+      <span class="badge badge-purple">Module 3 · Lesson 1</span>
+      <h1>Mastering Trendlines & Channels</h1>
+      <p>How to draw, validate, and trade support and resistance trendlines — the most fundamental skill in technical analysis.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="container">
+
+      <!-- INTERACTIVE TRENDLINE CHART -->
+      <div class="chart-box" style="margin-bottom:40px">
+        <div class="chart-box-header">
+          <span class="chart-box-title">Interactive Trendline Chart</span>
+          <div class="chart-controls">
+            <button class="chart-btn active" onclick="showTrend('up')">Uptrend</button>
+            <button class="chart-btn" onclick="showTrend('down')">Downtrend</button>
+            <button class="chart-btn" onclick="showTrend('channel')">Channel</button>
+            <button class="chart-btn" onclick="showTrend('sideways')">Sideways</button>
+          </div>
+        </div>
+        <canvas id="trendCanvas" width="900" height="320" style="width:100%"></canvas>
+        <div id="trendDesc" style="margin-top:12px;padding:12px;background:var(--bg-surface);border-radius:var(--r);font-size:0.85rem;color:var(--text-secondary)"></div>
+      </div>
+
+      <div class="grid grid-2" style="gap:40px;align-items:start;margin-bottom:40px">
+        <div>
+          <h2 class="section-title">Rules for Drawing Valid Trendlines</h2>
+          <p style="color:var(--text-secondary);margin-bottom:20px">A trendline is only as good as the rules used to draw it. More touches = stronger line.</p>
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <div class="card card-sm">
+              <strong style="color:var(--blue)">Rule 1: Minimum 2 Touch Points</strong>
+              <p style="font-size:0.82rem;color:var(--text-secondary);margin-top:6px">A trendline requires at least 2 swing highs (for resistance) or 2 swing lows (for support). The third touch CONFIRMS the line — and is often the best trade entry.</p>
+            </div>
+            <div class="card card-sm">
+              <strong style="color:var(--green)">Rule 2: Don't Force the Angle</strong>
+              <p style="font-size:0.82rem;color:var(--text-secondary);margin-top:6px">A trendline must connect actual price pivots. Never draw a line through candle bodies just to make it look "right." The slope is dictated by the market, not by you.</p>
+            </div>
+            <div class="card card-sm">
+              <strong style="color:var(--gold)">Rule 3: More Touches = More Valid</strong>
+              <p style="font-size:0.82rem;color:var(--text-secondary);margin-top:6px">Each time price touches the trendline and bounces, the line gains credibility. A 5-touch trendline is much more powerful than a 2-touch line.</p>
+            </div>
+            <div class="card card-sm">
+              <strong style="color:var(--red)">Rule 4: Breaks Are Significant</strong>
+              <p style="font-size:0.82rem;color:var(--text-secondary);margin-top:6px">When price breaks through a well-established trendline with conviction (not just a wick), it's a significant signal. The old support often becomes new resistance.</p>
+            </div>
+          </div>
+        </div>
+        <div>
+          <h2 class="section-title">Support & Resistance Explained</h2>
+          <div class="callout" style="margin-bottom:20px">
+            <strong>Support:</strong> A price level where buying demand is strong enough to prevent further decline. Price "bounces" off this floor.<br><br>
+            <strong>Resistance:</strong> A price level where selling pressure is strong enough to halt a rally. Price "reverses" from this ceiling.
+          </div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div style="background:var(--green-dim);padding:14px;border-radius:var(--r);border:1px solid rgba(0,212,170,0.2)">
+              <h4 style="color:var(--green);font-size:0.875rem;margin-bottom:6px">Support Becomes Resistance</h4>
+              <p style="font-size:0.82rem;color:var(--text-secondary)">When price breaks through a support level, that level often flips to become resistance. This "role reversal" is one of the most reliable phenomena in technical analysis.</p>
+            </div>
+            <div style="background:var(--red-dim);padding:14px;border-radius:var(--r);border:1px solid rgba(255,71,87,0.2)">
+              <h4 style="color:var(--red);font-size:0.875rem;margin-bottom:6px">Resistance Becomes Support</h4>
+              <p style="font-size:0.82rem;color:var(--text-secondary)">Conversely, when price breaks ABOVE resistance, that level often becomes new support as traders who "missed the breakout" wait to buy the pullback.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CHANNEL TYPES -->
+      <h2 class="section-title">Price Channels</h2>
+      <p class="section-sub">A channel is formed by drawing a parallel trendline on the opposite side of the price action</p>
+      <div class="grid grid-3" style="gap:20px;margin-bottom:40px">
+        <div class="card">
+          <canvas id="ch1" height="120"></canvas>
+          <h3 style="font-size:0.9rem;font-weight:700;margin-top:14px;color:var(--green)">Ascending Channel</h3>
+          <p style="font-size:0.82rem;color:var(--text-secondary);margin-top:6px">Higher highs and higher lows contained between two parallel rising trendlines. Buy the lower line, sell/exit at the upper line. Bullish bias.</p>
+        </div>
+        <div class="card">
+          <canvas id="ch2" height="120"></canvas>
+          <h3 style="font-size:0.9rem;font-weight:700;margin-top:14px;color:var(--red)">Descending Channel</h3>
+          <p style="font-size:0.82rem;color:var(--text-secondary);margin-top:6px">Lower highs and lower lows between two parallel declining trendlines. Bearish bias. Short at the upper line, cover at the lower line.</p>
+        </div>
+        <div class="card">
+          <canvas id="ch3" height="120"></canvas>
+          <h3 style="font-size:0.9rem;font-weight:700;margin-top:14px;color:var(--blue)">Horizontal Channel</h3>
+          <p style="font-size:0.82rem;color:var(--text-secondary);margin-top:6px">Price oscillates between a flat support and resistance level. Buy support, sell resistance. Trade within the range until a breakout occurs.</p>
+        </div>
+      </div>
+
+      <div class="callout green">
+        <strong>Pro Tip — The Breakout Trade:</strong> The most powerful signal from a channel is a breakout. When price exits the channel with strong volume, it often travels a distance equal to the width of the channel. This is called the "measured move" target.
+      </div>
+
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:40px;padding-top:24px;border-top:1px solid var(--border)">
+        <a href="../module2/trade-execution.html" class="btn btn-outline">← Module 2</a>
+        <a href="chart-patterns.html" class="btn btn-primary">Next: Chart Patterns →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const bars = generateOHLC(40, 180, 5);
+const canvas = document.getElementById('trendCanvas');
+
+const descs = {
+  up: '📈 <strong>Uptrend:</strong> A series of higher highs (HH) and higher lows (HL). The uptrend line connects the swing lows. Price bounces off this line as support. The trend is your friend — trade with it.',
+  down: '📉 <strong>Downtrend:</strong> A series of lower highs (LH) and lower lows (LL). The downtrend line connects the swing highs and acts as resistance. Avoid buying in a downtrend — wait for a reversal signal.',
+  channel: '📊 <strong>Ascending Channel:</strong> Price moves between two parallel upward trendlines. Buy near the lower channel line (support), take profits near the upper channel line (resistance).',
+  sideways: '↔️ <strong>Sideways / Consolidation:</strong> Price bounces between a flat support and flat resistance. This is often a pause before the next major move. Wait for a breakout in either direction.',
+};
+
+function showTrend(type) {
+  document.querySelectorAll('[onclick^="showTrend"]').forEach((btn, i) => {
+    btn.classList.toggle('active', ['up','down','channel','sideways'][i] === type);
+  });
+
+  canvas.width = canvas.parentElement.clientWidth || 900;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = 320;
+  const pad = { top: 30, right: 30, bottom: 30, left: 50 };
+
+  let trendBars = [];
+  if (type === 'up') {
+    let p = 160;
+    for (let i = 0; i < 30; i++) {
+      const open = p;
+      const close = +(open + (Math.random() * 3 + 0.5)).toFixed(2);
+      const high = +(Math.max(open, close) + Math.random() * 2).toFixed(2);
+      const low  = +(Math.min(open, close) - Math.random() * 1.5).toFixed(2);
+      trendBars.push({ open, high, low, close });
+      p = close;
+    }
+  } else if (type === 'down') {
+    let p = 220;
+    for (let i = 0; i < 30; i++) {
+      const open = p;
+      const close = +(open - (Math.random() * 3 + 0.5)).toFixed(2);
+      const high = +(Math.max(open, close) + Math.random() * 1.5).toFixed(2);
+      const low  = +(Math.min(open, close) - Math.random() * 2).toFixed(2);
+      trendBars.push({ open, high, low, close });
+      p = close;
+    }
+  } else if (type === 'sideways') {
+    for (let i = 0; i < 30; i++) {
+      const center = 190;
+      const open = +(center + (Math.random() - 0.5) * 14).toFixed(2);
+      const close = +(center + (Math.random() - 0.5) * 14).toFixed(2);
+      const high = +(Math.max(open, close) + Math.random() * 2).toFixed(2);
+      const low  = +(Math.min(open, close) - Math.random() * 2).toFixed(2);
+      trendBars.push({ open, high, low, close });
+    }
+  } else {
+    trendBars = bars.slice(0, 30);
+  }
+
+  drawCandlesticks(canvas, trendBars, { pad });
+
+  const allP = trendBars.flatMap(b => [b.high, b.low]);
+  const minP = Math.min(...allP) * 0.998;
+  const maxP = Math.max(...allP) * 1.002;
+  const cH = H - pad.top - pad.bottom;
+  const cW = W - pad.left - pad.right;
+  const toY = p => pad.top + cH * (1 - (p - minP) / (maxP - minP));
+  const toX = i => pad.left + (i / (trendBars.length - 1)) * cW;
+
+  ctx.lineWidth = 2; ctx.setLineDash([]);
+
+  if (type === 'up') {
+    const lows = trendBars.map(b => b.low);
+    const lo1 = lows.indexOf(Math.min(...lows.slice(0,15)));
+    const lo2 = lows.indexOf(Math.min(...lows.slice(15)), 15);
+    ctx.strokeStyle = '#00d4aa';
+    ctx.beginPath();
+    ctx.moveTo(toX(lo1), toY(lows[lo1]));
+    ctx.lineTo(toX(trendBars.length - 1), toY(lows[lo1] + (lows[lo2] - lows[lo1]) / (lo2 - lo1) * (trendBars.length - 1 - lo1)));
+    ctx.stroke();
+    ctx.fillStyle = '#00d4aa'; ctx.font = '11px sans-serif'; ctx.textAlign = 'left';
+    ctx.fillText('Uptrend Support', toX(lo1) + 6, toY(lows[lo1]) - 6);
+  } else if (type === 'down') {
+    const highs = trendBars.map(b => b.high);
+    const hi1 = highs.indexOf(Math.max(...highs.slice(0,10)));
+    const hi2 = highs.indexOf(Math.max(...highs.slice(10,22)), 10);
+    ctx.strokeStyle = '#ff4757';
+    ctx.beginPath();
+    ctx.moveTo(toX(hi1), toY(highs[hi1]));
+    ctx.lineTo(toX(trendBars.length - 1), toY(highs[hi1] + (highs[hi2] - highs[hi1]) / (hi2 - hi1) * (trendBars.length - 1 - hi1)));
+    ctx.stroke();
+    ctx.fillStyle = '#ff4757'; ctx.font = '11px sans-serif'; ctx.textAlign = 'left';
+    ctx.fillText('Downtrend Resistance', toX(hi1) + 6, toY(highs[hi1]) - 6);
+  } else if (type === 'sideways') {
+    const allLows = trendBars.map(b => b.low);
+    const allHighs = trendBars.map(b => b.high);
+    const support = Math.min(...allLows) + 2;
+    const resistance = Math.max(...allHighs) - 2;
+    ctx.strokeStyle = '#00d4aa'; ctx.setLineDash([5, 3]);
+    ctx.beginPath(); ctx.moveTo(pad.left, toY(support)); ctx.lineTo(W - pad.right, toY(support)); ctx.stroke();
+    ctx.strokeStyle = '#ff4757';
+    ctx.beginPath(); ctx.moveTo(pad.left, toY(resistance)); ctx.lineTo(W - pad.right, toY(resistance)); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = '#00d4aa'; ctx.font = '11px sans-serif'; ctx.textAlign = 'left';
+    ctx.fillText('Support', W - pad.right + 4, toY(support) + 4);
+    ctx.fillStyle = '#ff4757';
+    ctx.fillText('Resistance', W - pad.right + 4, toY(resistance) + 4);
+  } else if (type === 'channel') {
+    const lows = trendBars.map(b => b.low);
+    const highs = trendBars.map(b => b.high);
+    const lo1 = lows[0], lo2 = lows[lows.length - 1];
+    const slopeL = (lo2 - lo1) / (trendBars.length - 1);
+    const offset = 8;
+    ctx.strokeStyle = '#00d4aa'; ctx.setLineDash([]);
+    ctx.beginPath();
+    ctx.moveTo(toX(0), toY(lo1));
+    ctx.lineTo(toX(trendBars.length - 1), toY(lo2));
+    ctx.stroke();
+    ctx.strokeStyle = '#3b82f6';
+    ctx.beginPath();
+    ctx.moveTo(toX(0), toY(lo1 + offset));
+    ctx.lineTo(toX(trendBars.length - 1), toY(lo2 + offset));
+    ctx.stroke();
+    ctx.fillStyle = 'rgba(59,130,246,0.06)';
+    ctx.beginPath();
+    ctx.moveTo(toX(0), toY(lo1));
+    ctx.lineTo(toX(trendBars.length - 1), toY(lo2));
+    ctx.lineTo(toX(trendBars.length - 1), toY(lo2 + offset));
+    ctx.lineTo(toX(0), toY(lo1 + offset));
+    ctx.closePath(); ctx.fill();
+  }
+
+  document.getElementById('trendDesc').innerHTML = descs[type];
+}
+
+showTrend('up');
+
+// Channel thumbnails
+['ch1','ch2','ch3'].forEach((id, i) => {
+  const c = document.getElementById(id);
+  const cx = c.getContext('2d');
+  const W = c.width, H = c.height;
+  cx.clearRect(0, 0, W, H);
+
+  const colors = ['#00d4aa','#ff4757','#3b82f6'];
+  const angles = [0.3, -0.3, 0];
+
+  cx.strokeStyle = colors[i]; cx.lineWidth = 2;
+  const a = angles[i];
+  const mid = H / 2, gap = 25;
+
+  cx.beginPath(); cx.moveTo(10, mid + gap - a * 40); cx.lineTo(W - 10, mid + gap + a * 40); cx.stroke();
+  cx.beginPath(); cx.moveTo(10, mid - gap - a * 40); cx.lineTo(W - 10, mid - gap + a * 40); cx.stroke();
+
+  // Mini bars
+  const miniColors = ['rgba(0,212,170,0.3)', 'rgba(255,71,87,0.3)', 'rgba(59,130,246,0.3)'];
+  cx.fillStyle = miniColors[i];
+  for (let j = 0; j < 8; j++) {
+    const x = 15 + j * (W - 30) / 8;
+    const y = mid + (a === 0 ? (Math.random() - 0.5) * 15 : a * (j - 4) * 3);
+    cx.fillRect(x, y - 8, 8, 16);
+  }
+});
+</script>
+</body>
+</html>

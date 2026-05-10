@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Risk vs Reward Visualization — TradeX Academy</title>
+<link rel="stylesheet" href="../css/styles.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+<script src="../js/main.js"></script>
+<script>buildNav('module4');</script>
+
+<div class="page-wrap">
+  <div class="page-hero">
+    <div class="container">
+      <div class="breadcrumb"><a href="../index.html">Home</a> › Module 4 › Risk vs Reward</div>
+      <span class="badge badge-gold">Module 4 · Lesson 2</span>
+      <h1>Risk vs. Reward Visualization</h1>
+      <p>Using scatter plots to see whether your winning trades are actually larger than your losing trades — the truth about your strategy.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="container">
+
+      <!-- SCATTER PLOT -->
+      <div class="chart-box" style="margin-bottom:40px">
+        <div class="chart-box-header">
+          <div>
+            <span class="chart-box-title">Trade Risk vs Reward Scatter Plot</span>
+            <div style="font-size:0.78rem;color:var(--text-secondary);margin-top:2px">Each dot = one trade. X-axis = risk taken. Y-axis = profit/loss realized.</div>
+          </div>
+          <div style="display:flex;gap:12px;font-size:0.75rem;flex-wrap:wrap">
+            <span style="color:var(--green)">● Winning trades</span>
+            <span style="color:var(--red)">● Losing trades</span>
+            <span style="color:var(--gold)">— 1:1 R:R line</span>
+          </div>
+        </div>
+        <canvas id="rrScatter" height="360"></canvas>
+      </div>
+
+      <!-- EXPLANATION -->
+      <div class="grid grid-2" style="gap:40px;align-items:start;margin-bottom:40px">
+        <div>
+          <h2 class="section-title">Understanding R-Multiples</h2>
+          <p style="color:var(--text-secondary);margin-bottom:16px">An "R-multiple" expresses every trade as a ratio of how much you made (or lost) vs your initial risk. It normalizes all trades to the same scale regardless of position size.</p>
+          <div class="callout">
+            <strong>R-Multiple Formula:</strong><br>
+            If you risk $200 and make $400 → that's a +2R trade<br>
+            If you risk $200 and lose $200 → that's a -1R trade<br>
+            If you risk $200 and lose $400 → that's a -2R trade (stop moved!)
+          </div>
+          <div style="margin-top:20px;display:flex;flex-direction:column;gap:10px">
+            <div class="card card-sm" style="border-color:rgba(0,212,170,0.2)">
+              <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+                <strong style="color:var(--green)">Target: Above +1R on wins</strong>
+              </div>
+              <p style="font-size:0.82rem;color:var(--text-secondary)">You should always aim for wins that are at least equal to your risk. A +2R or +3R system is highly profitable even with a 40% win rate.</p>
+            </div>
+            <div class="card card-sm" style="border-color:rgba(255,71,87,0.2)">
+              <strong style="color:var(--red)">Warning: Losses below -1R</strong>
+              <p style="font-size:0.82rem;color:var(--text-secondary);margin-top:4px">If your losses are often larger than -1R, it means you're not respecting your stop-losses. This is the #1 portfolio killer for beginners.</p>
+            </div>
+          </div>
+        </div>
+        <div class="chart-box">
+          <div class="chart-box-header"><span class="chart-box-title">R-Multiple Distribution</span></div>
+          <canvas id="rMultiple" height="240"></canvas>
+          <div style="display:flex;justify-content:space-between;margin-top:12px;font-size:0.78rem;color:var(--text-secondary)">
+            <span>Avg Win: <strong style="color:var(--green)">+2.3R</strong></span>
+            <span>Avg Loss: <strong style="color:var(--red)">-0.8R</strong></span>
+            <span>Expectancy: <strong style="color:var(--gold)">+0.70R</strong></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- EXPECTANCY -->
+      <div class="chart-box" style="margin-bottom:40px">
+        <div class="chart-box-header">
+          <span class="chart-box-title">Trading Expectancy Matrix</span>
+          <span style="font-size:0.78rem;color:var(--text-secondary)">Find your Win Rate row + your R:R column</span>
+        </div>
+        <div style="overflow-x:auto">
+          <table class="data-table" style="min-width:500px">
+            <thead>
+              <tr>
+                <th>Win Rate →<br>R:R ↓</th>
+                <th>30%</th><th>40%</th><th>50%</th><th>60%</th><th>70%</th>
+              </tr>
+            </thead>
+            <tbody id="expectancyTable"></tbody>
+          </table>
+        </div>
+        <p style="font-size:0.78rem;color:var(--text-muted);margin-top:8px">Expectancy = (Win Rate × Avg Win) − (Loss Rate × Avg Loss). <span style="color:var(--green)">Green = profitable</span>. <span style="color:var(--red)">Red = losing</span>.</p>
+      </div>
+
+      <!-- POSITION SIZING -->
+      <div class="card" style="margin-bottom:40px;background:var(--bg-secondary)">
+        <h3 style="font-size:1rem;font-weight:700;margin-bottom:16px">The Kelly Criterion — Optimal Position Sizing</h3>
+        <div class="grid grid-2" style="gap:24px">
+          <div>
+            <p style="font-size:0.875rem;color:var(--text-secondary);margin-bottom:12px">The Kelly Criterion is a mathematical formula that calculates the optimal fraction of your capital to risk per trade to maximize long-term growth.</p>
+            <div style="background:var(--bg-card);padding:14px;border-radius:var(--r);font-family:var(--font-mono);font-size:0.82rem">
+              Kelly % = W − [(1 − W) / R]<br><br>
+              Where: W = Win Rate, R = Win/Loss Ratio<br><br>
+              <span style="color:var(--gold)">Example: 58% Win Rate, 2.3:1 R:R</span><br>
+              Kelly = 0.58 − (0.42 / 2.3) = 0.58 − 0.18 = <strong style="color:var(--green)">40%</strong>
+            </div>
+            <div class="callout gold" style="margin-top:12px">
+              <strong>Practical Advice:</strong> Never bet the full Kelly amount. Use "Half Kelly" (20% here) to reduce volatility. Full Kelly leads to massive drawdowns that are psychologically unbearable.
+            </div>
+          </div>
+          <canvas id="kellyChart" height="220"></canvas>
+        </div>
+      </div>
+
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:40px;padding-top:24px;border-top:1px solid var(--border)">
+        <a href="equity-curve.html" class="btn btn-outline">← Previous</a>
+        <a href="trade-distribution.html" class="btn btn-primary">Next: Trade Distribution →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Generate trade data
+const trades = Array.from({length: 80}, () => {
+  const risk = Math.round(200 + Math.random() * 800);
+  const isWin = Math.random() < 0.58;
+  const rr = isWin ? 1 + Math.random() * 3.5 : -(0.3 + Math.random() * 1.2);
+  return { risk, pnl: +(risk * rr).toFixed(0), isWin };
+});
+
+const scatterCtx = document.getElementById('rrScatter').getContext('2d');
+new Chart(scatterCtx, {
+  type: 'scatter',
+  data: {
+    datasets: [
+      {
+        label: 'Winning Trades',
+        data: trades.filter(t => t.isWin).map(t => ({ x: t.risk, y: t.pnl })),
+        backgroundColor: 'rgba(0,212,170,0.6)', pointRadius: 7,
+      },
+      {
+        label: 'Losing Trades',
+        data: trades.filter(t => !t.isWin).map(t => ({ x: t.risk, y: t.pnl })),
+        backgroundColor: 'rgba(255,71,87,0.6)', pointRadius: 7,
+      },
+      {
+        label: '1:1 R:R',
+        data: [{x: 0, y: 0}, {x: 1000, y: 1000}],
+        type: 'line', borderColor: 'rgba(245,158,11,0.5)', borderWidth: 1.5, borderDash: [5,3], pointRadius: 0, fill: false,
+      },
+      {
+        label: '-1:1',
+        data: [{x: 0, y: 0}, {x: 1000, y: -1000}],
+        type: 'line', borderColor: 'rgba(255,71,87,0.3)', borderWidth: 1, borderDash: [5,3], pointRadius: 0, fill: false,
+      },
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false }, tooltip: {
+      callbacks: { label: ctx => ` Risk: $${ctx.parsed.x} | P&L: ${ctx.parsed.y >= 0 ? '+' : ''}$${ctx.parsed.y}` }
+    }},
+    scales: {
+      x: { title: { display: true, text: 'Risk per Trade ($)', color: '#7a8fa8' }, grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { callback: v => '$' + v } },
+      y: { title: { display: true, text: 'Profit / Loss ($)', color: '#7a8fa8' }, grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { callback: v => (v >= 0 ? '+' : '') + '$' + v } }
+    }
+  }
+});
+
+// R-Multiple distribution
+const rData = trades.map(t => +(t.pnl / t.risk).toFixed(2)).sort((a,b) => a-b);
+const rBins = {};
+rData.forEach(r => {
+  const bin = (Math.round(r * 2) / 2).toFixed(1);
+  rBins[bin] = (rBins[bin] || 0) + 1;
+});
+const rLabels = Object.keys(rBins).sort((a,b) => +a - +b);
+const rValues = rLabels.map(k => rBins[k]);
+
+const rmCtx = document.getElementById('rMultiple').getContext('2d');
+new Chart(rmCtx, {
+  type: 'bar',
+  data: {
+    labels: rLabels,
+    datasets: [{
+      data: rValues,
+      backgroundColor: rLabels.map(l => +l >= 0 ? 'rgba(0,212,170,0.65)' : 'rgba(255,71,87,0.65)'),
+      borderColor: rLabels.map(l => +l >= 0 ? '#00d4aa' : '#ff4757'),
+      borderWidth: 1, borderRadius: 4,
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { grid: { display: false }, title: { display: true, text: 'R-Multiple', color: '#7a8fa8' } },
+      y: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { stepSize: 1 } }
+    }
+  }
+});
+
+// Expectancy table
+const winRates = [0.3, 0.4, 0.5, 0.6, 0.7];
+const rrRatios = [0.5, 1.0, 1.5, 2.0, 3.0];
+const tbody = document.getElementById('expectancyTable');
+rrRatios.forEach(rr => {
+  const cells = winRates.map(w => {
+    const exp = +(w * rr - (1 - w)).toFixed(2);
+    const color = exp > 0.1 ? '#00d4aa' : exp > 0 ? '#7a8fa8' : '#ff4757';
+    return `<td style="font-family:var(--font-mono);color:${color};font-weight:600">${exp > 0 ? '+' : ''}${exp}</td>`;
+  }).join('');
+  tbody.innerHTML += `<tr><td style="font-weight:700;color:var(--text-secondary)">${rr}:1</td>${cells}</tr>`;
+});
+
+// Kelly chart
+const kellyCtx = document.getElementById('kellyChart').getContext('2d');
+const fracs = Array.from({length: 21}, (_, i) => i * 0.05);
+function kellyGrowth(f, w, rr, rounds = 200) {
+  let cap = 1;
+  for (let i = 0; i < rounds; i++) {
+    cap *= Math.random() < w ? (1 + f * rr) : (1 - f);
+  }
+  return +(cap).toFixed(4);
+}
+const kellyData = fracs.map(f => kellyGrowth(f, 0.58, 2.3));
+new Chart(kellyCtx, {
+  type: 'line',
+  data: {
+    labels: fracs.map(f => (f * 100).toFixed(0) + '%'),
+    datasets: [{
+      data: kellyData,
+      borderColor: '#f59e0b', backgroundColor: 'rgba(245,158,11,0.15)', fill: true,
+      tension: 0.4, borderWidth: 2, pointRadius: 3, pointBackgroundColor: '#f59e0b',
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ` Growth: ${ctx.parsed.y.toFixed(2)}x` } }},
+    scales: {
+      x: { title: { display: true, text: 'Fraction of Capital Risked', color: '#7a8fa8' }, grid: { display: false } },
+      y: { title: { display: true, text: 'End Capital (starting from 1)', color: '#7a8fa8' }, grid: { color: 'rgba(255,255,255,0.04)' } }
+    }
+  }
+});
+</script>
+</body>
+</html>

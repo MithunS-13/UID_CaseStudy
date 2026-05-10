@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TradeX Academy — Learn Financial Data Visualization & Paper Trading</title>
+<link rel="stylesheet" href="css/styles.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://unpkg.com/lightweight-charts@4.1.3/dist/lightweight-charts.standalone.production.js"></script>
+</head>
+<body>
+<script src="js/main.js"></script>
+<script>buildNav('');</script>
+
+<div class="page-wrap">
+
+  <!-- HERO -->
+  <section class="hero-section">
+    <div class="container">
+      <div class="hero-inner">
+        <div>
+          <div class="hero-tag fade-up"><span class="live-dot"></span> Live Paper Trading Simulator</div>
+          <h1 class="hero-title fade-up fade-up-1">Master the Markets<br>with <span class="highlight">Visual Learning</span></h1>
+          <p class="hero-subtitle fade-up fade-up-2">Learn financial data visualization and practice trading risk-free. Interactive charts, real-time simulations, and step-by-step lessons — all in one place.</p>
+          <div class="hero-actions fade-up fade-up-3">
+            <a href="module2/virtual-terminal.html" class="btn btn-green btn-lg">Start Paper Trading</a>
+            <a href="module1/intro-visualization.html" class="btn btn-outline btn-lg">Learn Charts</a>
+          </div>
+          <div style="display:flex;gap:28px;margin-top:32px;" class="fade-up fade-up-4">
+            <div><div style="font-size:1.5rem;font-weight:800;color:var(--green)">20+</div><div style="font-size:0.78rem;color:var(--text-muted)">Interactive Lessons</div></div>
+            <div><div style="font-size:1.5rem;font-weight:800;color:var(--blue)">$100K</div><div style="font-size:0.78rem;color:var(--text-muted)">Virtual Capital</div></div>
+            <div><div style="font-size:1.5rem;font-weight:800;color:var(--gold)">5</div><div style="font-size:0.78rem;color:var(--text-muted)">Modules</div></div>
+          </div>
+        </div>
+        <div class="hero-chart-wrap fade-up fade-up-2">
+          <div class="flex-between" style="margin-bottom:4px">
+            <div class="hero-ticker">
+              <span class="symbol">BTC/USD</span>
+              <span class="price up" id="heroPrice">67,842.50</span>
+              <span class="change up" id="heroPrice-change">+1,204.20 (+1.81%)</span>
+            </div>
+            <span class="live-dot" data-tip="Live simulated data"></span>
+          </div>
+          <div id="heroChart" style="height:220px;width:100%;border-radius:6px;overflow:hidden"></div>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:16px">
+            <div class="card card-sm" style="text-align:center">
+              <div style="font-size:0.7rem;color:var(--text-muted)">Open</div>
+              <div style="font-size:0.9rem;font-weight:700;font-family:var(--font-mono)">66,638</div>
+            </div>
+            <div class="card card-sm" style="text-align:center">
+              <div style="font-size:0.7rem;color:var(--text-muted)">High</div>
+              <div style="font-size:0.9rem;font-weight:700;color:var(--green);font-family:var(--font-mono)">68,120</div>
+            </div>
+            <div class="card card-sm" style="text-align:center">
+              <div style="font-size:0.7rem;color:var(--text-muted)">Low</div>
+              <div style="font-size:0.9rem;font-weight:700;color:var(--red);font-family:var(--font-mono)">66,210</div>
+            </div>
+            <div class="card card-sm" style="text-align:center">
+              <div style="font-size:0.7rem;color:var(--text-muted)">Vol</div>
+              <div style="font-size:0.9rem;font-weight:700;font-family:var(--font-mono)">28.4K</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARKET SNAPSHOT -->
+  <section class="section" style="background:var(--bg-secondary);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+    <div class="container">
+      <div class="flex-between" style="margin-bottom:20px">
+        <div>
+          <h2 class="section-title">Market Snapshot</h2>
+          <p class="section-sub">Simulated real-time data across major asset classes</p>
+        </div>
+        <span class="badge badge-green"><span class="live-dot"></span> Live Simulation</span>
+      </div>
+      <div id="marketHeatmap" class="heatmap-grid" style="grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:6px"></div>
+      <p style="font-size:0.75rem;color:var(--text-muted);margin-top:12px">* Simulated data for educational purposes only. Not real market prices.</p>
+    </div>
+  </section>
+
+  <!-- QUICK START TILES -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title" style="text-align:center">Where do you want to start?</h2>
+      <p class="section-sub" style="text-align:center;margin-bottom:36px">Pick your path and begin learning</p>
+      <div class="tiles-grid">
+        <a href="module1/candlestick-anatomy.html" class="tile">
+          <div class="tile-icon">🕯️</div>
+          <div class="tile-label">Read a Candlestick</div>
+          <div class="tile-desc">Learn OHLC and price action visually</div>
+        </a>
+        <a href="module2/virtual-terminal.html" class="tile">
+          <div class="tile-icon">⚡</div>
+          <div class="tile-label">Start Paper Trading</div>
+          <div class="tile-desc">Practice with $100K virtual capital</div>
+        </a>
+        <a href="module1/technical-indicators.html" class="tile">
+          <div class="tile-icon">⚙️</div>
+          <div class="tile-label">Add Indicators</div>
+          <div class="tile-desc">Moving averages, Bollinger Bands & more</div>
+        </a>
+        <a href="module3/sector-heatmaps.html" class="tile">
+          <div class="tile-icon">🌡️</div>
+          <div class="tile-label">Sector Heatmap</div>
+          <div class="tile-desc">See where the money is flowing</div>
+        </a>
+        <a href="module4/equity-curve.html" class="tile">
+          <div class="tile-icon">📈</div>
+          <div class="tile-label">Track Performance</div>
+          <div class="tile-desc">Analyze your equity curve & drawdowns</div>
+        </a>
+        <a href="module5/glossary.html" class="tile">
+          <div class="tile-icon">📖</div>
+          <div class="tile-label">Learn the Lingo</div>
+          <div class="tile-desc">Searchable glossary of all trading terms</div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- MODULES OVERVIEW -->
+  <section class="section" style="background:var(--bg-secondary);border-top:1px solid var(--border)">
+    <div class="container">
+      <h2 class="section-title" style="text-align:center">5 Comprehensive Modules</h2>
+      <p class="section-sub" style="text-align:center;margin-bottom:36px">From chart basics to professional analysis — we've got you covered</p>
+      <div class="grid grid-3" style="gap:20px">
+        <a href="module1/intro-visualization.html" class="card" style="text-decoration:none;color:inherit">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+            <div style="width:44px;height:44px;border-radius:10px;background:var(--blue-dim);display:flex;align-items:center;justify-content:center;font-size:1.3rem">📊</div>
+            <div><div style="font-size:0.7rem;color:var(--blue);font-weight:700;text-transform:uppercase;letter-spacing:.06em">Module 1</div><div style="font-weight:700">Visual Foundation</div></div>
+          </div>
+          <p style="font-size:0.85rem;color:var(--text-secondary)">Master candlesticks, chart types, volume analysis, and technical indicators through interactive visualizations.</p>
+          <div style="margin-top:14px;font-size:0.78rem;color:var(--blue)">6 lessons →</div>
+        </a>
+        <a href="module2/paper-trading-intro.html" class="card" style="text-decoration:none;color:inherit">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+            <div style="width:44px;height:44px;border-radius:10px;background:var(--green-dim);display:flex;align-items:center;justify-content:center;font-size:1.3rem">📝</div>
+            <div><div style="font-size:0.7rem;color:var(--green);font-weight:700;text-transform:uppercase;letter-spacing:.06em">Module 2</div><div style="font-weight:700">Paper Trading</div></div>
+          </div>
+          <p style="font-size:0.85rem;color:var(--text-secondary)">Learn the mechanics of placing trades, managing a portfolio, and executing strategies with zero financial risk.</p>
+          <div style="margin-top:14px;font-size:0.78rem;color:var(--green)">5 lessons →</div>
+        </a>
+        <a href="module3/trendlines-channels.html" class="card" style="text-decoration:none;color:inherit">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+            <div style="width:44px;height:44px;border-radius:10px;background:var(--purple-dim);display:flex;align-items:center;justify-content:center;font-size:1.3rem">🔺</div>
+            <div><div style="font-size:0.7rem;color:var(--purple);font-weight:700;text-transform:uppercase;letter-spacing:.06em">Module 3</div><div style="font-weight:700">Advanced Analysis</div></div>
+          </div>
+          <p style="font-size:0.85rem;color:var(--text-secondary)">Trendlines, chart patterns, market depth, sector heatmaps, and correlation matrices for professionals.</p>
+          <div style="margin-top:14px;font-size:0.78rem;color:var(--purple)">5 lessons →</div>
+        </a>
+        <a href="module4/equity-curve.html" class="card" style="text-decoration:none;color:inherit">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+            <div style="width:44px;height:44px;border-radius:10px;background:var(--gold-dim);display:flex;align-items:center;justify-content:center;font-size:1.3rem">📉</div>
+            <div><div style="font-size:0.7rem;color:var(--gold);font-weight:700;text-transform:uppercase;letter-spacing:.06em">Module 4</div><div style="font-weight:700">Performance Analytics</div></div>
+          </div>
+          <p style="font-size:0.85rem;color:var(--text-secondary)">Visualize your trading history with equity curves, scatter plots, histograms, and drawdown charts.</p>
+          <div style="margin-top:14px;font-size:0.78rem;color:var(--gold)">4 lessons →</div>
+        </a>
+        <a href="module5/glossary.html" class="card" style="text-decoration:none;color:inherit">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+            <div style="width:44px;height:44px;border-radius:10px;background:var(--red-dim);display:flex;align-items:center;justify-content:center;font-size:1.3rem">📖</div>
+            <div><div style="font-size:0.7rem;color:var(--red);font-weight:700;text-transform:uppercase;letter-spacing:.06em">Module 5</div><div style="font-weight:700">Resources & Strategy</div></div>
+          </div>
+          <p style="font-size:0.85rem;color:var(--text-secondary)">Glossary, backtesting concepts, and visual walkthroughs of the top 5 beginner-friendly strategies.</p>
+          <div style="margin-top:14px;font-size:0.78rem;color:var(--red)">3 lessons →</div>
+        </a>
+        <div class="card" style="background:linear-gradient(135deg,rgba(59,130,246,0.1),rgba(0,212,170,0.1));border-color:rgba(59,130,246,0.2)">
+          <div style="font-size:1.5rem;margin-bottom:10px">🎯</div>
+          <h3 style="font-size:1rem;font-weight:700;margin-bottom:8px">Ready to Begin?</h3>
+          <p style="font-size:0.85rem;color:var(--text-secondary);margin-bottom:16px">No account required. Dive straight into the simulator with $100,000 in virtual capital.</p>
+          <a href="module2/virtual-terminal.html" class="btn btn-green" style="width:100%;justify-content:center">Launch Simulator</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BENEFITS -->
+  <section class="section">
+    <div class="container">
+      <div class="grid grid-2" style="gap:40px;align-items:center">
+        <div>
+          <span class="badge badge-blue">Why TradeX Academy?</span>
+          <h2 class="section-title" style="margin-top:8px">Built for Visual Learners</h2>
+          <p style="color:var(--text-secondary);margin-bottom:24px">Most trading courses give you walls of text. We give you interactive charts that you can actually play with.</p>
+          <div>
+            <div class="benefit">
+              <div class="benefit-icon" style="background:var(--blue-dim)">📊</div>
+              <div class="benefit-text"><h4>Interactive Charts</h4><p>Every concept is demonstrated with a live chart you can hover, click, and manipulate.</p></div>
+            </div>
+            <div class="benefit">
+              <div class="benefit-icon" style="background:var(--green-dim)">💰</div>
+              <div class="benefit-text"><h4>Zero Financial Risk</h4><p>Practice with $100,000 in virtual capital. Learn from your mistakes without losing real money.</p></div>
+            </div>
+            <div class="benefit">
+              <div class="benefit-icon" style="background:var(--gold-dim)">📐</div>
+              <div class="benefit-text"><h4>Professional Tools</h4><p>Access the same tools pros use: heatmaps, correlation matrices, order books, and more.</p></div>
+            </div>
+            <div class="benefit">
+              <div class="benefit-icon" style="background:var(--purple-dim)">🧠</div>
+              <div class="benefit-text"><h4>Psychology-Aware</h4><p>We explain the "psychology gap" between paper and real trading so you're mentally prepared.</p></div>
+            </div>
+          </div>
+        </div>
+        <div class="chart-box">
+          <div class="chart-box-header">
+            <span class="chart-box-title">Sample Equity Curve</span>
+            <span class="badge badge-green">+34.2% Total Return</span>
+          </div>
+          <canvas id="homeEquity" height="200" style="height:200px;max-height:200px"></canvas>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="section" style="background:var(--bg-secondary);border-top:1px solid var(--border)">
+    <div class="container">
+      <h2 class="section-title" style="text-align:center">What Learners Say</h2>
+      <p class="section-sub" style="text-align:center;margin-bottom:36px">Thousands of traders started their journey here</p>
+      <div class="grid grid-3" style="gap:20px">
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p class="testimonial-text">"I spent months reading books about candlesticks and nothing clicked. Ten minutes with the interactive candlestick anatomy page and I finally understood wicks."</p>
+          <div class="testimonial-author">
+            <div class="author-avatar" style="background:var(--blue-dim)">👩</div>
+            <div><div class="author-name">Sarah K.</div><div class="author-role">Retail Trader, 6 months</div></div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p class="testimonial-text">"The paper trading simulator taught me that I was over-trading. I could see my equity curve declining in real-time. Saved me from making that mistake with real money."</p>
+          <div class="testimonial-author">
+            <div class="author-avatar" style="background:var(--green-dim)">👨</div>
+            <div><div class="author-name">Marcus T.</div><div class="author-role">Day Trader, 1 year</div></div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <p class="testimonial-text">"The sector rotation heatmap section is a game changer. I never understood where to look for opportunities. Now I check it every morning before I open any positions."</p>
+          <div class="testimonial-author">
+            <div class="author-avatar" style="background:var(--gold-dim)">👩</div>
+            <div><div class="author-name">Priya N.</div><div class="author-role">Swing Trader, 2 years</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section-lg" style="text-align:center">
+    <div class="container">
+      <h2 style="font-size:clamp(1.8rem,3vw,2.6rem);font-weight:800;margin-bottom:16px">Ready to Master the Markets?</h2>
+      <p style="color:var(--text-secondary);max-width:480px;margin:0 auto 32px">Start with the basics or jump straight into the simulator. No account, no credit card, no risk.</p>
+      <div class="flex-center" style="gap:14px;flex-wrap:wrap">
+        <a href="module1/intro-visualization.html" class="btn btn-primary btn-lg">Start Learning →</a>
+        <a href="module2/virtual-terminal.html" class="btn btn-green btn-lg">Open Simulator</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="nav-logo" style="font-size:1.1rem">
+            <div class="logo-icon" style="width:32px;height:32px;font-size:0.9rem">📈</div>
+            Trade<span style="color:var(--green)">X</span> Academy
+          </div>
+          <p>An interactive learning platform for financial data visualization and risk-free paper trading.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Learn</h4>
+          <ul>
+            <li><a href="module1/intro-visualization.html">Visual Foundation</a></li>
+            <li><a href="module1/candlestick-anatomy.html">Candlestick Anatomy</a></li>
+            <li><a href="module1/technical-indicators.html">Indicators 101</a></li>
+            <li><a href="module5/glossary.html">Glossary</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Trade</h4>
+          <ul>
+            <li><a href="module2/virtual-terminal.html">Paper Terminal</a></li>
+            <li><a href="module2/order-types.html">Order Types</a></li>
+            <li><a href="module4/equity-curve.html">Analytics</a></li>
+            <li><a href="module5/beginner-strategies.html">Strategies</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Modules</h4>
+          <ul>
+            <li><a href="module3/sector-heatmaps.html">Sector Heatmaps</a></li>
+            <li><a href="module3/correlation-matrix.html">Correlation Matrix</a></li>
+            <li><a href="module4/drawdown-analysis.html">Drawdown Analysis</a></li>
+            <li><a href="module5/backtesting.html">Backtesting</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div>© 2026 TradeX Academy. For educational purposes only.</div>
+        <div class="footer-note"><span class="dot">●</span> Simulated data only. Not financial advice.</div>
+      </div>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+// ---- Hero Chart — Lightweight Charts candlestick (fast, GPU-accelerated) ----
+(function() {
+  const heroEl = document.getElementById('heroChart');
+  const heroLW = LightweightCharts.createChart(heroEl, {
+    width:  heroEl.clientWidth,
+    height: 220,
+    layout: {
+      background: { type: 'solid', color: 'transparent' },
+      textColor: '#7a8fa8', fontSize: 11,
+    },
+    grid: {
+      vertLines: { color: 'rgba(255,255,255,0.03)' },
+      horzLines: { color: 'rgba(255,255,255,0.03)' },
+    },
+    rightPriceScale: { borderColor: 'rgba(255,255,255,0.06)' },
+    timeScale: { borderColor: 'rgba(255,255,255,0.06)', timeVisible: true },
+    handleScroll: false,
+    handleScale: false,
+  });
+
+  const heroCandle = heroLW.addCandlestickSeries({
+    upColor: '#00d4aa', downColor: '#ff4757',
+    borderUpColor: '#00d4aa', borderDownColor: '#ff4757',
+    wickUpColor: '#00d4aa', wickDownColor: '#ff4757',
+  });
+
+  // Build initial candle data
+  const heroData = [];
+  let price = 65000;
+  let t = Math.floor(Date.now() / 1000) - 60 * 86400;
+  for (let i = 0; i < 60; i++) {
+    const open  = price;
+    const close = +(open + (Math.random() - 0.47) * 1200).toFixed(2);
+    const high  = +(Math.max(open, close) + Math.random() * 400).toFixed(2);
+    const low   = +(Math.min(open, close) - Math.random() * 400).toFixed(2);
+    heroData.push({ time: t, open, high, low, close });
+    price = close;
+    t += 86400;
+  }
+  heroCandle.setData(heroData);
+  heroLW.timeScale().fitContent();
+
+  // Live tick
+  let heroLastTime = t;
+  let heroPrice = price;
+  setInterval(() => {
+    heroPrice = +(heroPrice + (Math.random() - 0.49) * 600).toFixed(2);
+    const bar = {
+      time: heroLastTime,
+      open: heroData[heroData.length - 1].close,
+      high: +(heroPrice + Math.random() * 200).toFixed(2),
+      low:  +(heroPrice - Math.random() * 200).toFixed(2),
+      close: heroPrice,
+    };
+    heroCandle.update(bar);
+    heroLastTime += 86400;
+    heroData.push(bar);
+    document.getElementById('heroPrice').textContent = heroPrice.toLocaleString('en-US', { minimumFractionDigits: 2 });
+  }, 2000);
+
+  // Responsive resize
+  new ResizeObserver(() => heroLW.applyOptions({ width: heroEl.clientWidth })).observe(heroEl);
+})();
+
+// Equity curve (Chart.js — analytics chart, small and static)
+const eqLabels = Array.from({length: 40}, (_,i) => `W${i+1}`);
+let eq = 100000;
+const eqData = [eq];
+for (let i = 1; i < 40; i++) { eq += (Math.random() - 0.4) * 3200; eqData.push(Math.max(90000, eq)); }
+
+const eqCtx = document.getElementById('homeEquity').getContext('2d');
+const eqGrad = eqCtx.createLinearGradient(0, 0, 0, 200);
+eqGrad.addColorStop(0, 'rgba(59,130,246,0.25)');
+eqGrad.addColorStop(1, 'rgba(59,130,246,0)');
+new Chart(eqCtx, {
+  type: 'line',
+  data: {
+    labels: eqLabels,
+    datasets: [{
+      data: eqData,
+      borderColor: '#3b82f6', backgroundColor: eqGrad,
+      borderWidth: 2, fill: true, tension: 0.3, pointRadius: 0,
+    }]
+  },
+  options: {
+    animation: false,
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { grid: { display: false }, ticks: { maxTicksLimit: 8 } },
+      y: { grid: { color: 'rgba(255,255,255,0.04)' }, ticks: { callback: v => '$' + (v/1000).toFixed(0) + 'K' } }
+    }
+  }
+});
+
+// Market Heatmap
+const sectors = [
+  { name: 'Technology', ticker: 'XLK',  change: 2.34 },
+  { name: 'Healthcare', ticker: 'XLV',  change: -0.87 },
+  { name: 'Financials', ticker: 'XLF',  change: 1.12 },
+  { name: 'Energy',     ticker: 'XLE',  change: -2.45 },
+  { name: 'Consumer',   ticker: 'XLY',  change: 0.63 },
+  { name: 'Utilities',  ticker: 'XLU',  change: -1.20 },
+  { name: 'Industrials',ticker: 'XLI',  change: 1.85 },
+  { name: 'Materials',  ticker: 'XLB',  change: -0.33 },
+  { name: 'Real Estate',ticker: 'XLRE', change: -0.95 },
+  { name: 'Comm Svc',   ticker: 'XLC',  change: 3.10 },
+  { name: 'Staples',    ticker: 'XLP',  change: 0.22 },
+  { name: 'BTC',        ticker: 'BTC',  change: 1.81 },
+];
+
+function heatColor(v) {
+  if (v > 2) return '#006644';
+  if (v > 1) return '#008f5a';
+  if (v > 0) return '#00b074';
+  if (v > -1) return '#b34040';
+  if (v > -2) return '#8f2222';
+  return '#6b1212';
+}
+
+const heatmap = document.getElementById('marketHeatmap');
+sectors.forEach(s => {
+  const cell = document.createElement('div');
+  cell.className = 'heat-cell';
+  cell.style.background = heatColor(s.change);
+  cell.innerHTML = `<div class="cell-name">${s.name}</div><div class="cell-value">${s.change >= 0 ? '+' : ''}${s.change}%</div>`;
+  heatmap.appendChild(cell);
+});
+
+// Hero price is now updated inside the lightweight-charts tick above
+</script>
+</body>
+</html>

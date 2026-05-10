@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anatomy of a Candlestick — TradeX Academy</title>
+<link rel="stylesheet" href="../css/styles.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+<script src="../js/main.js"></script>
+<script>buildNav('module1');</script>
+
+<div class="page-wrap">
+  <div class="page-hero">
+    <div class="container">
+      <div class="breadcrumb"><a href="../index.html">Home</a> › <a href="#">Module 1</a> › Anatomy of a Candlestick</div>
+      <span class="badge badge-blue">Module 1 · Lesson 2</span>
+      <h1>The Anatomy of a Candlestick</h1>
+      <p>A deep dive into OHLC data — the four numbers that define every bar on every chart in the world.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="container">
+
+      <!-- INTERACTIVE ANATOMY -->
+      <div class="grid grid-2" style="gap:48px;align-items:start;margin-bottom:56px">
+        <div>
+          <h2 class="section-title">The OHLC Structure</h2>
+          <p style="color:var(--text-secondary);margin-bottom:24px">Every candlestick encodes exactly four pieces of information for a given time period. Hover over each part of the candlestick to learn what it represents.</p>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div class="candle-label-item" id="lbl-open" style="cursor:pointer" onmouseover="highlightPart('open')" onmouseout="clearHighlight()">
+              <div class="candle-label-dot" style="background:#f59e0b"></div>
+              <div class="candle-label-text"><strong>Open (O)</strong><span>The first traded price when the candle period began. Forms the top or bottom of the body.</span></div>
+            </div>
+            <div class="candle-label-item" id="lbl-high" style="cursor:pointer" onmouseover="highlightPart('high')" onmouseout="clearHighlight()">
+              <div class="candle-label-dot" style="background:#00d4aa"></div>
+              <div class="candle-label-text"><strong>High (H)</strong><span>The highest price traded during the period. Forms the tip of the upper wick (shadow).</span></div>
+            </div>
+            <div class="candle-label-item" id="lbl-low" style="cursor:pointer" onmouseover="highlightPart('low')" onmouseout="clearHighlight()">
+              <div class="candle-label-dot" style="background:#ff4757"></div>
+              <div class="candle-label-text"><strong>Low (L)</strong><span>The lowest price traded during the period. Forms the tip of the lower wick.</span></div>
+            </div>
+            <div class="candle-label-item" id="lbl-close" style="cursor:pointer" onmouseover="highlightPart('close')" onmouseout="clearHighlight()">
+              <div class="candle-label-dot" style="background:#3b82f6"></div>
+              <div class="candle-label-text"><strong>Close (C)</strong><span>The last traded price when the candle period ended. The most important price in the candle.</span></div>
+            </div>
+          </div>
+          <div class="callout" style="margin-top:24px">
+            <strong>Key Rule:</strong> If Close &gt; Open → <span class="up">Bullish candle (green)</span>. If Close &lt; Open → <span class="down">Bearish candle (red)</span>.
+          </div>
+        </div>
+        <div class="chart-box" style="display:flex;flex-direction:column;align-items:center;gap:20px">
+          <h3 class="card-title" style="align-self:flex-start">Interactive Candlestick — Hover to Explore</h3>
+          <canvas id="candleCanvas" width="300" height="380"></canvas>
+          <div id="candleInfo" style="text-align:center;font-size:0.85rem;color:var(--text-secondary);min-height:40px">Hover over any part of the candle above</div>
+        </div>
+      </div>
+
+      <!-- BULLISH VS BEARISH -->
+      <h2 class="section-title">Bullish vs. Bearish Candles</h2>
+      <p class="section-sub">The body color instantly tells you who won the battle between buyers and sellers</p>
+      <div class="grid grid-2" style="gap:20px;margin-bottom:48px">
+        <div class="card" style="border-color:rgba(0,212,170,0.2)">
+          <div style="display:flex;align-items:center;gap:16px;margin-bottom:16px">
+            <canvas id="bullCandle" width="80" height="160"></canvas>
+            <div>
+              <div class="tag tag-buy" style="margin-bottom:8px">BULLISH</div>
+              <h3 style="font-weight:700;color:var(--green);margin-bottom:6px">Close &gt; Open</h3>
+              <p style="font-size:0.875rem;color:var(--text-secondary)">Buyers had control. Price finished higher than where it started. Body is filled (solid green).</p>
+            </div>
+          </div>
+          <div class="grid grid-2" style="gap:8px">
+            <div style="background:var(--bg-surface);padding:10px;border-radius:var(--r);text-align:center">
+              <div style="font-size:0.72rem;color:var(--text-muted)">Open</div>
+              <div style="font-weight:700;font-family:var(--font-mono)">$100.00</div>
+            </div>
+            <div style="background:var(--bg-surface);padding:10px;border-radius:var(--r);text-align:center">
+              <div style="font-size:0.72rem;color:var(--text-muted)">Close</div>
+              <div style="font-weight:700;font-family:var(--font-mono);color:var(--green)">$108.50</div>
+            </div>
+            <div style="background:var(--bg-surface);padding:10px;border-radius:var(--r);text-align:center">
+              <div style="font-size:0.72rem;color:var(--text-muted)">High</div>
+              <div style="font-weight:700;font-family:var(--font-mono)">$110.00</div>
+            </div>
+            <div style="background:var(--bg-surface);padding:10px;border-radius:var(--r);text-align:center">
+              <div style="font-size:0.72rem;color:var(--text-muted)">Low</div>
+              <div style="font-weight:700;font-family:var(--font-mono)">$98.20</div>
+            </div>
+          </div>
+        </div>
+        <div class="card" style="border-color:rgba(255,71,87,0.2)">
+          <div style="display:flex;align-items:center;gap:16px;margin-bottom:16px">
+            <canvas id="bearCandle" width="80" height="160"></canvas>
+            <div>
+              <div class="tag tag-sell" style="margin-bottom:8px">BEARISH</div>
+              <h3 style="font-weight:700;color:var(--red);margin-bottom:6px">Close &lt; Open</h3>
+              <p style="font-size:0.875rem;color:var(--text-secondary)">Sellers had control. Price finished lower than where it started. Body is filled (solid red).</p>
+            </div>
+          </div>
+          <div class="grid grid-2" style="gap:8px">
+            <div style="background:var(--bg-surface);padding:10px;border-radius:var(--r);text-align:center">
+              <div style="font-size:0.72rem;color:var(--text-muted)">Open</div>
+              <div style="font-weight:700;font-family:var(--font-mono)">$108.50</div>
+            </div>
+            <div style="background:var(--bg-surface);padding:10px;border-radius:var(--r);text-align:center">
+              <div style="font-size:0.72rem;color:var(--text-muted)">Close</div>
+              <div style="font-weight:700;font-family:var(--font-mono);color:var(--red)">$100.00</div>
+            </div>
+            <div style="background:var(--bg-surface);padding:10px;border-radius:var(--r);text-align:center">
+              <div style="font-size:0.72rem;color:var(--text-muted)">High</div>
+              <div style="font-weight:700;font-family:var(--font-mono)">$112.00</div>
+            </div>
+            <div style="background:var(--bg-surface);padding:10px;border-radius:var(--r);text-align:center">
+              <div style="font-size:0.72rem;color:var(--text-muted)">Low</div>
+              <div style="font-weight:700;font-family:var(--font-mono)">$97.50</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- COMMON PATTERNS -->
+      <h2 class="section-title">10 Candlestick Patterns Every Trader Knows</h2>
+      <p class="section-sub">These single and multi-candle formations are the building blocks of price action trading</p>
+      <div class="grid grid-4" style="gap:12px;margin-bottom:48px">
+        <div class="card card-sm" style="text-align:center">
+          <canvas id="p-doji" width="60" height="80" style="margin:0 auto"></canvas>
+          <div style="font-weight:600;font-size:0.85rem;margin-top:8px">Doji</div>
+          <div style="font-size:0.75rem;color:var(--text-secondary)">Indecision. Open ≈ Close.</div>
+        </div>
+        <div class="card card-sm" style="text-align:center">
+          <canvas id="p-hammer" width="60" height="80" style="margin:0 auto"></canvas>
+          <div style="font-weight:600;font-size:0.85rem;margin-top:8px;color:var(--green)">Hammer</div>
+          <div style="font-size:0.75rem;color:var(--text-secondary)">Bullish reversal. Long lower wick.</div>
+        </div>
+        <div class="card card-sm" style="text-align:center">
+          <canvas id="p-shootingstar" width="60" height="80" style="margin:0 auto"></canvas>
+          <div style="font-weight:600;font-size:0.85rem;margin-top:8px;color:var(--red)">Shooting Star</div>
+          <div style="font-size:0.75rem;color:var(--text-secondary)">Bearish reversal. Long upper wick.</div>
+        </div>
+        <div class="card card-sm" style="text-align:center">
+          <canvas id="p-marubozu" width="60" height="80" style="margin:0 auto"></canvas>
+          <div style="font-weight:600;font-size:0.85rem;margin-top:8px;color:var(--green)">Marubozu</div>
+          <div style="font-size:0.75rem;color:var(--text-secondary)">No wicks. Pure momentum.</div>
+        </div>
+      </div>
+
+      <!-- LIVE CANDLESTICK CHART -->
+      <div class="chart-box" style="margin-bottom:40px">
+        <div class="chart-box-header">
+          <span class="chart-box-title">Live Candlestick Chart — AAPL</span>
+          <div class="chart-controls">
+            <button class="chart-btn active">1D</button>
+            <button class="chart-btn">1W</button>
+            <button class="chart-btn">1M</button>
+          </div>
+        </div>
+        <canvas id="multiCandleChart" width="900" height="280" style="width:100%"></canvas>
+      </div>
+
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:40px;padding-top:24px;border-top:1px solid var(--border)">
+        <a href="intro-visualization.html" class="btn btn-outline">← Previous</a>
+        <a href="chart-types.html" class="btn btn-primary">Next: Comparative Chart Types →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ---- Interactive single candlestick ----
+const canvas = document.getElementById('candleCanvas');
+const ctx = canvas.getContext('2d');
+const W = 300, H = 380;
+const CX = 150;
+const HIGH_Y = 40, OPEN_Y = 110, CLOSE_Y = 250, LOW_Y = 340;
+const BODY_W = 60;
+
+let highlightedPart = null;
+
+function drawCandle(highlight) {
+  ctx.clearRect(0, 0, W, H);
+  ctx.lineCap = 'round';
+
+  // Price labels
+  const prices = { open: 148.20, high: 165.00, low: 132.50, close: 158.80 };
+  const labels = [
+    { y: HIGH_Y, label: `High: $${prices.high}`, color: highlight === 'high' ? '#fff' : '#7a8fa8' },
+    { y: OPEN_Y, label: `Open: $${prices.open}`, color: highlight === 'open' ? '#fff' : '#7a8fa8' },
+    { y: CLOSE_Y, label: `Close: $${prices.close}`, color: highlight === 'close' ? '#fff' : '#7a8fa8' },
+    { y: LOW_Y, label: `Low: $${prices.low}`, color: highlight === 'low' ? '#fff' : '#7a8fa8' },
+  ];
+  labels.forEach(l => {
+    ctx.fillStyle = l.color;
+    ctx.font = '11px monospace';
+    ctx.textAlign = 'left';
+    ctx.fillText(l.label, CX + 42, l.y + 4);
+    // Dotted line
+    ctx.setLineDash([3, 3]);
+    ctx.strokeStyle = l.color;
+    ctx.lineWidth = 0.5;
+    ctx.beginPath();
+    ctx.moveTo(CX + 36, l.y);
+    ctx.lineTo(CX + 38, l.y);
+    ctx.stroke();
+    ctx.setLineDash([]);
+  });
+
+  // Upper wick
+  ctx.strokeStyle = highlight === 'high' ? '#00d4aa' : '#4a6080';
+  ctx.lineWidth = highlight === 'high' ? 3 : 2;
+  ctx.beginPath();
+  ctx.moveTo(CX, HIGH_Y);
+  ctx.lineTo(CX, OPEN_Y);
+  ctx.stroke();
+
+  // Body
+  const bodyH = CLOSE_Y - OPEN_Y;
+  ctx.fillStyle = highlight === 'open' || highlight === 'close' ? '#00d4aa' : 'rgba(0,212,170,0.75)';
+  ctx.strokeStyle = '#00d4aa';
+  ctx.lineWidth = 2;
+  ctx.fillRect(CX - BODY_W/2, OPEN_Y, BODY_W, bodyH);
+  ctx.strokeRect(CX - BODY_W/2, OPEN_Y, BODY_W, bodyH);
+
+  // Lower wick
+  ctx.strokeStyle = highlight === 'low' ? '#ff4757' : '#4a6080';
+  ctx.lineWidth = highlight === 'low' ? 3 : 2;
+  ctx.beginPath();
+  ctx.moveTo(CX, CLOSE_Y);
+  ctx.lineTo(CX, LOW_Y);
+  ctx.stroke();
+
+  // Hit zones (invisible)
+  canvas._zones = [
+    { part: 'high', y1: HIGH_Y - 10, y2: OPEN_Y },
+    { part: 'open', y1: OPEN_Y - 15, y2: OPEN_Y + 15 },
+    { part: 'close', y1: CLOSE_Y - 15, y2: CLOSE_Y + 15 },
+    { part: 'low', y1: CLOSE_Y, y2: LOW_Y + 10 },
+  ];
+}
+
+drawCandle(null);
+
+canvas.addEventListener('mousemove', e => {
+  const rect = canvas.getBoundingClientRect();
+  const scaleY = H / rect.height;
+  const y = (e.clientY - rect.top) * scaleY;
+  let hit = null;
+  for (const z of canvas._zones) { if (y >= z.y1 && y <= z.y2) { hit = z.part; break; } }
+  if (hit !== highlightedPart) {
+    highlightedPart = hit;
+    drawCandle(hit);
+    const infos = {
+      high: '⬆️ <strong>HIGH</strong> — The highest price reached during this candle. Sellers rejected prices above this level.',
+      low:  '⬇️ <strong>LOW</strong> — The lowest price reached. Buyers stepped in and refused to let price go lower.',
+      open: '🟡 <strong>OPEN</strong> — The first price of the period. The "battle" between buyers and sellers starts here.',
+      close:'🔵 <strong>CLOSE</strong> — The final price. The most important value — it shows who won the battle.',
+    };
+    document.getElementById('candleInfo').innerHTML = hit ? infos[hit] : 'Hover over any part of the candle above';
+  }
+});
+
+function highlightPart(part) { highlightedPart = part; drawCandle(part); }
+function clearHighlight() { highlightedPart = null; drawCandle(null); }
+
+// Bullish candle
+(function() {
+  const c = document.getElementById('bullCandle');
+  const cx = c.getContext('2d');
+  cx.strokeStyle = '#00d4aa'; cx.fillStyle = '#00d4aa'; cx.lineWidth = 2;
+  cx.beginPath(); cx.moveTo(40, 5); cx.lineTo(40, 30); cx.stroke();
+  cx.fillRect(26, 30, 28, 90);
+  cx.beginPath(); cx.moveTo(40, 120); cx.lineTo(40, 150); cx.stroke();
+})();
+
+// Bearish candle
+(function() {
+  const c = document.getElementById('bearCandle');
+  const cx = c.getContext('2d');
+  cx.strokeStyle = '#ff4757'; cx.fillStyle = '#ff4757'; cx.lineWidth = 2;
+  cx.beginPath(); cx.moveTo(40, 5); cx.lineTo(40, 20); cx.stroke();
+  cx.fillRect(26, 20, 28, 100);
+  cx.beginPath(); cx.moveTo(40, 120); cx.lineTo(40, 150); cx.stroke();
+})();
+
+// Pattern candles
+function drawPattern(id, type) {
+  const c = document.getElementById(id);
+  if (!c) return;
+  const cx = c.getContext('2d');
+  const W = 60, H = 80, mid = 30;
+  cx.clearRect(0, 0, W, H);
+
+  const patterns = {
+    doji: { wick1: [mid, 5, mid, 75], body: [mid-16, 37, 32, 6], color: '#94a3b8' },
+    hammer: { wick1: [mid, 5, mid, 30], body: [mid-14, 30, 28, 20], wick2: [mid, 50, mid, 75], color: '#00d4aa' },
+    shootingstar: { wick1: [mid, 5, mid, 40], body: [mid-14, 40, 28, 20], wick2: [mid, 60, mid, 68], color: '#ff4757' },
+    marubozu: { wick1: null, body: [mid-16, 10, 32, 60], color: '#00d4aa' },
+  };
+
+  const p = patterns[type];
+  if (!p) return;
+  cx.strokeStyle = p.color; cx.fillStyle = p.color; cx.lineWidth = 1.5;
+  if (p.wick1) { cx.beginPath(); cx.moveTo(p.wick1[0],p.wick1[1]); cx.lineTo(p.wick1[2],p.wick1[3]); cx.stroke(); }
+  if (p.wick2) { cx.beginPath(); cx.moveTo(p.wick2[0],p.wick2[1]); cx.lineTo(p.wick2[2],p.wick2[3]); cx.stroke(); }
+  cx.fillRect(...p.body);
+}
+['doji','hammer','shootingstar','marubozu'].forEach(p => drawPattern('p-' + p, p));
+
+// Multi-candle chart
+const bars = generateOHLC(30, 150, 5);
+const multiCanvas = document.getElementById('multiCandleChart');
+multiCanvas.width = multiCanvas.parentElement.clientWidth || 900;
+drawCandlesticks(multiCanvas, bars);
+</script>
+</body>
+</html>
